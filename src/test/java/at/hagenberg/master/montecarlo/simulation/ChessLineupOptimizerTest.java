@@ -96,7 +96,7 @@ public class ChessLineupOptimizerTest {
 
         teamToOptimizeLineup.addPlayer(myWeakPlayer);
 
-        opt = new ChessLineupSelector(this.randomGenerator, new ChessLineupSettings(LineupStrategy.AVOID_STRONG_OPPONENTS, teamToOptimizeLineup), seasonSettings);
+        opt = new ChessLineupSelector(this.randomGenerator, new ChessLineupSettings(LineupStrategy.AVOID_STRONG_OPPONENTS, teamToOptimizeLineup.getName()), seasonSettings);
 
         Player selectedPlayer = opt.pickPlayerFromTeam(0, teamToOptimizeLineup, opponentTeam, true);
         assertSame(myWeakPlayer, selectedPlayer);
