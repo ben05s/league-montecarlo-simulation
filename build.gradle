@@ -1,0 +1,38 @@
+group 'at.hagenberg.se.master'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+//create a single Jar with all dependencies
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Jar File Example',
+                'Implementation-Version': version,
+                'Main-Class': 'com.mkyong.DateUtils'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+jar {
+    baseName = 'league-montecarlo-simulation'
+    version =  '1.0'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
+    compile group: 'org.apache.commons', name: 'commons-math3', version: '3.6.1'
+    compile group: 'log4j', name: 'log4j', version: '1.2.14'
+    compile files('libs/pgnparser-2.3.0.jar')
+
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
