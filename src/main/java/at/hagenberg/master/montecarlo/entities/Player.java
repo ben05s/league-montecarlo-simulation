@@ -29,6 +29,8 @@ public class Player extends Opponent {
 
     private List<Double> pLineUp = new ArrayList<>();
 
+    public Player() { super(""); }
+
     public Player(String name) {
         super(name);
     }

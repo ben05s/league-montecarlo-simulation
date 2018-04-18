@@ -15,6 +15,8 @@ public abstract class Match<T extends Opponent> {
     protected MatchResult matchPrediction;
     protected MatchResult matchResult;
 
+    public Match() {}
+
     public Match(RandomGenerator randomGenerator, AbstractPredictionModel predictionModel, T opponentA, T opponentB) {
         this(randomGenerator, predictionModel, opponentA, opponentB, null);
     }
