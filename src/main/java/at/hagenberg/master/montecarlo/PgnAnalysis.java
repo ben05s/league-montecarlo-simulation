@@ -46,7 +46,7 @@ public class PgnAnalysis {
             throw new PgnParserException("no games found in pgn file for season to simulate");
         this.seasonToSimulateGames = games.getGame();
 
-        if(fileContentHistoricalSeasons != null) {
+        if(fileContentHistoricalSeasons != null && !fileContentHistoricalSeasons.isEmpty()) {
             Games tmpGames = parser.parseFile(new StringReader(fileContentHistoricalSeasons));
             // remove incomplete games (game without result)
             tmpGames.getGame().removeIf(game -> PgnUtil.isInvalidGame(game));
