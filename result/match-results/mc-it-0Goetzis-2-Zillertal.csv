@@ -1,7 +1,7 @@
-PlayerWhite,EloWhite,PlayerBlack,EloBlack,Result
-Kessler Luca,2324,Votava Jan,2524,BLACK
+PlayerWhite,EloWhite,PlayerBlack,EloBlack,Winner
+Kessler Luca,2324,Votava Jan,2524,DRAW
 Lanka Zigurds,2422,Bilchinski Anton,2260,DRAW
-Mittelberger Peter,2203,Platzgummer Fabian,2332,BLACK
-Hausner Ivan,2332,Quintero Ortega Carlos,2190,DRAW
-Gauss Gustav,2182,Tabernig Bernhard,2328,BLACK
-Kleissl Helmut,2295,Scheffknecht Philipp,2152,BLACK
+Mittelberger Peter,2203,Platzgummer Fabian,2332,Platzgummer, Fabian
+Hausner Ivan,2332,Quintero Ortega Carlos,2190,Hausner, Ivan
+Gauss Gustav,2182,Tabernig Bernhard,2328,DRAW
+Kleissl Helmut,2295,Scheffknecht Philipp,2152,DRAW

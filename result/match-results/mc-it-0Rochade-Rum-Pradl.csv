@@ -1,7 +1,7 @@
-PlayerWhite,EloWhite,PlayerBlack,EloBlack,Result
+PlayerWhite,EloWhite,PlayerBlack,EloBlack,Winner
 Wegener Olaf,2441,Doskocil Klaus,2251,DRAW
-Eybl Alexander,2240,Spornberger Maximilian,2347,WHITE
-Hengl Christian,2245,Sucher Johannes,2169,BLACK
-Matt Stefan,2094,Gatterer Florian,2223,WHITE
-Moroder Stefan,2159,Lins Philipp,2044,WHITE
-Nedelchev Nikolay,2008,Hoellrigl Wilfried,2153,BLACK
+Eybl Alexander,2240,Spornberger Maximilian,2347,DRAW
+Hengl Christian,2245,Sucher Johannes,2169,Hengl, Christian
+Matt Stefan,2094,Gatterer Florian,2223,DRAW
+Moroder Stefan,2159,Lins Philipp,2044,DRAW
+Nedelchev Nikolay,2008,Hoellrigl Wilfried,2153,DRAW

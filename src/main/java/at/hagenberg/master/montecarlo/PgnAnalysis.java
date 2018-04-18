@@ -22,8 +22,8 @@ import java.util.stream.IntStream;
 
 public class PgnAnalysis {
 
-    private final int gamesPerMatch;
     private final int roundsPerSeason;
+    private final int gamesPerMatch;
 
     private List<Game> seasonToSimulateGames = new ArrayList<>();
     private List<Game> historicalGames = new ArrayList<>();
@@ -35,8 +35,8 @@ public class PgnAnalysis {
 
 
     public PgnAnalysis(String fileContentSeasonToSimulate, String fileContentHistoricalSeasons, final int roundsPerSeason, final int gamesPerMatch) throws PgnParserException {
-        this.gamesPerMatch = gamesPerMatch;
         this.roundsPerSeason = roundsPerSeason;
+        this.gamesPerMatch = gamesPerMatch;
 
         PGNParser parser = new PGNParser(Level.ALL);
 
@@ -60,8 +60,8 @@ public class PgnAnalysis {
     }
 
     public PgnAnalysis(String fileSeasonToSimulate, List<String> fileHistoricalSeasons, final int roundsPerSeason, final int gamesPerMatch) throws PgnParserException {
-        this.gamesPerMatch = gamesPerMatch;
         this.roundsPerSeason = roundsPerSeason;
+        this.gamesPerMatch = gamesPerMatch;
 
         PGNParser parser = new PGNParser(Level.ALL);
 

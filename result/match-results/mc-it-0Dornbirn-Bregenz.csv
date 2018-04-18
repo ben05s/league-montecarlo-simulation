@@ -1,7 +1,7 @@
-PlayerWhite,EloWhite,PlayerBlack,EloBlack,Result
+PlayerWhite,EloWhite,PlayerBlack,EloBlack,Winner
 Drabke Lorenz,2462,Graf Felix,2478,DRAW
-Dobosz Henryk,2389,Vogel Roven,2408,WHITE
-Novkovic Milan,2380,Jorczik Julian,2385,WHITE
-Tuncer Ufuk,2332,Schmidlechner Alexander,2217,WHITE
+Dobosz Henryk,2389,Vogel Roven,2408,Dobosz, Henryk
+Novkovic Milan,2380,Jorczik Julian,2385,Novkovic, Milan
+Tuncer Ufuk,2332,Schmidlechner Alexander,2217,DRAW
 Klocker Benedikt,2192,Weindl Alfred,2331,DRAW
-Bezler Rainer,2215,Leutwyler Martin,2190,BLACK
+Bezler Rainer,2215,Leutwyler Martin,2190,Bezler, Rainer

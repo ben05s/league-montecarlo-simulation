@@ -74,4 +74,16 @@ public class Team extends Opponent {
     public double getAverageElo() { return averageElo; }
 
     public double getStdDeviationElo() { return stdDeviationElo; }
+
+    public void setPlayerList(List<Player> playerList) {
+        this.playerList = playerList;
+    }
+
+    public void setAverageElo(double averageElo) {
+        this.averageElo = averageElo;
+    }
+
+    public void setStdDeviationElo(double stdDeviationElo) {
+        this.stdDeviationElo = stdDeviationElo;
+    }
 }

@@ -36,7 +36,7 @@ public class Main {
             RandomGenerator randomGenerator = new Well19937c();
             final int gamesPerMatch = 6;
             final int roundsPerSeason = 11;
-            final int roundsToSimulate = 2;
+            final int roundsToSimulate = 11;
             LineupSelector lineupSelector = new LineupSelector(LineupStrategy.DESCENDING_RATING_STRENGTH, gamesPerMatch);
             ChessPredictionModel predictionModel = new ChessPredictionModel(false, false, false, true);
 

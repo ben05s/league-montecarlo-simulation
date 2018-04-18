@@ -7,23 +7,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class LeagueSettings<T extends Opponent, K extends Match> {
+public class LeagueSettings<T extends Opponent> {
 
     private AbstractPredictionModel predictionModel;
     protected List<T> opponentList;
-    private Map<Integer, List<K>> roundGameResults;
+    private Map<Integer, List<HeadToHeadMatch>> roundGameResults;
 
     private final int roundsPerSeason;
     private final int roundsToSimulate;
 
-    public LeagueSettings(AbstractPredictionModel predictionModel, List<T> opponentList, Map<Integer, List<K>> roundGameResults,
+    public LeagueSettings(AbstractPredictionModel predictionModel, List<T> opponentList, Map<Integer, List<HeadToHeadMatch>> roundGameResults,
                           final int roundsPerSeason, final int roundsToSimulate) {
         Objects.requireNonNull(predictionModel);
         Objects.requireNonNull(opponentList);
         Objects.requireNonNull(roundGameResults);
 
-        if(roundsPerSeason <= 0 || roundsPerSeason < (roundsPerSeason - roundsToSimulate))
-            throw new IllegalArgumentException("Invalid amount of rounds and games per match");
+        if(roundsPerSeason <= 0)
+            throw new IllegalArgumentException("Invalid amount of rounds per season");
 
         if(roundsToSimulate > roundsPerSeason)
             throw new IllegalArgumentException("roundToSimulate must not be greater than roundPerSeason");
@@ -42,7 +42,7 @@ public class LeagueSettings<T extends Opponent, K extends Match> {
         return opponentList;
     }
 
-    public Map<Integer, List<K>> getRoundGameResults() {
+    public Map<Integer, List<HeadToHeadMatch>> getRoundGameResults() {
         return roundGameResults;
     }
 

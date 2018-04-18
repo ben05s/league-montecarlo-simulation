@@ -1,7 +1,7 @@
-PlayerWhite,EloWhite,PlayerBlack,EloBlack,Result
-Nestorovic Nikola,2470,Zelbel Patrick,2441,DRAW
-Berchtenbreiter Maximilian,2384,Velickovic Zoran,2398,BLACK
-Schramm Christian,2397,Nuber Blasius,2349,BLACK
-Wachinger Guenther,2233,Pitl Gregory,2387,DRAW
-Durakovic Alman,2314,Niedermeier Thomas,2194,DRAW
-Meier Alexander,2186,Huch Reiner,2277,BLACK
+PlayerWhite,EloWhite,PlayerBlack,EloBlack,Winner
+Nestorovic Nikola,2470,Zelbel Patrick,2441,Zelbel, Patrick
+Berchtenbreiter Maximilian,2384,Velickovic Zoran,2398,DRAW
+Schramm Christian,2397,Nuber Blasius,2349,Schramm, Christian
+Wachinger Guenther,2233,Pitl Gregory,2387,Pitl, Gregory
+Durakovic Alman,2314,Niedermeier Thomas,2194,Durakovic, Alman
+Meier Alexander,2186,Huch Reiner,2277,Huch, Reiner

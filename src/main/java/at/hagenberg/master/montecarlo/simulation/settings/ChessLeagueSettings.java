@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class ChessLeagueSettings extends LeagueSettings<Team, HeadToHeadMatch> {
+public class ChessLeagueSettings extends LeagueSettings<Team> {
 
     private final int gamesPerMatch;
     private LineupSelector lineupSelector;
