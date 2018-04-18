@@ -25,7 +25,7 @@ public class PgnAnalysis {
     private final int roundsPerSeason;
     private final int gamesPerMatch;
 
-    private List<Game> seasonToSimulateGames = new ArrayList<>();
+    private List<Game> seasonToSimulateGames;
     private List<Game> historicalGames = new ArrayList<>();
     private Map<String, List<Game>> historicalGamesPerSeason = new HashMap<>();
 
@@ -43,6 +43,7 @@ public class PgnAnalysis {
         Games games = parser.parseFile(new StringReader(fileContentSeasonToSimulate));
         if(games == null || games.getGame().isEmpty())
             throw new PgnParserException("no games found in pgn file for season to simulate");
+        this.seasonToSimulateGames = games.getGame();
 
         Games tmpGames = parser.parseFile(new StringReader(fileContentHistoricalSeasons));
         // remove incomplete games (game without result)
