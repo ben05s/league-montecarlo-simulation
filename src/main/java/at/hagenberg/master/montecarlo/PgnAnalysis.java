@@ -236,7 +236,7 @@ public class PgnAnalysis {
     }
 
     private void addPlayerToTeam(Player player, Team team) {
-        player.setTeam(team);
+        player.setTeamName(team.getName());
 
         if(!team.getPlayerList().contains(player)) {
             // only do this once (expensive operations)

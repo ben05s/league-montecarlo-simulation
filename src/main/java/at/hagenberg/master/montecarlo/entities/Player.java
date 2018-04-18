@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Player extends Opponent {
 
-    private Team team;
+    private String teamName;
 
     private int elo;
     private int eloDelta;
@@ -81,12 +81,12 @@ public class Player extends Opponent {
         this.elo = elo;
     }
 
-    public Team getTeam() {
-        return team;
+    public String getTeamName() {
+        return teamName;
     }
 
-    public void setTeam(Team team) {
-        this.team = team;
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
     }
 
     public long getWhiteWins() {

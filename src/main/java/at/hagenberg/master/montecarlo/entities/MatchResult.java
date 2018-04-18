@@ -47,11 +47,11 @@ public class MatchResult {
 
         if(matchResult.getWinner() == null) {
             this.addDraw();
-        } else if((matchResult.getWinner().equals(game.getOpponentA())  && game.getOpponentA().getTeam().equals(opponentA))
-                || (matchResult.getWinner().equals(game.getOpponentB()) && game.getOpponentB().getTeam().equals(opponentA))) {
+        } else if((matchResult.getWinner().equals(game.getOpponentA())  && game.getOpponentA().getTeamName().equals(opponentA.getName()))
+                || (matchResult.getWinner().equals(game.getOpponentB()) && game.getOpponentB().getTeamName().equals(opponentA.getName()))) {
             this.addWinTeamA();
-        } else if((matchResult.getWinner().equals(game.getOpponentA()) && game.getOpponentA().getTeam().equals(opponentB))
-                || (matchResult.getWinner().equals(game.getOpponentB()) && game.getOpponentB().getTeam().equals(opponentB))) {
+        } else if((matchResult.getWinner().equals(game.getOpponentA()) && game.getOpponentA().getTeamName().equals(opponentB.getName()))
+                || (matchResult.getWinner().equals(game.getOpponentB()) && game.getOpponentB().getTeamName().equals(opponentB.getName()))) {
             this.addWinTeamB();
         }
 

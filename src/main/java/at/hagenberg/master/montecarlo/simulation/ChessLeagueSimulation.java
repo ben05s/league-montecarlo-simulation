@@ -26,7 +26,7 @@ public class ChessLeagueSimulation extends AbstractMonteCarloSimulation {
             for (int j = 0; j < roundGameResults.get(i).size(); j++) {
                 HeadToHeadMatch game = roundGameResults.get(i).get(j);
 
-                TeamMatch match = new TeamMatch(randomGenerator, settings.getPredictionModel(), game.getOpponentA().getTeam(), game.getOpponentB().getTeam());
+                TeamMatch match = new TeamMatch(randomGenerator, settings.getPredictionModel(), getTeam(game.getOpponentA().getTeamName(), teamList), getTeam(game.getOpponentB().getTeamName(), teamList));
                 int idx = matchList.indexOf(match);
                 if(idx != -1) {
                     match = matchList.get(idx);
@@ -46,6 +46,14 @@ public class ChessLeagueSimulation extends AbstractMonteCarloSimulation {
             }
         }
         return matchList;
+    }
+
+    public Team getTeam(String teamName, List<Team> teams) {
+        int idx = teams.indexOf(new Team(teamName));
+        if(idx != -1) {
+            return teams.get(idx);
+        }
+        return null;
     }
 
     @Override
