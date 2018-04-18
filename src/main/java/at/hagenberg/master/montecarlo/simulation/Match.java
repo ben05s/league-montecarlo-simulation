@@ -47,6 +47,14 @@ public abstract class Match<T extends Opponent> {
         throw new Exception("No Prediction for this game yet");
     }
 
+    public RandomGenerator getRandomGenerator() {
+        return randomGenerator;
+    }
+
+    public AbstractPredictionModel getPredictionModel() {
+        return predictionModel;
+    }
+
     public MatchResult getMatchPrediction() {
         return matchPrediction;
     }
