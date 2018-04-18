@@ -1,7 +1,7 @@
-PlayerWhite,EloWhite,PlayerBlack,EloBlack,Result
+PlayerWhite,EloWhite,PlayerBlack,EloBlack,Winner
 Berchtenbreiter Maximilian,2384,Graf Felix,2478,DRAW
-Jorczik Julian,2385,Nuber Blasius,2349,WHITE
-Heinrich Thomas,2144,Weindl Alfred,2331,BLACK
-Dobosz Henryk,2389,Hajdarevic Dino,2135,WHITE
-Georgiev Georgi,2107,Tuncer Ufuk,2332,BLACK
-Poettinger Harald,2212,Niedermeier Thomas,2194,BLACK
+Jorczik Julian,2385,Nuber Blasius,2349,Jorczik, Julian
+Heinrich Thomas,2144,Weindl Alfred,2331,Weindl, Alfred
+Dobosz Henryk,2389,Hajdarevic Dino,2135,Dobosz, Henryk
+Georgiev Georgi,2107,Tuncer Ufuk,2332,Tuncer, Ufuk
+Poettinger Harald,2212,Niedermeier Thomas,2194,Niedermeier, Thomas

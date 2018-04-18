@@ -1,7 +1,7 @@
-PlayerWhite,EloWhite,PlayerBlack,EloBlack,Result
+PlayerWhite,EloWhite,PlayerBlack,EloBlack,Winner
 Kessler Luca,2324,Graf Felix,2478,DRAW
 Jorczik Julian,2385,Bilchinski Anton,2260,DRAW
-Gauss Gustav,2182,Weindl Alfred,2331,BLACK
-Dobosz Henryk,2389,Gretz Denis,2073,BLACK
+Gauss Gustav,2182,Weindl Alfred,2331,Weindl, Alfred
+Dobosz Henryk,2389,Gretz Denis,2073,Gretz, Denis
 Scheffknecht Philipp,2152,Bezler Rainer,2215,DRAW
-Poettinger Harald,2212,Kranz Armin,2131,WHITE
+Poettinger Harald,2212,Kranz Armin,2131,Poettinger, Harald
