@@ -2,13 +2,12 @@ package at.hagenberg.master.montecarlo.simulation;
 
 import at.hagenberg.master.montecarlo.PgnAnalysis;
 import at.hagenberg.master.montecarlo.entities.Player;
-import at.hagenberg.master.montecarlo.entities.Team;
+import at.hagenberg.master.montecarlo.entities.ResultProbabilities;
 import at.hagenberg.master.montecarlo.entities.enums.RatingSystem;
+import at.hagenberg.master.montecarlo.util.EloRatingSystemUtil;
 import at.hagenberg.master.montecarlo.util.PgnUtil;
 
-import java.util.*;
-
-public class ChessPredictionModel {
+public class ChessPredictionModel extends AbstractPredictionModel {
 
     public RatingSystem ratingSystem = RatingSystem.ELO;
 
@@ -40,47 +39,34 @@ public class ChessPredictionModel {
         this.useRegularization = useRegularization;
     }
 
-    public List<Team> regularizePlayerRatingsForTeams(List<Team> teamList) {
-        if(this.useRegularization) {
-            for (int i = 0; i < teamList.size(); i++) {
-                for (int j = 0; j < teamList.get(i).getPlayerList().size(); j++) {
-                    regularizeRating(teamList.get(i).getPlayerList().get(j));
-                }
-            }
-        }
-        return teamList;
-    }
+    @Override
+    public ResultProbabilities calculateGameResultProbabilities(Player white, Player black) {
+        double expectedWinWhite = 1.0 / 3.0;
+        double expectedDraw = 1.0 / 3.0;
+        double expectedWinBlack = 1.0 / 3.0;
 
-    public void regularizePlayerRatingsForGames(List<ChessGame> games) {
-        if(this.useRegularization) {
-            Map<String, Player> alreadyRegRating = new HashMap<>();
-            for (int i = 0; i < games.size(); i++) {
-                ensureAtomicRegularization(games.get(i).getWhite(), alreadyRegRating);
-                ensureAtomicRegularization(games.get(i).getBlack(), alreadyRegRating);
-            }
-        }
-    }
+        expectedWinWhite = this.calculateExpectedWinWhite(white, black);
+        expectedWinBlack = this.calculateExpectedWinBlack(expectedWinWhite);
+        expectedDraw = this.calculateExpectedDraw(white, black);
 
-    private void ensureAtomicRegularization(Player player, Map<String, Player> alreadyRegRating) {
-        if(alreadyRegRating.get(player.getName()) != null) {
-            Player tmp = alreadyRegRating.get(player.getName());
-            player.setRegElo(tmp.getRegElo());
-        } else {
-            regularizeRating(player);
-            alreadyRegRating.put(player.getName(), player);
-        }
-    }
+        expectedWinWhite = this.incorporateDrawProbability(expectedWinWhite, expectedDraw);
+        expectedWinBlack = this.incorporateDrawProbability(expectedWinBlack, expectedDraw);
 
-    private void regularizeRating(Player player) {
-        if(player.getTotalGames() < regularizeThreshold) {
-            int elo = player.getElo();
-            double delta = Math.pow(1.0 - ((double) player.getTotalGames() / regularizeThreshold), 2) * ((elo - this.avgElo) / regularizeFraction);
-            player.setRegElo(elo - new Double(delta).intValue());
-            //System.out.println("Name: " + player.getName() + " Elo " + elo + " delta: " + delta + " regElo: " + player.getRegElo() + " total games: " + player.getTotalGames());
-        } else {
-            player.setRegElo(player.getElo());
-            //System.out.println("Name: " + player.getName() + " Elo: " + player.getElo() + " total games: " + player.getTotalGames());
-        }
+        expectedWinWhite = this.calculateAdvantageWhite(expectedWinWhite, expectedWinBlack);
+
+        expectedWinWhite += this.calculateStrengthTrend(white);
+        expectedWinBlack += this.calculateStrengthTrend(black);
+
+        expectedWinWhite += this.calculateStatsStrengthAsWhite(white);
+        expectedWinBlack += this.calculateStatsStrengthAsBlack(black);
+        expectedDraw += this.calculateStatsStrengthDraw(white, black);
+
+        if(expectedWinWhite < 0) expectedWinWhite = 0.0;
+        if(expectedWinBlack < 0) expectedWinBlack = 0.0;
+        if(expectedDraw < 0) expectedDraw = 0.0;
+
+        ResultProbabilities p = new ResultProbabilities(expectedWinWhite, expectedDraw, expectedWinBlack);
+        return p;
     }
 
     public double calculateExpectedWinWhite(Player white, Player black) {
@@ -173,7 +159,7 @@ public class ChessPredictionModel {
 
     public void setStatistics(PgnAnalysis analysis) {
         advWhiteProbability = analysis.calculateWhiteAdvantage();
-        avgElo = analysis.calculateAverageElo();
+        avgElo = EloRatingSystemUtil.calculateAverageElo(analysis.getTeams());
         pWhiteWin = analysis.calculateOverallProbability(PgnUtil.WHITE_WINS);
         pDraw = analysis.calculateOverallProbability(PgnUtil.DRAW);
         pBlackWin = analysis.calculateOverallProbability(PgnUtil.BLACK_WINS);
@@ -187,8 +173,6 @@ public class ChessPredictionModel {
                 ", useStrengthTrend=" + useStrengthTrend +
                 ", useStats=" + useStats +
                 ", useRegularization=" + useRegularization +
-                "\n\tregularizeThreshold=" + regularizeThreshold +
-                ", regularizeFraction=" + regularizeFraction +
                 ", winDrawFraction=" + winDrawFraction +
                 ", statsFactor=" + statsFactor +
                 ", strengthTrendFraction=" + strengthTrendFraction +

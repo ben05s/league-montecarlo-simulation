@@ -1,12 +1,14 @@
 package at.hagenberg.master.montecarlo;
 
 import at.hagenberg.master.montecarlo.entities.*;
-import at.hagenberg.master.montecarlo.exceptions.ChessMonteCarloSimulationException;
+import at.hagenberg.master.montecarlo.entities.enums.LineupStrategy;
+import at.hagenberg.master.montecarlo.exceptions.PgnParserException;
 import at.hagenberg.master.montecarlo.simulation.*;
-import at.hagenberg.master.montecarlo.simulation.settings.ChessLineupSettings;
-import at.hagenberg.master.montecarlo.simulation.settings.MonteCarloSettings;
-import at.hagenberg.master.montecarlo.simulation.settings.SeasonSettings;
+import at.hagenberg.master.montecarlo.simulation.settings.ChessLeagueSettings;
+import at.hagenberg.master.montecarlo.simulation.ChessPredictionModel;
+import at.hagenberg.master.montecarlo.simulation.settings.LeagueSettings;
 import at.hagenberg.master.montecarlo.util.ResultsFileUtil;
+import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
 
 import java.util.*;
@@ -31,21 +33,25 @@ public class Main {
         SeasonResult result = new SeasonResult();
         try {
             // TODO MAJOR verify one season without simulation if results are processed correctly
-            SeasonSettings seasonSettings = new SeasonSettings(11,6, 0);
-
-            PgnAnalysis analysis = new PgnAnalysis(seasonSettings, seasonToSimulate, historicalSeasons);
-
+            RandomGenerator randomGenerator = new Well19937c();
+            final int gamesPerMatch = 6;
+            final int roundsPerSeason = 11;
+            final int roundsToSimulate = 2;
+            LineupSelector lineupSelector = new LineupSelector(LineupStrategy.DESCENDING_RATING_STRENGTH, gamesPerMatch);
             ChessPredictionModel predictionModel = new ChessPredictionModel(false, false, false, true);
-            predictionModel.setStatistics(analysis);
 
-            MonteCarloSettings settings = new MonteCarloSettings(seasonSettings, predictionModel, new ChessLineupSettings(), new Well19937c());
-            System.out.println(settings.toString());
-
+            PgnAnalysis analysis = new PgnAnalysis(seasonToSimulate, historicalSeasons, roundsPerSeason, gamesPerMatch);
             List<Team> teamList = analysis.getTeams();
-            teamList = predictionModel.regularizePlayerRatingsForTeams(teamList);
+            predictionModel.setStatistics(analysis);
+            analysis.fillGamesFromSeasonToSimulate(randomGenerator, predictionModel);
+
             ResultsFileUtil.writePlayerStats("player-stats", teamList);
 
-            MonteCarloSimulation simulation = new MonteCarloSimulation(settings, teamList, analysis.getRoundGameResults());
+            ChessLeagueSettings settings = new ChessLeagueSettings(predictionModel, teamList, analysis.getRoundGameResults(),
+                    roundsPerSeason, roundsToSimulate, gamesPerMatch, lineupSelector);
+            System.out.println(settings.toString());
+
+            ChessLeagueSimulation simulation = new ChessLeagueSimulation(randomGenerator, settings);
             result = simulation.runSimulation(); // run the simulation
 
             System.out.println("\nResult:");
@@ -55,7 +61,7 @@ public class Main {
             ResultsFileUtil.writeGameResultToFile("mc-it-0", result.getMatchResults());
             ResultsFileUtil.writeMatchResultToFile("mc-it-0", result.getMatchResults());
             ResultsFileUtil.writeSeasonResultToFile(result, 0);
-        } catch (ChessMonteCarloSimulationException e) {
+        } catch (PgnParserException e) {
             System.out.println(e.getMessage());
             return;
         } catch (Exception e) {

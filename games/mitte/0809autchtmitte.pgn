@@ -3875,7 +3875,7 @@ Nf6 24.Nxf6+ Bxf6 25.g4 Be7 26.g5 f6 27.g6 h6 28.Rfd1 Rc5
 1.e4 c5 2.Nf3 Nc6 3.d4 cxd4 4.Nxd4 e5 5.Nb5 d6 6.c4 Be7 7.b3 a6 8.N5c3 Nf6 9.Bd3
 O-O 10.O-O Nd4 11.Ne2 Ne6 12.Nbc3 Bd7 13.a4 Nc5 14.a5 b6 15.b4 Nxd3 16.Qxd3 bxa5
 17.Rxa5 Qb8 18.Bd2 Rc8 19.Nd5 Nxd5 20.exd5 f5 21.Rc1 f4 22.Nc3 Rf8 23.Ne4 Qe8
-24.f3 Qg6 25.c5 {and white was winning after move 44} 
+24.f3 Qg6 25.c5 {and PlayerOne was winning after move 44}
 
 [Event "Bundesliga B Mitte 2008/2009"]
 [Site "Leoben"]
@@ -4597,7 +4597,7 @@ Raxc8 17.Nxe5 Nxe5 18.Rxe5 Qb4 19.b3 Rf6 20.Qe2 Rcf8 21.Rf1 Kh8 22.g3 Qc3 23.Qe4
 Rf3 24.Rxe6 Nf6 25.Qh4 Qd2 26.Re7 b5 27.axb5 cxb5 28.Bxb5 Rxb3 29.Re2 Qb4 30.Bc6
 Qc4 31.Re7 Qxc6 32.Qg5 Rg8 33.Qxa5 Qd6 34.Qe5 Qd5 35.Rc1 Rd3 36.Qxd5 Nxd5 37.Rd7
 Nf6 38.Rd6 Ne4 39.Rd7 Rd2 40.Rf7 Rxd4 41.Rcc7 h6 42.Kg2 Rd2 43.h4 Rd6 44.Rfe7
-Nf6 45.Rf7 Kh7 46.Rfe7 Kg6 {black was winning after some more moves} 
+Nf6 45.Rf7 Kh7 46.Rfe7 Kg6 {playerTwo was winning after some more moves}
 
 [Event "Bundesliga B Mitte 2008/2009"]
 [Site "Leoben"]
@@ -4700,7 +4700,7 @@ a5 10.Rb1 axb4 11.axb4 Nc6 12.b5 Nb4 13.Qb3 d5 14.e5 Ne4 15.Nxe4 dxe4 16.Nd2 Bb7
 Qe4 24.Qf3 Qxf3 25.gxf3 c4 26.Rfc1 Rfc8 27.Rc3 Bxf3 28.b6 Bb7 29.Kf1 f6 30.Ke1
 Ra4 31.exf6 gxf6 32.Kd2 Kf7 33.Rcc1 c3+ 34.Rxc3 Ra2+ 35.Kxd3 Ba6+ 36.Ke4 Rxc3
 37.b7 Ra4+ 38.Kf3 Bxb7+ 39.Rxb7+ Kg6 40.Kg2 h5 41.Rb8 Rc7 42.Rg8+ Rg7 43.Rh8 Rh7
-44.Rg8+ Kf5 45.h3 e5 46.Kf3 Rb4 47.Bc5 Rh4 48.Kg3 Rc4 49.Be3 {and black wins at
+44.Rg8+ Kf5 45.h3 e5 46.Kf3 Rb4 47.Bc5 Rh4 48.Kg3 Rc4 49.Be3 {and playerTwo wins at
 move 71} 
 
 [Event "Bundesliga B Mitte 2008/2009"]
@@ -5254,7 +5254,7 @@ Kd7 51.Ra7+ Kc6 52.Re7 Bd5 53.Rh7 Rb2+ 54.Kd3 Rb3+ 55.Kd2 Rb2+ 56.Kc3 Rb3+
 
 1.d4 g6 2.e4 Bg7 3.c4 d6 4.Nc3 Nc6 5.d5 Nd4 6.Be3 c5 7.Nge2 Nxe2 8.Bxe2 Qa5
 9.Rc1 a6 10.O-O Nf6 11.Qd2 O-O 12.Bh6 Rb8 13.Bxg7 Kxg7 14.f4 b5 15.e5 Ng8 16.b3
-Nh6 17.Qb2 f6 18.Ne4 Qc7 19.cxb5 axb5 {and white wins at move 40} 
+Nh6 17.Qb2 f6 18.Ne4 Qc7 19.cxb5 axb5 {and PlayerOne wins at move 40}
 
 [Event "Bundesliga B Mitte 2008/2009"]
 [Site "Leoben"]
@@ -5637,7 +5637,7 @@ Qg6 37.Nf6+ Kh8 38.Qh4+ Kg7 39.Rxe2 Bxe2 40.Nh5+ Kf8
 [BlackTeam "Schachklub Sparkasse Fuerstenfeld"]
 
 1.d4 Nf6 2.c4 e6 3.Nf3 c5 4.Nc3 cxd4 5.Nxd4 Nc6 6.g3 Qb6 7.Nb3 Ne5 8.Bg2 Nxc4
-9.O-O Be7 10.Qc2 Qa6 11.e4 d6 12.Qe2 {and black wins at move 45!} 
+9.O-O Be7 10.Qc2 Qa6 11.e4 d6 12.Qe2 {and playerTwo wins at move 45!}
 
 [Event "Bundesliga B Mitte 2008/2009"]
 [Site "Voecklabruck"]
@@ -5763,7 +5763,7 @@ Bf8 45.c4 h5 46.Ke2 Bg7 47.Kd3 Bf6 48.Ke2 Kf7 49.Ra7 Ke8 50.Ra8+ Bd8 51.Kd3 Ke7
 [BlackTeam "SC Die Klagenfurter"]
 
 1.Nf3 Nf6 2.c4 e6 3.g3 b6 4.Bg2 Bb7 5.O-O Be7 6.Nc3 O-O 7.d4 Ne4 8.Bd2 f5 {and
-white wins at move 32!} 
+PlayerOne wins at move 32!}
 
 [Event "Bundesliga B Mitte 2008/2009"]
 [Site "Voecklabruck"]
@@ -5786,7 +5786,7 @@ white wins at move 32!}
 
 1.c4 e5 2.Nc3 Nf6 3.Nf3 Nc6 4.e3 Bb4 5.Qc2 Bxc3 6.Qxc3 Qe7 7.a3 d5 8.cxd5 Nxd5
 9.Qb3 Nb6 10.d3 O-O 11.Be2 a5 12.Bd2 Bf5 13.Bc3 a4 14.Qb5 Bd7 15.Bb4 Nxb4
-16.Qxb4 Qxb4+ 17.axb4 Rfe8 18.d4 e4 19.Nd2 {Handy läutet!} 
+16.Qxb4 Qxb4+ 17.axb4 Rfe8 18.d4 e4 19.Nd2 {Handy lï¿½utet!} 
 
 [Event "Bundesliga B Mitte 2008/2009"]
 [Site "Voecklabruck"]

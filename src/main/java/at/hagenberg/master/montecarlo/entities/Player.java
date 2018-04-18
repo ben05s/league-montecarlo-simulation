@@ -2,9 +2,8 @@ package at.hagenberg.master.montecarlo.entities;
 
 import java.util.*;
 
-public class Player {
+public class Player extends Opponent {
 
-    private String name;
     private Team team;
 
     private int elo;
@@ -30,7 +29,8 @@ public class Player {
 
     private List<Double> pLineUp = new ArrayList<>();
 
-    public Player() {
+    public Player(String name) {
+        super(name);
     }
 
     public List<Double> getpLineUp() {
@@ -71,14 +71,6 @@ public class Player {
 
     public void setpBlackLoss(double pBlackLoss) {
         this.pBlackLoss = pBlackLoss;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public int getElo() {
@@ -183,23 +175,5 @@ public class Player {
     public String toString() {
         String str = name + "\tElo=" + elo;
         return str;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-
-        Player player = (Player) o;
-        return name.equals(player.name);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = name.hashCode();
-        result = 31 * result;
-        return result;
     }
 }

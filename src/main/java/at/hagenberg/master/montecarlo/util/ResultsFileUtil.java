@@ -155,12 +155,12 @@ public class ResultsFileUtil {
             FileWriter fw = null;
 
             try {
-                String file = filename + result.getTeamA().getName() + "-" +result.getTeamB().getName() + ".csv";
+                String file = filename + result.getOpponentA().getName() + "-" +result.getOpponentB().getName() + ".csv";
                 fw = new FileWriter("result/match-results/" + file.replaceAll("[^a-zA-Z0-9.-]", "-"));
                 bw = new BufferedWriter(fw);
-                bw.write("PlayerWhite,EloWhite,PlayerBlack,EloBlack,Result\n");
-                for (int x = 0; x < result.getGames().size(); x++) {
-                    bw.write(result.getGames().get(x).print());
+                bw.write("PlayerWhite,EloWhite,PlayerBlack,EloBlack,Winner\n");
+                for (int x = 0; x < result.getHeadToHeadMatches().size(); x++) {
+                    bw.write(result.getHeadToHeadMatches().get(x).print());
                 }
             } catch (IOException e) {
                 e.printStackTrace();

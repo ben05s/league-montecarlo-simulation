@@ -1,40 +1,48 @@
 package at.hagenberg.master.montecarlo;
 
-import at.hagenberg.master.montecarlo.simulation.ChessGame;
-import at.hagenberg.master.montecarlo.exceptions.ChessMonteCarloSimulationException;
+import at.hagenberg.master.montecarlo.entities.MatchResult;
+import at.hagenberg.master.montecarlo.exceptions.PgnParserException;
+import at.hagenberg.master.montecarlo.simulation.AbstractPredictionModel;
+import at.hagenberg.master.montecarlo.simulation.HeadToHeadMatch;
 import at.hagenberg.master.montecarlo.entities.Player;
 import at.hagenberg.master.montecarlo.entities.Team;
-import at.hagenberg.master.montecarlo.simulation.settings.SeasonSettings;
+import at.hagenberg.master.montecarlo.simulation.settings.LeagueSettings;
+import at.hagenberg.master.montecarlo.util.EloRatingSystemUtil;
 import com.supareno.pgnparser.PGNParser;
 import com.supareno.pgnparser.jaxb.Game;
 import com.supareno.pgnparser.jaxb.Games;
+import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.log4j.Level;
 import at.hagenberg.master.montecarlo.util.PgnUtil;
 
 import java.io.StringReader;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class PgnAnalysis {
 
-    private SeasonSettings seasonSettings;
+    private final int gamesPerMatch;
+    private final int roundsPerSeason;
 
+    private List<Game> seasonToSimulateGames = new ArrayList<>();
     private List<Game> historicalGames = new ArrayList<>();
     private Map<String, List<Game>> historicalGamesPerSeason = new HashMap<>();
 
     private  Map<String, Team> teamMap = new HashMap<>();
-    private List<ChessGame> gameResults = new ArrayList<>();
-    private Map<Integer, List<ChessGame>> roundGameResults = new HashMap<>();
+    private List<HeadToHeadMatch> gameResults = new ArrayList<>();
+    private Map<Integer, List<HeadToHeadMatch>> roundGameResults = new HashMap<>();
 
 
-    public PgnAnalysis(SeasonSettings seasonSettings, String fileContentSeasonToSimulate, String fileContentHistoricalSeasons) throws ChessMonteCarloSimulationException {
-        this.seasonSettings = seasonSettings;
+    public PgnAnalysis(String fileContentSeasonToSimulate, String fileContentHistoricalSeasons, final int roundsPerSeason, final int gamesPerMatch) throws PgnParserException {
+        this.gamesPerMatch = gamesPerMatch;
+        this.roundsPerSeason = roundsPerSeason;
 
         PGNParser parser = new PGNParser(Level.ALL);
 
         Games games = parser.parseFile(new StringReader(fileContentSeasonToSimulate));
         if(games == null || games.getGame().isEmpty())
-            throw new ChessMonteCarloSimulationException("no games found in pgn file for season to simulate");
+            throw new PgnParserException("no games found in pgn file for season to simulate");
 
         Games tmpGames = parser.parseFile(new StringReader(fileContentHistoricalSeasons));
         // remove incomplete games (game without result)
@@ -51,15 +59,17 @@ public class PgnAnalysis {
         processPgnFromSeasonToSimulate(games.getGame());
     }
 
-    public PgnAnalysis(SeasonSettings seasonSettings, String fileSeasonToSimulate, List<String> fileHistoricalSeasons) throws  ChessMonteCarloSimulationException {
-        this.seasonSettings = seasonSettings;
+    public PgnAnalysis(String fileSeasonToSimulate, List<String> fileHistoricalSeasons, final int roundsPerSeason, final int gamesPerMatch) throws PgnParserException {
+        this.gamesPerMatch = gamesPerMatch;
+        this.roundsPerSeason = roundsPerSeason;
 
         PGNParser parser = new PGNParser(Level.ALL);
 
         // TODO MINOR: count rounds per season and games per match from seasonToSimulate and set variables in MonteCarloSettings
         Games games = parser.parseFile(fileSeasonToSimulate);
         if(games == null || games.getGame().isEmpty())
-            throw new ChessMonteCarloSimulationException("no games found in pgn file for season to simulate");
+            throw new PgnParserException("no games found in pgn file for season to simulate");
+        this.seasonToSimulateGames = games.getGame();
 
         fileHistoricalSeasons.forEach(season -> {
             Games tmpGames = parser.parseFile(season);
@@ -70,6 +80,37 @@ public class PgnAnalysis {
         });
 
         processPgnFromSeasonToSimulate(games.getGame());
+
+    }
+
+    public void fillGamesFromSeasonToSimulate(RandomGenerator randomGenerator, AbstractPredictionModel predictionModel) throws PgnParserException {
+        for (int i = 0; i < this.seasonToSimulateGames.size(); i++) {
+            Game game = this.seasonToSimulateGames.get(i);
+
+            // save actual game result for validation of chess prediction model
+            Player white = getPlayerFromTeamMap(game.getWhite());
+            Player black = getPlayerFromTeamMap(game.getBlack());
+            MatchResult matchResult = new MatchResult(white, black, PgnUtil.getGameResult(game.getResult()));
+            HeadToHeadMatch chessGame = new HeadToHeadMatch(randomGenerator, predictionModel, white, black, matchResult);
+            this.gameResults.add(chessGame);
+
+            int round = Integer.parseInt(game.getRound());
+            List<HeadToHeadMatch> roundChessGames = this.roundGameResults.get(round);
+            if(roundChessGames == null) roundChessGames = new ArrayList<>();
+
+            roundChessGames.add(chessGame);
+            this.roundGameResults.put(round, roundChessGames);
+        }
+    }
+
+    private Player getPlayerFromTeamMap(String playerName) throws PgnParserException {
+        for (Team team : this.teamMap.values()) {
+            int idx = team.getPlayerList().indexOf(new Player(playerName));
+            if(idx != -1) {
+                return team.getPlayerList().get(idx);
+            }
+        }
+        throw new PgnParserException("Player not found in team map: " + playerName);
     }
 
     public double calculateWhiteAdvantage() {
@@ -84,15 +125,6 @@ public class PgnAnalysis {
         if(this.historicalGames.isEmpty()) return 0.0;
         long amount = this.historicalGames.stream().filter(game -> PgnUtil.isResult(game, RESULT)).count();
         return (double) amount / this.historicalGames.size();
-    }
-
-    public double calculateAverageElo() {
-        double avgElo = this.teamMap.values().stream()
-                .mapToDouble(team -> team.getPlayerList().stream()
-                        .mapToDouble(player -> player.getElo())
-                        .average().getAsDouble())
-                .average().getAsDouble();
-        return avgElo;
     }
 
     private double calculateWeightedProbabilityWhite(final String RESULT, Player player) {
@@ -132,32 +164,8 @@ public class PgnAnalysis {
         return blackGames;
     }
 
-    private int eloDelta(Player player) {
-        // white player
-        Game minWhite = this.historicalGames.stream()
-                .filter(game -> PgnUtil.isWhite(game, player) && !game.getWhiteElo().isEmpty() && Integer.parseInt(game.getWhiteElo()) > 0)
-                .min(Comparator.comparing(Game::getWhiteElo))
-                .orElse(null);
-        // black player
-        Game minBlack = this.historicalGames.stream()
-                .filter(game -> PgnUtil.isBlack(game, player) && !game.getBlackElo().isEmpty() && Integer.parseInt(game.getBlackElo()) > 0)
-                .min(Comparator.comparing(Game::getBlackElo))
-                .orElse(null);
-        int minElo;
-        if(minWhite != null && minBlack != null) {
-            minElo = Math.min(Integer.parseInt(minWhite.getWhiteElo()), Integer.parseInt(minBlack.getBlackElo()));
-        } else if(minBlack != null) {
-            minElo = Integer.parseInt(minBlack.getBlackElo());
-        } else if(minWhite != null) {
-            minElo = Integer.parseInt(minWhite.getWhiteElo());
-        } else {
-            minElo = player.getElo(); // fallback if player is not found in historical pgn files
-        }
-        return player.getElo() - minElo;
-    }
-
     private List<Double> calculateLineUpProbabilities(Player player) {
-        final int gamesPerMatch = this.seasonSettings.getGamesPerMatch();
+        final int gamesPerMatch = this.gamesPerMatch;
         long[] p = new long[gamesPerMatch];
 
         IntStream.range(0, gamesPerMatch).forEach(i -> {
@@ -169,7 +177,7 @@ public class PgnAnalysis {
                 .filter(e -> e.getValue().stream().filter(game -> PgnUtil.isPlaying(game, player)).count() != 0).count();
         // TODO MINOR: could be slightly improved by counting how many matches the team actually played in the pgn file
         // some pgn files are incomplete - not all match rounds are present
-        long maxNominations = this.seasonSettings.getRoundsPerSeason() * seasonsPlayed;
+        long maxNominations = this.roundsPerSeason * seasonsPlayed;
 
         List<Double> lineup = new ArrayList<>(gamesPerMatch);
         for(int i = 0; i< gamesPerMatch; i++) {
@@ -181,10 +189,17 @@ public class PgnAnalysis {
         return lineup;
     }
 
-    private void processPgnFromSeasonToSimulate(List<Game> games) throws ChessMonteCarloSimulationException {
+    private void processPgnFromSeasonToSimulate(List<Game> games) throws PgnParserException {
         Map<String, Team> teamMap = aggregateTeamsFromGames(games);
         if(teamMap.size() < 2)
-            throw new ChessMonteCarloSimulationException("not enough teams found in pgn file: at least 2 teams must be present.");
+            throw new PgnParserException("not enough teams found in pgn file: at least 2 teams must be present.");
+        for(Team team : teamMap.values()) {
+            if(team.getPlayerList().size() < gamesPerMatch || team.getPlayerList().size() < gamesPerMatch)
+                throw new PgnParserException("not enough players in team: " + team.getName() +
+                        " players: " + team.getPlayerList().size() + " should be at least " + gamesPerMatch);
+
+            team.setLineup(transposeLineupProbabilities(team.getPlayerList()));
+        }
         this.teamMap = teamMap;
     }
 
@@ -194,17 +209,15 @@ public class PgnAnalysis {
         for (int i = 0; i < games.size(); i++) {
             Game game = games.get(i);
 
-            Player whitePlayer = new Player();
-            whitePlayer.setName(game.getWhite());
+            Player whitePlayer = new Player(game.getWhite());
             whitePlayer.setElo(Integer.parseInt(game.getWhiteElo()));
 
-            Player blackPlayer = new Player();
-            blackPlayer.setName(game.getBlack());
+            Player blackPlayer = new Player(game.getBlack());
             blackPlayer.setElo(Integer.parseInt(game.getBlackElo()));
 
             Team whiteTeam = teamMap.get(game.getWhiteTeam());
             if(whiteTeam == null) {
-                whiteTeam = new Team(game.getWhiteTeam(), seasonSettings.getGamesPerMatch());
+                whiteTeam = new Team(game.getWhiteTeam());
             }
 
             addPlayerToTeam(whitePlayer, whiteTeam);
@@ -212,21 +225,10 @@ public class PgnAnalysis {
 
             Team blackTeam = teamMap.get(game.getBlackTeam());
             if(blackTeam == null) {
-                blackTeam = new Team(game.getBlackTeam(), seasonSettings.getGamesPerMatch());
+                blackTeam = new Team(game.getBlackTeam());
             }
 
             addPlayerToTeam(blackPlayer, blackTeam);
-
-            // save actual game result for validation of chess prediction model
-            ChessGame chessGame = new ChessGame(whitePlayer, blackPlayer, PgnUtil.getGameResult(game.getResult()));
-            this.gameResults.add(chessGame);
-
-            int round = Integer.parseInt(game.getRound());
-            List<ChessGame> roundChessGames = this.roundGameResults.get(round);
-            if(roundChessGames == null) roundChessGames = new ArrayList<>();
-
-            roundChessGames.add(chessGame);
-            this.roundGameResults.put(round, roundChessGames);
 
             teamMap.put(blackTeam.getName(), blackTeam);
         }
@@ -238,7 +240,7 @@ public class PgnAnalysis {
 
         if(!team.getPlayerList().contains(player)) {
             // only do this once (expensive operations)
-            player.setEloDelta(eloDelta(player));
+            player.setEloDelta(EloRatingSystemUtil.eloDelta(player, this.historicalGames));
             player.setTotalGames(totalGames(player));
 
             player.setWhiteWins(whiteCount(PgnUtil.WHITE_WINS, player));
@@ -263,13 +265,40 @@ public class PgnAnalysis {
         }
     }
 
+    /**
+     * Arrange Lineup Probabilities 2-dimensional x-axis lineup probability of player, y-axis lineup position
+     * e.g.: lineup probabilities of a team having 6 players
+     * 	 Position 0:	(0) 0,0000		(1) 0,0404		(2) 0,0000		(3) 0,0000		(4) 0,0000		(5) 0,0000
+     *   Position 1:	(0) 0,0000		(1) 0,2121		(2) 0,0000		(3) 0,0101		(4) 0,0000		(5) 0,0000
+     *   Position 2:	(0) 0,0000		(1) 0,1717		(2) 0,0000		(3) 0,1414		(4) 0,0303		(5) 0,0000
+     *   Position 3:	(0) 0,0808		(1) 0,0303		(2) 0,0000		(3) 0,2525		(4) 0,3434		(5) 0,0000
+     *   Position 4:	(0) 0,0000		(1) 0,0000		(2) 0,0000		(3) 0,2020		(4) 0,0606		(5) 0,0000
+     *   Position 5:	(0) 0,0000		(1) 0,0000		(2) 0,0000		(3) 0,0000		(4) 0,1111		(5) 0,0909
+     * @param playerList
+     * @return
+     */
+    public List<Map<Player, Double>> transposeLineupProbabilities(List<Player> playerList) {
+        List<Map<Player, Double>> lineup = new ArrayList<>(gamesPerMatch);
+        IntStream.range(0, gamesPerMatch).forEach((int i) -> {
+            Map<Player, Double> pMap = playerList.stream()
+                    .collect(
+                            Collectors.toMap(
+                                    player -> player, player -> player.getpLineUp().get(i),
+                                    (oldValue, newValue) -> oldValue,
+                                    LinkedHashMap::new)
+                    );
+            lineup.add(pMap);
+        });
+        return lineup;
+    }
+
     public List<Team> getTeams() {
         return new ArrayList<>(this.teamMap.values());
     }
 
-    public List<ChessGame> getGames() {
+    public List<HeadToHeadMatch> getGames() {
         return this.gameResults;
     }
 
-    public Map<Integer, List<ChessGame>> getRoundGameResults() { return this.roundGameResults; }
+    public Map<Integer, List<HeadToHeadMatch>> getRoundGameResults() { return this.roundGameResults; }
 }

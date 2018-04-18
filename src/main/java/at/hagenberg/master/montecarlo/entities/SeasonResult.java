@@ -3,44 +3,43 @@ package at.hagenberg.master.montecarlo.entities;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class SeasonResult {
+public class SeasonResult extends AbstractMonteCarloResult {
 
     private Map<String, SeasonScore> teamSeasonScoreMap = new HashMap<>();
     private List<MatchResult> matchResults = new ArrayList<>();
 
-    private long simulationDurationMs;
-
     public SeasonResult() {
+        super();
     }
 
     public void addMatchResult(MatchResult matchResult) {
         matchResults.add(matchResult);
 
-        SeasonScore scoreA = teamSeasonScoreMap.get(matchResult.getTeamA().getName());
+        SeasonScore scoreA = teamSeasonScoreMap.get(matchResult.getOpponentA().getName());
         if (scoreA == null)
             scoreA = new SeasonScore();
 
-        SeasonScore scoreB = teamSeasonScoreMap.get(matchResult.getTeamB().getName());
+        SeasonScore scoreB = teamSeasonScoreMap.get(matchResult.getOpponentB().getName());
         if (scoreB == null)
             scoreB = new SeasonScore();
 
-        scoreA.addPointsScored(matchResult.getScoreTeamA());
-        scoreA.addPointsConceded(matchResult.getScoreTeamB());
+        scoreA.addPointsScored(matchResult.getScoreA());
+        scoreA.addPointsConceded(matchResult.getScoreB());
 
-        scoreB.addPointsScored(matchResult.getScoreTeamB());
-        scoreB.addPointsConceded(matchResult.getScoreTeamA());
+        scoreB.addPointsScored(matchResult.getScoreB());
+        scoreB.addPointsConceded(matchResult.getScoreA());
 
         if(matchResult.getWinner() == null) {
             scoreA.addDraw();
             scoreB.addDraw();
-        } else if(matchResult.getWinner().equals(matchResult.getTeamA())) {
+        } else if(matchResult.getWinner().equals(matchResult.getOpponentA())) {
             scoreA.addWin();
-        } else if(matchResult.getWinner().equals(matchResult.getTeamB())) {
+        } else if(matchResult.getWinner().equals(matchResult.getOpponentB())) {
             scoreB.addWin();
         }
 
-        teamSeasonScoreMap.put(matchResult.getTeamA().getName(), scoreA);
-        teamSeasonScoreMap.put(matchResult.getTeamB().getName(), scoreB);
+        teamSeasonScoreMap.put(matchResult.getOpponentA().getName(), scoreA);
+        teamSeasonScoreMap.put(matchResult.getOpponentB().getName(), scoreB);
     }
 
     private static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
@@ -54,14 +53,6 @@ public class SeasonResult {
 
     public List<MatchResult> getMatchResults() {
         return matchResults;
-    }
-
-    public long getSimulationDurationMs() {
-        return simulationDurationMs;
-    }
-
-    public void setSimulationDurationMs(long simulationDurationMs) {
-        this.simulationDurationMs = simulationDurationMs;
     }
 
     public String print(int iteration) {

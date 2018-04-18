@@ -1,8 +1,9 @@
 package at.hagenberg.master.montecarlo.simulation;
 
 import at.hagenberg.master.montecarlo.entities.Evaluation;
-import static at.hagenberg.master.montecarlo.entities.enums.GameResult.*;
-import at.hagenberg.master.montecarlo.exceptions.ChessMonteCarloSimulationException;
+
+import at.hagenberg.master.montecarlo.entities.MatchResult;
+import at.hagenberg.master.montecarlo.entities.Team;
 import org.apache.commons.math3.random.RandomGenerator;
 
 import java.util.ArrayList;
@@ -13,16 +14,16 @@ public class Evaluator {
     private String division;
     private RandomGenerator randomGenerator;
     private ChessPredictionModel predictionModel;
-    private List<ChessGame> games;
+    private List<HeadToHeadMatch> headToHeadMatches;
 
-    public Evaluator(String division, RandomGenerator randomGenerator, ChessPredictionModel predictionModel, List<ChessGame> games) {
+    public Evaluator(String division, RandomGenerator randomGenerator, ChessPredictionModel predictionModel, List<HeadToHeadMatch> headToHeadMatches) {
         this.division = division;
         this.randomGenerator = randomGenerator;
         this.predictionModel = predictionModel;
-        this.games = games;
+        this.headToHeadMatches = headToHeadMatches;
     }
 
-    public Evaluation evaluateAvg(final int N) throws ChessMonteCarloSimulationException {
+    public Evaluation evaluateAvg(final int N) throws Exception {
         List<Evaluation> evaluations = new ArrayList<>();
         for (int i = 0; i < N; i++) {
             Evaluation evaluator = evaluatePredictor();
@@ -31,7 +32,7 @@ public class Evaluator {
         return avgEvaluation(evaluations);
     }
 
-    private Evaluation evaluatePredictor() throws ChessMonteCarloSimulationException {
+    private Evaluation evaluatePredictor() throws Exception {
         int wrongPredictions = 0;
         int correctPredictions = 0;
         int draws = 0;
@@ -42,22 +43,24 @@ public class Evaluator {
         int correctDraw = 0;
         List<Double> predictionError = new ArrayList<>();
 
-        for (int i = 0; i < games.size(); i++) {
-            ChessGame gameResult = games.get(i);
-            gameResult.playGame(this.randomGenerator, predictionModel);
+        TeamMatch match = new TeamMatch(randomGenerator, predictionModel, new Team("A"), new Team("B"));
+        match.setHeadToHeadMatches(headToHeadMatches);
+        MatchResult result = match.playMatch();
 
-            if(gameResult.getResult().equals(WHITE)) {
+        for (int i = 0; i < result.getHeadToHeadMatches().size(); i++) {
+            HeadToHeadMatch gameResult = result.getHeadToHeadMatches().get(i);
+            if(gameResult.getOpponentA().equals(gameResult.getMatchResult().getWinner())) {
                 white++;
-            } else if(gameResult.getResult().equals(BLACK)) {
+            } else if(gameResult.getOpponentB().equals(gameResult.getMatchResult().getWinner())) {
                 black++;
             } else {
                 draws++;
             }
 
             if(gameResult.isCorrectPrediction()) {
-                if(gameResult.getPrediction().equals(WHITE)) {
+                if(gameResult.getOpponentA().equals(gameResult.getMatchPrediction().getWinner())) {
                     correctWhite++;
-                } else if(gameResult.getPrediction().equals(BLACK)) {
+                } else if(gameResult.getOpponentB().equals(gameResult.getMatchPrediction().getWinner())) {
                     correctBlack++;
                 } else {
                     correctDraw++;
@@ -67,12 +70,11 @@ public class Evaluator {
                 wrongPredictions++;
             }
             //predictedResult = p.getExpectedWinWhite(); // without discrete result TODO MINOR which is better to measure the error?
-            predictionError.add(new Double(gameResult.getPrediction().getValue() - gameResult.getResult().getValue()));
-
-            //System.out.println(gameResult.getWhite().getElo() + " vs " + gameResult.getBlack().getElo() + ": prediction " + predictedResult + " result " + actualResult);
+            predictionError.add(new Double(gameResult.getError()));
+            //System.out.println(gameResult.getPlayerOne().getElo() + " vs " + gameResult.getPlayerTwo().getElo() + ": prediction " + predictedResult + " result " + actualResult);
         }
 
-        Evaluation evaluator = new Evaluation(predictionModel, games, division);
+        Evaluation evaluator = new Evaluation(predictionModel, result.getHeadToHeadMatches(), division);
         evaluator.pCorrect = (double) correctPredictions / (correctPredictions + wrongPredictions);
         evaluator.pCorrectWhite = (double) correctWhite / white;
         evaluator.pCorrectDraw = (double) correctDraw / draws;

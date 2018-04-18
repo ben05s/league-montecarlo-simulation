@@ -1,32 +1,35 @@
 package at.hagenberg.master.montecarlo.entities;
 
 import java.lang.Comparable;
-//TODO team season score
-public class TeamResult implements Comparable<TeamResult> {
+
+public class TeamSimulationResult implements Comparable<TeamSimulationResult> {
     String teamName;
     int totalSeasons = 0;
-    double totalPoints = 0;
+    int totalPoints = 0;
+    double totalScore = 0;
     int totalPromotions = 0;
     int totalRelegations = 0;
     double ratioPromotion = 0.0;
     double ratioRelegation = 0.0;
+    double highestSeasonPoints = 0.0;
+    double lowestSeasonPoints = 0.0;
     double highestSeasonScore = 0.0;
     double lowestSeasonScore = 0.0;
 
     int iterationStart = 0;
     int iterationEnd = 0;
 
-    public TeamResult(String teamName, int totalSeasons) {
+    public TeamSimulationResult(String teamName, int totalSeasons) {
         this.teamName = teamName;
         this.totalSeasons = totalSeasons;
     }
 
-    public TeamResult() {
+    public TeamSimulationResult() {
     }
 
     @Override
     public boolean equals(Object ts) {
-        return this.teamName == ((TeamResult) ts).getTeamName();
+        return this.teamName == ((TeamSimulationResult) ts).getTeamName();
     }
 
     @Override
@@ -37,7 +40,7 @@ public class TeamResult implements Comparable<TeamResult> {
     }
 
     @Override
-    public int compareTo(TeamResult o) {
+    public int compareTo(TeamSimulationResult o) {
         if (this.totalPromotions > o.totalPromotions)
             return -1;
         else if (this.totalPromotions == o.totalPromotions)
@@ -46,13 +49,18 @@ public class TeamResult implements Comparable<TeamResult> {
             return 1;
     }
 
-    public void aggregate(TeamResult res) {
+    public void aggregate(TeamSimulationResult res) {
+        this.highestSeasonPoints = res.getHighestSeasonPoints();
+        this.lowestSeasonPoints = res.getLowestSeasonPoints();
         this.highestSeasonScore = res.getHighestSeasonScore();
         this.lowestSeasonScore = res.getLowestSeasonScore();
+
         this.totalPoints += res.getTotalPoints();
+        this.totalScore += res.getTotalScore();
         this.totalPromotions += res.getTotalPromotions();
         this.totalRelegations += res.getTotalRelegations();
         this.totalSeasons += res.getTotalSeasons();
+
         this.ratioPromotion = (double) this.totalPromotions / (double) this.totalSeasons;
         this.ratioRelegation = (double) this.totalRelegations / (double) this.totalSeasons;
     }
@@ -67,16 +75,29 @@ public class TeamResult implements Comparable<TeamResult> {
         this.ratioRelegation = (double) this.totalRelegations / (double) this.totalSeasons;
     }
 
-    public void addPointsScored(double pointsScored) {
-        this.totalPoints += pointsScored;
-        if (pointsScored > this.highestSeasonScore) {
-            this.highestSeasonScore = pointsScored;
+    public void addPoints(int points) {
+        this.totalPoints += points;
+        if (points > this.highestSeasonPoints) {
+            this.highestSeasonPoints = points;
+        }
+        if (this.lowestSeasonPoints == 0.0) {
+            this.lowestSeasonPoints = points;
+        }
+        if (points < this.lowestSeasonPoints) {
+            this.lowestSeasonPoints = points;
+        }
+    }
+
+    public void addScore(double score) {
+        this.totalScore += score;
+        if (score > this.highestSeasonScore) {
+            this.highestSeasonScore = score;
         }
         if (this.lowestSeasonScore == 0.0) {
-            this.lowestSeasonScore = pointsScored;
+            this.lowestSeasonScore = score;
         }
-        if (pointsScored < this.lowestSeasonScore) {
-            this.lowestSeasonScore = pointsScored;
+        if (score < this.lowestSeasonScore) {
+            this.lowestSeasonScore = score;
         }
     }
 
@@ -88,8 +109,8 @@ public class TeamResult implements Comparable<TeamResult> {
         return totalSeasons;
     }
 
-    public double getTotalPoints() {
-        return totalPoints;
+    public double getTotalScore() {
+        return totalScore;
     }
 
     public int getTotalPromotions() {
@@ -130,5 +151,29 @@ public class TeamResult implements Comparable<TeamResult> {
 
     public void setIterationEnd(int iterationEnd) {
         this.iterationEnd = iterationEnd;
+    }
+
+    public int getTotalPoints() {
+        return totalPoints;
+    }
+
+    public void setTotalPoints(int totalPoints) {
+        this.totalPoints = totalPoints;
+    }
+
+    public double getHighestSeasonPoints() {
+        return highestSeasonPoints;
+    }
+
+    public void setHighestSeasonPoints(double highestSeasonPoints) {
+        this.highestSeasonPoints = highestSeasonPoints;
+    }
+
+    public double getLowestSeasonPoints() {
+        return lowestSeasonPoints;
+    }
+
+    public void setLowestSeasonPoints(double lowestSeasonPoints) {
+        this.lowestSeasonPoints = lowestSeasonPoints;
     }
 }
