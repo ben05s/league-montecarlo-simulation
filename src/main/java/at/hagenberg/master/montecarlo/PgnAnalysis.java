@@ -198,7 +198,7 @@ public class PgnAnalysis {
                 throw new PgnParserException("not enough players in team: " + team.getName() +
                         " players: " + team.getPlayerList().size() + " should be at least " + gamesPerMatch);
 
-            team.setLineup(transposeLineupProbabilities(team.getPlayerList()));
+            team.setLineup(transposeLineupProbabilities(team.getPlayerList(), gamesPerMatch));
         }
         this.teamMap = teamMap;
     }
@@ -277,7 +277,7 @@ public class PgnAnalysis {
      * @param playerList
      * @return
      */
-    public List<Map<Player, Double>> transposeLineupProbabilities(List<Player> playerList) {
+    public static List<Map<Player, Double>> transposeLineupProbabilities(List<Player> playerList, final int gamesPerMatch) {
         List<Map<Player, Double>> lineup = new ArrayList<>(gamesPerMatch);
         IntStream.range(0, gamesPerMatch).forEach((int i) -> {
             Map<Player, Double> pMap = playerList.stream()
