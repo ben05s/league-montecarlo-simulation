@@ -32,6 +32,8 @@ public class ChessPredictionModel extends AbstractPredictionModel {
     public double pDraw;
     public double pBlackWin;
 
+    public ChessPredictionModel() {}
+
     public ChessPredictionModel(boolean useAdvWhite, boolean useStrengthTrend, boolean useStats, boolean useRegularization) {
         this.useAdvWhite = useAdvWhite;
         this.useStrengthTrend = useStrengthTrend;
