@@ -33,7 +33,7 @@ public class SeasonScore implements Comparable<SeasonScore> {
         return pointsConceded;
     }
 
-    public double getSeasonPoints() { return seasonPoints; }
+    public int getSeasonPoints() { return seasonPoints; }
 
     @Override
     public int compareTo(SeasonScore o) {
