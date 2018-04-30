@@ -1,0 +1,38 @@
+@startuml
+
+skinparam class {
+    FontColor black
+    BackgroundColor white
+    BorderColor grey
+    FontName Monospaced
+}
+
+class ResultProbabilities {
+
+}
+
+class SeasonScore {
+
+}
+
+class TeamSimulationResult {
+
+}
+
+class SeasonResult {
+
+}
+
+abstract SimulationResult{
+
+}
+
+SimulationResult <|-- SeasonResult
+
+enum GameResult {
+WHITE(1.0)
+DRAW(0.5)
+BLACK(0.0)
+}
+
+@enduml

@@ -1,9 +1,12 @@
 package at.hagenberg.master.montecarlo.simulation;
 
-import at.hagenberg.master.montecarlo.PgnAnalysis;
+import at.hagenberg.master.montecarlo.entities.Team;
+import at.hagenberg.master.montecarlo.evaluation.Evaluator;
+import at.hagenberg.master.montecarlo.lineup.LineupSelector;
+import at.hagenberg.master.montecarlo.parser.PgnAnalysis;
 import at.hagenberg.master.montecarlo.entities.Evaluation;
-import at.hagenberg.master.montecarlo.entities.enums.LineupStrategy;
 import at.hagenberg.master.montecarlo.exceptions.PgnParserException;
+import at.hagenberg.master.montecarlo.prediction.ChessPredictionModel;
 import at.hagenberg.master.montecarlo.simulation.settings.LeagueSettings;
 import at.hagenberg.master.montecarlo.util.EloRatingSystemUtil;
 import at.hagenberg.master.montecarlo.util.ResultsFileUtil;
@@ -50,13 +53,19 @@ public class ChessGamePredictorTest {
 
         EloRatingSystemUtil.regularizePlayerRatingsForGames(gameResults, predictionModel.getAvgElo(), predictionModel.regularizeThreshold, predictionModel.regularizeFraction);
 
+        List<Team> teamList = analysis.getTeams();
+        if(predictionModel.useRatingRegularization)
+            teamList = EloRatingSystemUtil.regularizePlayerRatingsForTeams(teamList, predictionModel.getAvgElo(), predictionModel.regularizeThreshold, predictionModel.regularizeFraction);
+
+        LeagueSettings<Team> settings = new LeagueSettings(predictionModel, teamList, roundsPerSeason, new LineupSelector(gamesPerMatch), roundsToSimulate, analysis.getRoundGameResults());
+
         final int N = 10;
 
         List<Evaluation> evaluations = new ArrayList<>();
 
         Evaluator.permutatePredictionParameters(predictionModel).forEach(pm -> {
             //System.out.println(pm.toString());
-            Evaluator evaluator = new Evaluator(division, randomGenerator, pm, gameResults);
+            Evaluator evaluator = new Evaluator(division, randomGenerator, settings, gameResults);
             Evaluation avgE = null;
             try {
                 avgE = evaluator.evaluateAvg(N);

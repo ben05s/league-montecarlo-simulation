@@ -1,21 +1,20 @@
-package at.hagenberg.master.montecarlo.simulation;
+package at.hagenberg.master.montecarlo.prediction;
 
-import at.hagenberg.master.montecarlo.PgnAnalysis;
-import at.hagenberg.master.montecarlo.entities.Player;
-import at.hagenberg.master.montecarlo.entities.ResultProbabilities;
 import at.hagenberg.master.montecarlo.entities.enums.RatingSystem;
+import at.hagenberg.master.montecarlo.parser.PgnAnalysis;
+import at.hagenberg.master.montecarlo.entities.Player;
 import at.hagenberg.master.montecarlo.util.EloRatingSystemUtil;
 import at.hagenberg.master.montecarlo.util.PgnUtil;
 
-public class ChessPredictionModel extends AbstractPredictionModel {
+public class ChessPredictionModel implements PredictionModel {
 
     public RatingSystem ratingSystem = RatingSystem.ELO;
 
     /* Prediction Parameters */
-    public boolean useAdvWhite = false;
+    public boolean useHomeAdvantage = false;
     public boolean useStrengthTrend = false;
-    public boolean useStats = false;
-    public boolean useRegularization = false;
+    public boolean usePlayerPerformances = false;
+    public boolean useRatingRegularization = false;
 
     /* Tuning Parameter */
     public int regularizeThreshold = 22; // who should have their rating adjusted - 22 reassembles a player who as played 2 seasons approximately
@@ -32,17 +31,20 @@ public class ChessPredictionModel extends AbstractPredictionModel {
     public double pDraw;
     public double pBlackWin;
 
-    public ChessPredictionModel() {}
+    public ChessPredictionModel() {
+        this(false, false, false, false);
+    }
 
     public ChessPredictionModel(boolean useAdvWhite, boolean useStrengthTrend, boolean useStats, boolean useRegularization) {
-        this.useAdvWhite = useAdvWhite;
+        super();
+        this.useHomeAdvantage = useHomeAdvantage;
         this.useStrengthTrend = useStrengthTrend;
-        this.useStats = useStats;
-        this.useRegularization = useRegularization;
+        this.usePlayerPerformances = usePlayerPerformances;
+        this.useRatingRegularization = useRatingRegularization;
     }
 
     @Override
-    public ResultProbabilities calculateGameResultProbabilities(Player white, Player black) {
+    public ResultPrediction calculatePrediction(Player white, Player black) {
         double expectedWinWhite = 1.0 / 3.0;
         double expectedDraw = 1.0 / 3.0;
         double expectedWinBlack = 1.0 / 3.0;
@@ -67,7 +69,7 @@ public class ChessPredictionModel extends AbstractPredictionModel {
         if(expectedWinBlack < 0) expectedWinBlack = 0.0;
         if(expectedDraw < 0) expectedDraw = 0.0;
 
-        ResultProbabilities p = new ResultProbabilities(expectedWinWhite, expectedDraw, expectedWinBlack);
+        ResultPrediction p = new ResultPrediction(expectedWinWhite, expectedDraw, expectedWinBlack);
         return p;
     }
 
@@ -75,7 +77,7 @@ public class ChessPredictionModel extends AbstractPredictionModel {
         int whiteElo = white.getElo();
         int blackElo = black.getElo();
 
-        if(this.useRegularization) {
+        if(this.useRatingRegularization) {
             whiteElo = white.getRegElo();
             blackElo = black.getRegElo();
         }
@@ -90,7 +92,7 @@ public class ChessPredictionModel extends AbstractPredictionModel {
         int whiteElo = white.getElo();
         int blackElo = black.getElo();
 
-        if(this.useRegularization) {
+        if(this.useRatingRegularization) {
             whiteElo = white.getRegElo();
             blackElo = black.getRegElo();
         }
@@ -105,7 +107,7 @@ public class ChessPredictionModel extends AbstractPredictionModel {
     }
 
     public double calculateAdvantageWhite(double expectedWinWhite, double expectedWinBlack) {
-        if(this.useAdvWhite) {
+        if(this.useHomeAdvantage) {
             expectedWinWhite = (this.advWhiteProbability * expectedWinWhite) / (this.advWhiteProbability * expectedWinWhite + (1-this.advWhiteProbability) * expectedWinBlack);
         }
         return expectedWinWhite;
@@ -114,7 +116,7 @@ public class ChessPredictionModel extends AbstractPredictionModel {
     public double calculateStrengthTrend(Player player) {
         double strength = 0.0;
         // TODO think about this how to incorporate strength trend together with regularization
-        if(this.useStrengthTrend && !this.useRegularization) {
+        if(this.useStrengthTrend && !this.useRatingRegularization) {
             if (player.getEloDelta() < 200 && player.getEloDelta() > -200) {
                 strength = player.getEloDelta() / strengthTrendFraction;
             }
@@ -124,7 +126,7 @@ public class ChessPredictionModel extends AbstractPredictionModel {
 
     public double calculateStatsStrengthAsWhite(Player player) {
         double strength = 0.0;
-        if(this.useStats) {
+        if(this.usePlayerPerformances) {
             strength = (player.getpWhiteWin() - player.getpWhiteLoss());
         }
         return strength * statsFactor;
@@ -132,7 +134,7 @@ public class ChessPredictionModel extends AbstractPredictionModel {
 
     public double calculateStatsStrengthAsBlack(Player player) {
         double strength = 0.0;
-        if(this.useStats) {
+        if(this.usePlayerPerformances) {
             strength = (player.getpBlackWin() - player.getpBlackLoss());
         }
         return strength * statsFactor;
@@ -140,7 +142,7 @@ public class ChessPredictionModel extends AbstractPredictionModel {
 
     public double calculateStatsStrengthDraw(Player white, Player black) {
         double strength = 0.0;
-        if(this.useStats) {
+        if(this.usePlayerPerformances) {
             if (white.getpWhiteDraw() > white.getpWhiteWin() && white.getpWhiteDraw() > white.getpWhiteLoss()) {
                 strength = Math.min(white.getpWhiteDraw() - white.getpWhiteWin(), white.getpWhiteDraw() - white.getpWhiteLoss());
             }
@@ -171,10 +173,10 @@ public class ChessPredictionModel extends AbstractPredictionModel {
     public String toString() {
         return "ChessPredictionModel{" +
                 "ratingSystem=" + ratingSystem +
-                ", useAdvWhite=" + useAdvWhite +
+                ", useHomeAdvantage=" + useHomeAdvantage +
                 ", useStrengthTrend=" + useStrengthTrend +
-                ", useStats=" + useStats +
-                ", useRegularization=" + useRegularization +
+                ", usePlayerPerformances=" + usePlayerPerformances +
+                ", useRatingRegularization=" + useRatingRegularization +
                 ", winDrawFraction=" + winDrawFraction +
                 ", statsFactor=" + statsFactor +
                 ", strengthTrendFraction=" + strengthTrendFraction +

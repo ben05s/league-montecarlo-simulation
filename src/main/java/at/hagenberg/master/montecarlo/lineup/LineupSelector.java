@@ -1,4 +1,4 @@
-package at.hagenberg.master.montecarlo.simulation;
+package at.hagenberg.master.montecarlo.lineup;
 
 import at.hagenberg.master.montecarlo.entities.Player;
 import at.hagenberg.master.montecarlo.entities.Team;
@@ -203,6 +203,10 @@ public class LineupSelector {
             sum = String.format("%.4f", discreteProbabilities.values().stream().mapToDouble(Double::doubleValue).sum());
         }
         return discreteProbabilities;
+    }
+
+    public int getGamesPerMatch() {
+        return this.gamesPerMatch;
     }
 
     /* output stuff

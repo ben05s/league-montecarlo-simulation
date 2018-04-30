@@ -2,12 +2,15 @@ package at.hagenberg.master.montecarlo.simulation;
 
 import at.hagenberg.master.montecarlo.entities.MatchResult;
 import at.hagenberg.master.montecarlo.entities.Opponent;
+import at.hagenberg.master.montecarlo.prediction.PredictionModel;
 import org.apache.commons.math3.random.RandomGenerator;
+
+import java.util.Objects;
 
 public abstract class Match<T extends Opponent> {
 
     protected RandomGenerator randomGenerator;
-    protected  AbstractPredictionModel predictionModel;
+    protected PredictionModel predictionModel;
 
     protected T opponentA;
     protected T opponentB;
@@ -17,11 +20,16 @@ public abstract class Match<T extends Opponent> {
 
     public Match() {}
 
-    public Match(RandomGenerator randomGenerator, AbstractPredictionModel predictionModel, T opponentA, T opponentB) {
+    public Match(RandomGenerator randomGenerator, PredictionModel predictionModel, T opponentA, T opponentB) {
         this(randomGenerator, predictionModel, opponentA, opponentB, null);
     }
 
-    public Match(RandomGenerator randomGenerator, AbstractPredictionModel predictionModel, T opponentA, T opponentB, MatchResult matchResult) {
+    public Match(RandomGenerator randomGenerator, PredictionModel predictionModel, T opponentA, T opponentB, MatchResult matchResult) {
+        Objects.requireNonNull(randomGenerator);
+        Objects.requireNonNull(predictionModel);
+        Objects.requireNonNull(opponentA);
+        Objects.requireNonNull(opponentB);
+
         this.randomGenerator = randomGenerator;
         this.predictionModel = predictionModel;
         this.opponentA = opponentA;
@@ -53,7 +61,7 @@ public abstract class Match<T extends Opponent> {
         return randomGenerator;
     }
 
-    public AbstractPredictionModel getPredictionModel() {
+    public PredictionModel getPredictionModel() {
         return predictionModel;
     }
 

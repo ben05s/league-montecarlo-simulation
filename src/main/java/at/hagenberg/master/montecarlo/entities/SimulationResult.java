@@ -1,10 +1,10 @@
 package at.hagenberg.master.montecarlo.entities;
 
-public abstract class AbstractMonteCarloResult {
+public abstract class SimulationResult {
 
     protected long simulationDurationMs;
 
-    public AbstractMonteCarloResult() {}
+    public SimulationResult() {}
 
     public long getSimulationDurationMs() {
         return simulationDurationMs;

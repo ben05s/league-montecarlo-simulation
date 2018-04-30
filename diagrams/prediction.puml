@@ -1,0 +1,17 @@
+@startuml
+
+package "Prediction" {
+    interface PredictionModel {
+        calculateGameResultProbabilities(Player one, Player two)
+    }
+
+    class ChessPredictionModel {
+        boolean useHomeAdvantage
+        boolean usePlayerPerformances
+        boolean useRatingRegularization
+    }
+
+    PredictionModel <|-- ChessPredictionModel
+}
+
+@enduml

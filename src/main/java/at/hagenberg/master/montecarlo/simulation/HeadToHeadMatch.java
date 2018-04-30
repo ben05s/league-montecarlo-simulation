@@ -2,8 +2,9 @@ package at.hagenberg.master.montecarlo.simulation;
 
 import at.hagenberg.master.montecarlo.entities.MatchResult;
 import at.hagenberg.master.montecarlo.entities.Player;
-import at.hagenberg.master.montecarlo.entities.ResultProbabilities;
+import at.hagenberg.master.montecarlo.prediction.ResultPrediction;
 import at.hagenberg.master.montecarlo.entities.enums.GameResult;
+import at.hagenberg.master.montecarlo.prediction.PredictionModel;
 import org.apache.commons.math3.distribution.EnumeratedIntegerDistribution;
 import org.apache.commons.math3.random.RandomGenerator;
 
@@ -13,20 +14,20 @@ public class HeadToHeadMatch extends Match<Player> {
 
     public final static int NUMBER_OF_SAMPLES = 1;
 
-    public HeadToHeadMatch(RandomGenerator randomGenerator, AbstractPredictionModel predictionModel, Player playerOne, Player playerTwo) {
+    public HeadToHeadMatch(RandomGenerator randomGenerator, PredictionModel predictionModel, Player playerOne, Player playerTwo) {
         super(randomGenerator, predictionModel, playerOne, playerTwo);
     }
 
-    public HeadToHeadMatch(RandomGenerator randomGenerator, AbstractPredictionModel predictionModel, Player playerOne, Player playerTwo, MatchResult result) {
+    public HeadToHeadMatch(RandomGenerator randomGenerator, PredictionModel predictionModel, Player playerOne, Player playerTwo, MatchResult result) {
         super(randomGenerator, predictionModel, playerOne, playerTwo, result);
     }
 
     @Override
     public MatchResult playMatch() {
-        ResultProbabilities p = predictionModel.calculateGameResultProbabilities(opponentA, opponentB);
+        ResultPrediction p = predictionModel.calculatePrediction(opponentA, opponentB);
 
         int[] numsToGenerate = new int[] { 2, 1, 0};
-        double[] discreteProbabilities = new double[] { p.getExpectedWinWhite(), p.getExpectedDraw(), p.getExpectedWinBlack() };
+        double[] discreteProbabilities = new double[] { p.getExpectedWinPlayerOne(), p.getExpectedDraw(), p.getExpectedWinPlayerTwo() };
 
         // ensure non negative zeros (https://stackoverflow.com/questions/6724031/how-can-a-primitive-float-value-be-0-0-what-does-that-mean)
         discreteProbabilities = DoubleStream.of(discreteProbabilities).map(d -> Math.abs(d)).toArray();

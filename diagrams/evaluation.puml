@@ -1,0 +1,20 @@
+@startuml
+
+
+skinparam class {
+    FontColor black
+    BackgroundColor white
+    BorderColor grey
+    FontName Monospaced
+}
+
+class Evaluator {
+
+}
+
+class Evaluation {
+
+}
+
+
+@enduml

@@ -3,10 +3,12 @@ package at.hagenberg.master.montecarlo;
 import at.hagenberg.master.montecarlo.entities.*;
 import at.hagenberg.master.montecarlo.entities.enums.LineupStrategy;
 import at.hagenberg.master.montecarlo.exceptions.PgnParserException;
+import at.hagenberg.master.montecarlo.lineup.LineupSelector;
+import at.hagenberg.master.montecarlo.parser.PgnAnalysis;
 import at.hagenberg.master.montecarlo.simulation.*;
-import at.hagenberg.master.montecarlo.simulation.settings.ChessLeagueSettings;
-import at.hagenberg.master.montecarlo.simulation.ChessPredictionModel;
+import at.hagenberg.master.montecarlo.prediction.ChessPredictionModel;
 import at.hagenberg.master.montecarlo.simulation.settings.LeagueSettings;
+import at.hagenberg.master.montecarlo.util.EloRatingSystemUtil;
 import at.hagenberg.master.montecarlo.util.ResultsFileUtil;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
@@ -45,10 +47,12 @@ public class Main {
             predictionModel.setStatistics(analysis);
             analysis.fillGamesFromSeasonToSimulate(randomGenerator, predictionModel);
 
+            if(predictionModel.useRatingRegularization)
+                teamList = EloRatingSystemUtil.regularizePlayerRatingsForTeams(teamList, predictionModel.getAvgElo(), predictionModel.regularizeThreshold, predictionModel.regularizeFraction);
+
             ResultsFileUtil.writePlayerStats("player-stats", teamList);
 
-            ChessLeagueSettings settings = new ChessLeagueSettings(predictionModel, teamList, analysis.getRoundGameResults(),
-                    roundsPerSeason, roundsToSimulate, gamesPerMatch, lineupSelector);
+            LeagueSettings<Team> settings = new LeagueSettings(predictionModel, teamList, roundsPerSeason, lineupSelector, roundsToSimulate, analysis.getRoundGameResults());
             System.out.println(settings.toString());
 
             ChessLeagueSimulation simulation = new ChessLeagueSimulation(randomGenerator, settings);

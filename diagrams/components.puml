@@ -1,0 +1,42 @@
+@startuml
+
+skinparam component {
+    FontColor black
+    BackgroundColor white
+    BorderColor grey
+    FontName Monospaced
+}
+
+skinparam package {
+    FontColor black
+    BackgroundColor white
+    BorderColor grey
+    FontName Monospaced
+}
+
+package "League Simulation" {
+[Input Parser] -> [Settings]
+[Settings] -> [Simulation]
+[Simulation] -> [Evaluator]
+}
+
+skinparam component {
+    backgroundColor<<google>> Skyblue
+    FontColor<<google>> White
+}
+
+package "Parallel Monte Carlo" {
+
+[Cloud Storage] #Skyblue
+[Cloud Datastore] #Skyblue
+[Task Queue] #Skyblue
+
+[Web Frontend] --> [REST API]
+[Web Frontend] -> [Cloud Storage]
+[REST API] -> [Task Queue]
+[Task Queue] --> [Monte Carlo Backend]
+[Monte Carlo Backend] -> [Cloud Datastore]
+[League Simulation] <. [Monte Carlo Backend] : use
+}
+
+@enduml

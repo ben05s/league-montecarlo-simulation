@@ -1,6 +1,7 @@
 package at.hagenberg.master.montecarlo.util;
 
 import at.hagenberg.master.montecarlo.entities.*;
+import at.hagenberg.master.montecarlo.prediction.ChessPredictionModel;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -15,22 +16,23 @@ public class ResultsFileUtil {
         try {
             fw = new FileWriter("result/evaluation/" + filename + ".csv");
             bw = new BufferedWriter(fw);
-            bw.write("division,ratingSystem,useAdvWhite,useStrengthTrend,useStats,useRegularization,regularizeThreshold,regularizeFraction,winDrawFraction,statsFactor,strengthTrendFraction,advantageWhiteProbability,avgElo,pCorrect,RMSE,pCorrectWhite,pCorrectDraw,pCorrectBlack\n");
+            bw.write("division,ratingSystem,useHomeAdvantage,useStrengthTrend,usePlayerPerformances,useRatingRegularization,regularizeThreshold,regularizeFraction,winDrawFraction,statsFactor,strengthTrendFraction,advantageWhiteProbability,avgElo,pCorrect,RMSE,pCorrectWhite,pCorrectDraw,pCorrectBlack\n");
             for (int i = 0; i < evaluations.size(); i++) {
                 Evaluation e = evaluations.get(i);
+                ChessPredictionModel pm = (ChessPredictionModel) e.predictionModel;
                 bw.write("\"" + e.division + "\"" +
-                        ",\"" + e.predictionModel.ratingSystem + "\"" +
-                        "," + e.predictionModel.useAdvWhite +
-                        "," + e.predictionModel.useStrengthTrend +
-                        "," + e.predictionModel.useStats +
-                        "," + e.predictionModel.useRegularization +
-                        "," + e.predictionModel.regularizeThreshold +
-                        "," + e.predictionModel.regularizeFraction +
-                        "," + e.predictionModel.winDrawFraction +
-                        "," + e.predictionModel.statsFactor +
-                        "," + e.predictionModel.strengthTrendFraction +
-                        "," + String.format("%.4f",e.predictionModel.advWhiteProbability).replace(",", ".") +
-                        "," + String.format("%.4f",e.predictionModel.avgElo).replace(",", ".") +
+                        ",\"" + pm.ratingSystem + "\"" +
+                        "," + pm.useHomeAdvantage +
+                        "," + pm.useStrengthTrend +
+                        "," + pm.usePlayerPerformances +
+                        "," + pm.useRatingRegularization +
+                        "," + pm.regularizeThreshold +
+                        "," + pm.regularizeFraction +
+                        "," + pm.winDrawFraction +
+                        "," + pm.statsFactor +
+                        "," + pm.strengthTrendFraction +
+                        "," + String.format("%.4f",pm.advWhiteProbability).replace(",", ".") +
+                        "," + String.format("%.4f",pm.avgElo).replace(",", ".") +
                         "," + String.format("%.4f",e.pCorrect).replace(",", ".") +
                         "," + String.format("%.4f",e.rootMeanSquareError).replace(",", ".") +
                         "," + String.format("%.4f",e.pCorrectWhite).replace(",", ".") +

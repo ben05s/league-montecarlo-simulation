@@ -1,0 +1,119 @@
+@startuml
+
+skinparam class {
+    FontColor black
+    BackgroundColor white
+    BorderColor grey
+    FontName Monospaced
+}
+package "Prediction" {
+    interface PredictionModel {
+        +ResultPrediction calculatePrediction(Player one, Player two)
+    }
+
+    class ChessPredictionModel {
+        boolean useHomeAdvantage
+        boolean usePlayerPerformances
+        boolean useRatingRegularization
+    }
+
+    class ResultPrediction {
+        -double expectedWinPlayerOne
+        -double expectedDraw
+        -double expectedWinPlayerTwo
+    }
+    ResultPrediction <. PredictionModel : use
+    PredictionModel <|-- ChessPredictionModel
+}
+
+package "Simulation" {
+    abstract class LeagueSimulation<T extends Match> #white {
+        #RandomGenerator randomGenerator
+        #LeagueSettings settings
+        #List<T> matchList
+        +{abstract} List<T> initializeMatchList()
+        +{abstract} SimulationResult runSimulation()
+    }
+
+    class ChessLeagueSimulation {
+    }
+
+    class LeagueSettings<T extends Opponent> {
+        PredictionModel predictionModel
+        LineupSelector lineupSelector
+        List<T> opponentList
+        int roundsPerSeason
+        int roundsToSimulate
+        Map<Integer, List<HeadToHeadMatch>> rounds
+    }
+
+    abstract Match<T extends Opponent> {
+        #RandomGenerator randomGenerator
+        #PredictionModel predictionModel
+        #T opponentA
+        #T opponentB
+        #MatchResult matchPrediction
+        #MatchResult matchResult
+        +{abstract}MatchResult playMatch()
+    }
+
+    class HeadToHeadMatch {
+
+    }
+
+    class TeamMatch {
+        -LineupSelector lineupSelector
+        -List<HeadToHeadMatch> headToHeadMatches
+    }
+
+    abstract Opponent {
+        #String name
+    }
+
+    class Player {
+        -int eloRating
+    }
+
+    class Team {
+        -List<Player> playerList
+    }
+
+    class MatchResult {
+        -Opponent opponentA
+        -Opponent opponentB
+        -double scoreA
+        -double scoreB
+        -Opponent winner
+        +void addGame()
+    }
+
+    ChessLeagueSimulation --|> LeagueSimulation
+    Match <|-- TeamMatch
+    Match <|-- HeadToHeadMatch
+
+    MatchResult <. Match : use
+
+    Opponent <|- Player
+    Opponent <|-- Team
+
+    Match *- Opponent
+    LeagueSettings *-- Opponent
+    LeagueSimulation *-- Match
+
+    LeagueSimulation .> LeagueSettings : use
+}
+
+package "Lineup" {
+    abstract AbstractLineupSelector {
+        #int gamesPerMatch
+        #String optimizeLineupTeamName
+        #List<Player> alreadySelectedPlayers
+        +Player pickPlayerFromTeam()
+        #{abstract} Map<Player, Double> calculateLineupProbabilities()
+    }
+    AbstractLineupSelector <|-- AvoidStrongOpponentsSelection
+    ColorPerformanceSelection -|> AbstractLineupSelector
+    DescendingRatingSelection --|> AbstractLineupSelector
+    AbstractLineupSelector <|- RandomSelection
+}
+@enduml

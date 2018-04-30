@@ -1,11 +1,11 @@
 package at.hagenberg.master.montecarlo.simulation;
 
-import at.hagenberg.master.montecarlo.PgnAnalysis;
+import at.hagenberg.master.montecarlo.lineup.LineupSelector;
+import at.hagenberg.master.montecarlo.parser.PgnAnalysis;
 import at.hagenberg.master.montecarlo.entities.Player;
 import at.hagenberg.master.montecarlo.entities.Team;
 import at.hagenberg.master.montecarlo.entities.enums.LineupStrategy;
 import at.hagenberg.master.montecarlo.exceptions.PgnParserException;
-import at.hagenberg.master.montecarlo.simulation.settings.LeagueSettings;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
 import org.junit.Before;
@@ -60,11 +60,11 @@ public class ChessLineupOptimizerTest {
 
         // player at position 1
         Player player = new Player("Player 1");
-        player.setTeam(this.teamList.get(0));
+        player.setTeamName(team.getName());
         player.setElo(2000);
         player.setpLineUp(Arrays.asList(1.0, 0.0, 0.0, 0.0, 0.0, 0.0));
         team.addPlayer(player);
-        team.setLineup(analysis.transposeLineupProbabilities(team.getPlayerList()));
+        team.setLineup(analysis.transposeLineupProbabilities(team.getPlayerList(), gamesPerMatch));
 
         Player selectedPlayer = opt.pickPlayerFromTeam(this.randomGenerator, 0, team, this.teamList.get(1), true);
         assertSame(player, selectedPlayer);
@@ -79,21 +79,21 @@ public class ChessLineupOptimizerTest {
         Team opponentTeam = this.teamList.get(1);
         // strong opponent player at position 1
         Player strongOpponentPlayer = new Player("Strong Player");
-        strongOpponentPlayer.setTeam(opponentTeam);
+        strongOpponentPlayer.setTeamName(opponentTeam.getName());
         strongOpponentPlayer.setElo(2600);
         strongOpponentPlayer.setpLineUp(Arrays.asList(1.0, 0.0, 0.0, 0.0, 0.0, 0.0));
         opponentTeam.addPlayer(strongOpponentPlayer);
-        opponentTeam.setLineup(analysis.transposeLineupProbabilities(opponentTeam.getPlayerList()));
+        opponentTeam.setLineup(analysis.transposeLineupProbabilities(opponentTeam.getPlayerList(), gamesPerMatch));
 
 
         Team teamToOptimizeLineup = this.teamList.get(0);
         // my weak player
         Player myWeakPlayer = new Player("Weak Player");
-        myWeakPlayer.setTeam(teamToOptimizeLineup);
+        myWeakPlayer.setTeamName(teamToOptimizeLineup.getName());
         myWeakPlayer.setElo(500);
         myWeakPlayer.setpLineUp(Arrays.asList(0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
         teamToOptimizeLineup.addPlayer(myWeakPlayer);
-        teamToOptimizeLineup.setLineup(analysis.transposeLineupProbabilities(teamToOptimizeLineup.getPlayerList()));
+        teamToOptimizeLineup.setLineup(analysis.transposeLineupProbabilities(teamToOptimizeLineup.getPlayerList(), gamesPerMatch));
 
         opt = new LineupSelector(LineupStrategy.AVOID_STRONG_OPPONENTS, gamesPerMatch, teamToOptimizeLineup.getName());
 

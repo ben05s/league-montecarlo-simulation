@@ -3,7 +3,7 @@ package at.hagenberg.master.montecarlo.entities;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class SeasonResult extends AbstractMonteCarloResult {
+public class SeasonResult extends SimulationResult {
 
     private Map<String, SeasonScore> teamSeasonScoreMap = new HashMap<>();
     private List<MatchResult> matchResults = new ArrayList<>();

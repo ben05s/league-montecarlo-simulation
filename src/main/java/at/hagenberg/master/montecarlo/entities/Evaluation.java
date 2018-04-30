@@ -1,13 +1,13 @@
 package at.hagenberg.master.montecarlo.entities;
 
+import at.hagenberg.master.montecarlo.prediction.PredictionModel;
 import at.hagenberg.master.montecarlo.simulation.HeadToHeadMatch;
-import at.hagenberg.master.montecarlo.simulation.ChessPredictionModel;
 
 import java.util.List;
 
 public class Evaluation {
 
-    public ChessPredictionModel predictionModel;
+    public PredictionModel predictionModel;
     public List<HeadToHeadMatch> games;
     public String division;
     public double pCorrect;
@@ -16,7 +16,7 @@ public class Evaluation {
     public double pCorrectBlack;
     public double rootMeanSquareError;
 
-    public Evaluation(ChessPredictionModel pm, List<HeadToHeadMatch> games, String division) {
+    public Evaluation(PredictionModel pm, List<HeadToHeadMatch> games, String division) {
         this.predictionModel = pm;
         this.games = games;
         this.division = division;

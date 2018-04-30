@@ -1,0 +1,42 @@
+@startuml
+
+skinparam class {
+    FontColor black
+    BackgroundColor white
+    BorderColor grey
+    FontName Monospaced
+}
+
+package "Lineup" {
+    abstract AbstractLineupSelector {
+        #int gamesPerMatch
+        #String optimizeLineupTeamName
+        #List<Player> alreadySelectedPlayers
+
+        +Player pickPlayerFromTeam()
+        #{abstract} Map<Player, Double> calculateLineupProbabilities()
+    }
+
+    AbstractLineupSelector <|-- AvoidStrongOpponentsSelection
+    ColorPerformanceSelection -|> AbstractLineupSelector
+    DescendingRatingSelection --|> AbstractLineupSelector
+    AbstractLineupSelector <|- RandomSelection
+}
+
+package "OldSelection" {
+    class LineupSelector {
+        -int gamesPerMatch
+        -LineupStrategy
+        -String optimizeLineupTeamName
+        +{abstract}Player pickPlayerFromTeam()
+    }
+
+    enum LineupStrategy {
+        DESCENDING_RATING_STRENGTH
+        AVOID_STRONG_OPPONENTS
+        WHITE_BLACK_PERFORMANCE
+        RANDOM
+    }
+}
+
+@enduml
