@@ -1,7 +1,7 @@
-PlayerWhite,EloWhite,PlayerBlack,EloBlack,Result
-Graf Felix,2478,Wegener Olaf,2441,
-Spornberger Maximilian,2347,Jorczik Julian,2385,
-Weindl Alfred,2331,Gatterer Florian,2223,
-Spornberger Andre,2108,Dobosz Henryk,2389,
-Tuncer Ufuk,2332,Hengl Christian,2245,
-Jedinger Andreas,2105,Poettinger Harald,2212,
+PlayerWhite,EloWhite,PlayerBlack,EloBlack,Winner
+Graf Felix,2478,Wegener Olaf,2441,Wegener, Olaf
+Spornberger Maximilian,2347,Jorczik Julian,2385,Jorczik, Julian
+Weindl Alfred,2331,Gatterer Florian,2223,DRAW
+Spornberger Andre,2108,Dobosz Henryk,2389,DRAW
+Tuncer Ufuk,2332,Hengl Christian,2245,DRAW
+Jedinger Andreas,2105,Poettinger Harald,2212,Poettinger, Harald

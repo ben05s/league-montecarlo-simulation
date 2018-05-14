@@ -1,0 +1,48 @@
+@startuml
+
+skinparam activity {
+    FontColor black
+    BackgroundColor white
+    BorderColor grey
+    FontName Monospaced
+}
+skinparam activityDiamond {
+    FontColor black
+    BackgroundColor white
+    BorderColor grey
+    FontName Monospaced
+    FontSize 12
+}
+
+|Web API|
+start
+: Start Simulation;
+: Split Iterations;
+fork
+    :Iteration 1-5.000;
+    :Add Task to Queue;
+fork again
+    :Iteration 5.001-10.000;
+    :Add Task to Queue;
+end fork
+|#Skyblue|Task Queue|
+while (Task Queue?) is (not empty)
+    while (Backend Instance available?) is (no)
+        if(Running Instances?) then (<=12)
+        : Start new Instance;
+        else (>12)
+        endif
+    endwhile (yes)
+    :Push Task to Backend Instance;
+    |Monte Carlo Backend|
+    : Run League Simulation
+       5.000 Iterations;
+    : Save Results;
+    |Task Queue|
+    : Remove Task from Queue;
+endwhile (empty)
+|Web API|
+:Aggregate Results;
+:Save final Result;
+stop
+@enduml

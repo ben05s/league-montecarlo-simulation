@@ -44,7 +44,7 @@ public class ChessGamePredictorTest {
         final int gamesPerMatch = 6;
         final int roundsPerSeason = 11;
         final int roundsToSimulate = 2;
-        ChessPredictionModel predictionModel = new ChessPredictionModel(false, false, false, true);
+        ChessPredictionModel predictionModel = new ChessPredictionModel(true,false, false, false, true);
 
         PgnAnalysis analysis = new PgnAnalysis(seasonToSimulate, historicalSeasons, roundsPerSeason, gamesPerMatch);
         predictionModel.setStatistics(analysis);

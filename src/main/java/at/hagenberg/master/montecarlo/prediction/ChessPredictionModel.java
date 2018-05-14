@@ -8,9 +8,8 @@ import at.hagenberg.master.montecarlo.util.PgnUtil;
 
 public class ChessPredictionModel implements PredictionModel {
 
-    public RatingSystem ratingSystem = RatingSystem.ELO;
-
     /* Prediction Parameters */
+    public boolean useEloRating = false;
     public boolean useHomeAdvantage = false;
     public boolean useStrengthTrend = false;
     public boolean usePlayerPerformances = false;
@@ -32,11 +31,12 @@ public class ChessPredictionModel implements PredictionModel {
     public double pBlackWin;
 
     public ChessPredictionModel() {
-        this(false, false, false, false);
+        this(false, false, false, false, false);
     }
 
-    public ChessPredictionModel(boolean useAdvWhite, boolean useStrengthTrend, boolean useStats, boolean useRegularization) {
+    public ChessPredictionModel(boolean useEloRating, boolean useAdvWhite, boolean useStrengthTrend, boolean useStats, boolean useRegularization) {
         super();
+        this.useEloRating = useEloRating;
         this.useHomeAdvantage = useHomeAdvantage;
         this.useStrengthTrend = useStrengthTrend;
         this.usePlayerPerformances = usePlayerPerformances;
@@ -51,19 +51,20 @@ public class ChessPredictionModel implements PredictionModel {
 
         expectedWinWhite = this.calculateExpectedWinWhite(white, black);
         expectedWinBlack = this.calculateExpectedWinBlack(expectedWinWhite);
+
+        expectedWinWhite += this.calculateColorStrengthAsWhite(white);
+        expectedWinBlack += this.calculateColorStrengthAsBlack(black);
+
         expectedDraw = this.calculateExpectedDraw(white, black);
+
+        expectedDraw += this.calculateColorStrengthDraw(white, black);
 
         expectedWinWhite = this.incorporateDrawProbability(expectedWinWhite, expectedDraw);
         expectedWinBlack = this.incorporateDrawProbability(expectedWinBlack, expectedDraw);
 
-        expectedWinWhite = this.calculateAdvantageWhite(expectedWinWhite, expectedWinBlack);
-
+        //not used
         expectedWinWhite += this.calculateStrengthTrend(white);
         expectedWinBlack += this.calculateStrengthTrend(black);
-
-        expectedWinWhite += this.calculateStatsStrengthAsWhite(white);
-        expectedWinBlack += this.calculateStatsStrengthAsBlack(black);
-        expectedDraw += this.calculateStatsStrengthDraw(white, black);
 
         if(expectedWinWhite < 0) expectedWinWhite = 0.0;
         if(expectedWinBlack < 0) expectedWinBlack = 0.0;
@@ -73,7 +74,9 @@ public class ChessPredictionModel implements PredictionModel {
         return p;
     }
 
-    public double calculateExpectedWinWhite(Player white, Player black) {
+    private double calculateExpectedWinWhite(Player white, Player black) {
+        if(!useEloRating) return 1.0 / 3.0;
+
         int whiteElo = white.getElo();
         int blackElo = black.getElo();
 
@@ -85,10 +88,15 @@ public class ChessPredictionModel implements PredictionModel {
         double expectedWinWhite = 1/3;
         double exponent = (double) -(whiteElo - blackElo) / 400;
         expectedWinWhite = (1.0 / (1 + (Math.pow(10, exponent))));
+
+        expectedWinWhite = this.calculateAdvantageWhite(expectedWinWhite);
+
         return expectedWinWhite;
     }
 
-    public double calculateExpectedDraw(Player white, Player black) {
+    private double calculateExpectedDraw(Player white, Player black) {
+        if(!useEloRating) return 1.0 / 3.0;
+
         int whiteElo = white.getElo();
         int blackElo = black.getElo();
 
@@ -106,14 +114,14 @@ public class ChessPredictionModel implements PredictionModel {
         return expectedDraw;
     }
 
-    public double calculateAdvantageWhite(double expectedWinWhite, double expectedWinBlack) {
+    private double calculateAdvantageWhite(double expectedWinWhite) {
         if(this.useHomeAdvantage) {
-            expectedWinWhite = (this.advWhiteProbability * expectedWinWhite) / (this.advWhiteProbability * expectedWinWhite + (1-this.advWhiteProbability) * expectedWinBlack);
+            expectedWinWhite = (this.advWhiteProbability * expectedWinWhite) / (this.advWhiteProbability * expectedWinWhite + (1-this.advWhiteProbability) * (1-expectedWinWhite));
         }
         return expectedWinWhite;
     }
 
-    public double calculateStrengthTrend(Player player) {
+    private double calculateStrengthTrend(Player player) {
         double strength = 0.0;
         // TODO think about this how to incorporate strength trend together with regularization
         if(this.useStrengthTrend && !this.useRatingRegularization) {
@@ -124,7 +132,7 @@ public class ChessPredictionModel implements PredictionModel {
         return strength;
     }
 
-    public double calculateStatsStrengthAsWhite(Player player) {
+    private double calculateColorStrengthAsWhite(Player player) {
         double strength = 0.0;
         if(this.usePlayerPerformances) {
             strength = (player.getpWhiteWin() - player.getpWhiteLoss());
@@ -132,7 +140,7 @@ public class ChessPredictionModel implements PredictionModel {
         return strength * statsFactor;
     }
 
-    public double calculateStatsStrengthAsBlack(Player player) {
+    private double calculateColorStrengthAsBlack(Player player) {
         double strength = 0.0;
         if(this.usePlayerPerformances) {
             strength = (player.getpBlackWin() - player.getpBlackLoss());
@@ -140,7 +148,7 @@ public class ChessPredictionModel implements PredictionModel {
         return strength * statsFactor;
     }
 
-    public double calculateStatsStrengthDraw(Player white, Player black) {
+    private double calculateColorStrengthDraw(Player white, Player black) {
         double strength = 0.0;
         if(this.usePlayerPerformances) {
             if (white.getpWhiteDraw() > white.getpWhiteWin() && white.getpWhiteDraw() > white.getpWhiteLoss()) {
@@ -153,11 +161,13 @@ public class ChessPredictionModel implements PredictionModel {
         return strength * statsFactor;
     }
 
-    public double incorporateDrawProbability(double expectedWin, double expectedDraw) {
+    private double incorporateDrawProbability(double expectedWin, double expectedDraw) {
         return expectedWin - (expectedDraw / winDrawFraction);
     }
 
-    public double calculateExpectedWinBlack(double expectedWinWhite) {
+    private double calculateExpectedWinBlack(double expectedWinWhite) {
+        if(!useEloRating) return 1.0 / 3.0;
+
         return 1.0 - expectedWinWhite;
     }
 
@@ -172,7 +182,7 @@ public class ChessPredictionModel implements PredictionModel {
     @Override
     public String toString() {
         return "ChessPredictionModel{" +
-                "ratingSystem=" + ratingSystem +
+                "useEloRating=" + useEloRating +
                 ", useHomeAdvantage=" + useHomeAdvantage +
                 ", useStrengthTrend=" + useStrengthTrend +
                 ", usePlayerPerformances=" + usePlayerPerformances +

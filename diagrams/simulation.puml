@@ -12,9 +12,18 @@ package "Prediction" {
     }
 
     class ChessPredictionModel {
-        boolean useHomeAdvantage
-        boolean usePlayerPerformances
-        boolean useRatingRegularization
+        +boolean useEloRating
+        +boolean useHomeAdvantage
+        +boolean usePlayerPerformances
+        +boolean useRatingRegularization
+        -double calculateExpectedWinWhite(Player white, Player black)
+        -double calculateExpectedWinBlack(double expectedWinWhite)
+        -double calculateAdvantageWhite(double expectedWinWhite)
+        -double calculateColorStrengthAsWhite(Player player)
+        -double calculateColorStrengthAsBlack(Player player)
+        -double calculateExpectedDraw(Player white, Player black)
+        -double calculateColorStrengthDraw(Player white, Player black)
+        -double incorporateDrawProbability(double expectedWin, double expectedDraw)
     }
 
     class ResultPrediction {

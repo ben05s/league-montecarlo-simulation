@@ -112,57 +112,96 @@ public class Evaluator {
     public static List<ChessPredictionModel> permutatePredictionParameters(ChessPredictionModel predictionModel) {
         List<ChessPredictionModel> predictionModels = new ArrayList<>();
 
-        ChessPredictionModel pm1 = new ChessPredictionModel(false, false, false, false);
+        ChessPredictionModel pm01 = new ChessPredictionModel(false, false, false, false, false);
+        ChessPredictionModel pm02 = new ChessPredictionModel(false, true, false, false, false);
+        ChessPredictionModel pm03 = new ChessPredictionModel(false, false, true, false, false);
+        ChessPredictionModel pm04 = new ChessPredictionModel(false, false, false, true, false);
+        ChessPredictionModel pm05 = new ChessPredictionModel(false, false, false, false, true);
+
+
+        ChessPredictionModel pm06 = new ChessPredictionModel(false, true, true, false, false);
+        ChessPredictionModel pm07 = new ChessPredictionModel(false, true, false, true, false);
+        ChessPredictionModel pm08 = new ChessPredictionModel(false, true, false, false, true);
+        ChessPredictionModel pm09 = new ChessPredictionModel(false, false, true, true, false);
+        ChessPredictionModel pm010 = new ChessPredictionModel(false, false, true, false, true);
+        ChessPredictionModel pm011 = new ChessPredictionModel(false, false, false, true, true);
+
+        ChessPredictionModel pm012 = new ChessPredictionModel(false, true, true, true, false);
+        ChessPredictionModel pm013 = new ChessPredictionModel(false, true, true, false, true);
+        ChessPredictionModel pm014 = new ChessPredictionModel(false, true, false, true, true);
+        ChessPredictionModel pm015 = new ChessPredictionModel(false, false, true, true, true);
+
+        ChessPredictionModel pm016 = new ChessPredictionModel(false, true, true, true, true);
+
+
+
+        ChessPredictionModel pm1 = new ChessPredictionModel(true, false, false, false, false);
         // different draw fractions
-        ChessPredictionModel pm1_1 = new ChessPredictionModel(false, false, false, false);
+        ChessPredictionModel pm1_1 = new ChessPredictionModel(true, false, false, false, false);
         pm1_1.winDrawFraction = 4;
-        ChessPredictionModel pm1_2 = new ChessPredictionModel(false, false, false, false);
+        ChessPredictionModel pm1_2 = new ChessPredictionModel(true, false, false, false, false);
         pm1_2.winDrawFraction = 8;
-        ChessPredictionModel pm1_3 = new ChessPredictionModel(false, false, false, false);
+        ChessPredictionModel pm1_3 = new ChessPredictionModel(true, false, false, false, false);
         pm1_3.winDrawFraction = 1000;
 
-        ChessPredictionModel pm2 = new ChessPredictionModel(true, false, false, false);
+        ChessPredictionModel pm2 = new ChessPredictionModel(true, true, false, false, false);
         // different advantages for white
-        ChessPredictionModel pm2_1 = new ChessPredictionModel(true, false, false, false);
+        ChessPredictionModel pm2_1 = new ChessPredictionModel(true, true, false, false, false);
         pm2_1.advWhiteProbability = 0.54;
-        ChessPredictionModel pm2_2 = new ChessPredictionModel(true, false, false, false);
+        ChessPredictionModel pm2_2 = new ChessPredictionModel(true, true, false, false, false);
         pm2_2.advWhiteProbability = 0.55;
 
-        ChessPredictionModel pm3 = new ChessPredictionModel(false, true, false, false);
+        ChessPredictionModel pm3 = new ChessPredictionModel(true, false, true, false, false);
         // different influence of strength trend of a player
-        ChessPredictionModel pm3_1 = new ChessPredictionModel(false, true, false, false);
+        ChessPredictionModel pm3_1 = new ChessPredictionModel(true, false, true, false, false);
         pm3_1.strengthTrendFraction = 1000;
 
-        ChessPredictionModel pm4 = new ChessPredictionModel(false, false, true, false);
+        ChessPredictionModel pm4 = new ChessPredictionModel(true, false, false, true, false);
         // different influence of player stats for colors
-        ChessPredictionModel pm4_1 = new ChessPredictionModel(false, false, true, false);
+        ChessPredictionModel pm4_1 = new ChessPredictionModel(true, false, false, true, false);
         pm4_1.statsFactor = 2;
-        ChessPredictionModel pm4_2 = new ChessPredictionModel(false, false, true, false);
+        ChessPredictionModel pm4_2 = new ChessPredictionModel(true, false, false, true, false);
         pm4_2.statsFactor = 3;
 
-        ChessPredictionModel pm5 = new ChessPredictionModel(false, false, false, true);
+        ChessPredictionModel pm5 = new ChessPredictionModel(true, false, false, false, true);
         // different regularization influences
-        ChessPredictionModel pm5_1 = new ChessPredictionModel(false, false, false, true);
+        ChessPredictionModel pm5_1 = new ChessPredictionModel(true, false, false, false, true);
         pm5_1.regularizeThreshold = 11;
-        ChessPredictionModel pm5_2 = new ChessPredictionModel(false, false, false, true);
+        ChessPredictionModel pm5_2 = new ChessPredictionModel(true, false, false, false, true);
         pm5_2.regularizeThreshold = 33;
-        ChessPredictionModel pm5_3 = new ChessPredictionModel(false, false, false, true);
+        ChessPredictionModel pm5_3 = new ChessPredictionModel(true, false, false, false, true);
         pm5_3.regularizeFraction = 1;
-        ChessPredictionModel pm5_4 = new ChessPredictionModel(false, false, false, true);
+        ChessPredictionModel pm5_4 = new ChessPredictionModel(true, false, false, false, true);
         pm5_4.regularizeFraction = 3;
 
-        ChessPredictionModel pm6 = new ChessPredictionModel(true, true, false, false);
-        ChessPredictionModel pm7 = new ChessPredictionModel(true, false, true, false);
-        ChessPredictionModel pm8 = new ChessPredictionModel(true, false, false, true);
-        ChessPredictionModel pm9 = new ChessPredictionModel(false, true, true, false);
-        ChessPredictionModel pm10 = new ChessPredictionModel(false, true, false, true);
-        ChessPredictionModel pm11 = new ChessPredictionModel(false, false, true, true);
-        ChessPredictionModel pm12 = new ChessPredictionModel(true, true, true, false);
-        ChessPredictionModel pm13 = new ChessPredictionModel(true, false, true, true);
-        ChessPredictionModel pm14 = new ChessPredictionModel(true, true, false, true);
-        ChessPredictionModel pm15 = new ChessPredictionModel(false, true, true, true);
-        ChessPredictionModel pm16 = new ChessPredictionModel(true, true, true, true);
+        ChessPredictionModel pm6 = new ChessPredictionModel(true, true, true, false, false);
+        ChessPredictionModel pm7 = new ChessPredictionModel(true, true, false, true, false);
+        ChessPredictionModel pm8 = new ChessPredictionModel(true, true, false, false, true);
+        ChessPredictionModel pm9 = new ChessPredictionModel(true, false, true, true, false);
+        ChessPredictionModel pm10 = new ChessPredictionModel(true, false, true, false, true);
+        ChessPredictionModel pm11 = new ChessPredictionModel(true, false, false, true, true);
+        ChessPredictionModel pm12 = new ChessPredictionModel(true, true, true, true, false);
+        ChessPredictionModel pm13 = new ChessPredictionModel(true, true, false, true, true);
+        ChessPredictionModel pm14 = new ChessPredictionModel(true, true, true, false, true);
+        ChessPredictionModel pm15 = new ChessPredictionModel(true, false, true, true, true);
+        ChessPredictionModel pm16 = new ChessPredictionModel(true, true, true, true, true);
 
+        predictionModels.add(pm01);
+        predictionModels.add(pm02);
+        predictionModels.add(pm03);
+        predictionModels.add(pm04);
+        predictionModels.add(pm05);
+        predictionModels.add(pm06);
+        predictionModels.add(pm07);
+        predictionModels.add(pm08);
+        predictionModels.add(pm09);
+        predictionModels.add(pm010);
+        predictionModels.add(pm011);
+        predictionModels.add(pm012);
+        predictionModels.add(pm013);
+        predictionModels.add(pm014);
+        predictionModels.add(pm015);
+        predictionModels.add(pm016);
         predictionModels.add(pm1);
         predictionModels.add(pm1_1);
         predictionModels.add(pm1_2);

@@ -1,67 +1,67 @@
 TeamA,PointsTeamA,TeamB,PointsTeamB,Result
-Rochade Rum,3.5,Dornbirn,2.5,Rochade Rum
-Rochade Rum,2.5,Goetzis 2,3.5,Goetzis 2
-Rochade Rum,2.5,Hohenems II,3.5,Hohenems II
-Rochade Rum,2.0,Kufstein/Woergl,4.0,Kufstein/Woergl
-Rochade Rum,3.0,Schwarzach,3.0,Rochade Rum
-Rochade Rum,1.5,Zillertal,4.5,Zillertal
-Rochade Rum,1.5,SIR Bernhard 2,4.5,SIR Bernhard 2
-Rochade Rum,1.5,ASK Salzburg,4.5,ASK Salzburg
-Rochade Rum,4.0,Pradl,2.0,Rochade Rum
-Rochade Rum,1.5,Bregenz,4.5,Bregenz
-Rochade Rum,3.0,SPG Voels/HAK/HAS Innsbruck,3.0,SPG Voels/HAK/HAS Innsbruck
-Dornbirn,3.0,Goetzis 2,3.0,Dornbirn
-Dornbirn,2.5,Hohenems II,3.5,Hohenems II
-Dornbirn,3.5,Kufstein/Woergl,2.5,Dornbirn
-Dornbirn,1.0,Schwarzach,5.0,Schwarzach
-Dornbirn,3.5,Zillertal,2.5,Dornbirn
+Rochade Rum,4.0,Dornbirn,2.0,Rochade Rum
+Rochade Rum,2.0,Goetzis 2,4.0,Goetzis 2
+Rochade Rum,1.5,Hohenems II,4.5,Hohenems II
+Rochade Rum,4.0,Kufstein/Woergl,2.0,Rochade Rum
+Rochade Rum,0.5,Schwarzach,5.5,Schwarzach
+Rochade Rum,1.0,Zillertal,5.0,Zillertal
+Rochade Rum,3.0,SIR Bernhard 2,3.0,Rochade Rum
+Rochade Rum,2.5,ASK Salzburg,3.5,ASK Salzburg
+Rochade Rum,3.5,Pradl,2.5,Rochade Rum
+Rochade Rum,2.0,Bregenz,4.0,Bregenz
+Rochade Rum,0.0,SPG Voels/HAK/HAS Innsbruck,6.0,SPG Voels/HAK/HAS Innsbruck
+Dornbirn,3.5,Goetzis 2,2.5,Dornbirn
+Dornbirn,3.5,Hohenems II,2.5,Dornbirn
+Dornbirn,4.5,Kufstein/Woergl,1.5,Dornbirn
+Dornbirn,3.5,Schwarzach,2.5,Dornbirn
+Dornbirn,2.5,Zillertal,3.5,Zillertal
 Dornbirn,3.0,SIR Bernhard 2,3.0,Dornbirn
 Dornbirn,3.5,ASK Salzburg,2.5,Dornbirn
-Dornbirn,4.5,Pradl,1.5,Dornbirn
-Dornbirn,3.0,Bregenz,3.0,Dornbirn
-Dornbirn,2.0,SPG Voels/HAK/HAS Innsbruck,4.0,SPG Voels/HAK/HAS Innsbruck
-Goetzis 2,1.5,Hohenems II,4.5,Hohenems II
+Dornbirn,3.5,Pradl,2.5,Dornbirn
+Dornbirn,2.5,Bregenz,3.5,Bregenz
+Dornbirn,4.5,SPG Voels/HAK/HAS Innsbruck,1.5,Dornbirn
+Goetzis 2,2.0,Hohenems II,4.0,Hohenems II
 Goetzis 2,1.5,Kufstein/Woergl,4.5,Kufstein/Woergl
-Goetzis 2,2.5,Schwarzach,3.5,Schwarzach
-Goetzis 2,1.0,Zillertal,5.0,Zillertal
-Goetzis 2,1.5,SIR Bernhard 2,4.5,SIR Bernhard 2
-Goetzis 2,3.0,ASK Salzburg,3.0,Goetzis 2
+Goetzis 2,0.5,Schwarzach,5.5,Schwarzach
+Goetzis 2,0.5,Zillertal,5.5,Zillertal
+Goetzis 2,2.0,SIR Bernhard 2,4.0,SIR Bernhard 2
+Goetzis 2,2.5,ASK Salzburg,3.5,ASK Salzburg
 Goetzis 2,3.5,Pradl,2.5,Goetzis 2
-Goetzis 2,2.0,Bregenz,4.0,Bregenz
-Goetzis 2,3.5,SPG Voels/HAK/HAS Innsbruck,2.5,Goetzis 2
-Hohenems II,2.5,Kufstein/Woergl,3.5,Kufstein/Woergl
-Hohenems II,2.0,Schwarzach,4.0,Schwarzach
-Hohenems II,1.5,Zillertal,4.5,Zillertal
-Hohenems II,1.5,SIR Bernhard 2,4.5,SIR Bernhard 2
+Goetzis 2,1.5,Bregenz,4.5,Bregenz
+Goetzis 2,2.0,SPG Voels/HAK/HAS Innsbruck,4.0,SPG Voels/HAK/HAS Innsbruck
+Hohenems II,3.5,Kufstein/Woergl,2.5,Hohenems II
+Hohenems II,2.5,Schwarzach,3.5,Schwarzach
+Hohenems II,3.0,Zillertal,3.0,Zillertal
+Hohenems II,4.0,SIR Bernhard 2,2.0,Hohenems II
 Hohenems II,4.0,ASK Salzburg,2.0,Hohenems II
-Hohenems II,5.0,Pradl,1.0,Hohenems II
-Hohenems II,5.0,Bregenz,1.0,Hohenems II
+Hohenems II,5.5,Pradl,0.5,Hohenems II
+Hohenems II,3.0,Bregenz,3.0,Bregenz
 Hohenems II,3.5,SPG Voels/HAK/HAS Innsbruck,2.5,Hohenems II
-Kufstein/Woergl,2.0,Schwarzach,4.0,Schwarzach
-Kufstein/Woergl,2.0,Zillertal,4.0,Zillertal
+Kufstein/Woergl,2.5,Schwarzach,3.5,Schwarzach
+Kufstein/Woergl,1.5,Zillertal,4.5,Zillertal
 Kufstein/Woergl,2.0,SIR Bernhard 2,4.0,SIR Bernhard 2
-Kufstein/Woergl,2.0,ASK Salzburg,4.0,ASK Salzburg
-Kufstein/Woergl,4.0,Pradl,2.0,Kufstein/Woergl
-Kufstein/Woergl,2.5,Bregenz,3.5,Bregenz
-Kufstein/Woergl,3.0,SPG Voels/HAK/HAS Innsbruck,3.0,Draw
-Schwarzach,3.0,Zillertal,3.0,Zillertal
-Schwarzach,2.0,SIR Bernhard 2,4.0,SIR Bernhard 2
-Schwarzach,4.5,ASK Salzburg,1.5,Schwarzach
+Kufstein/Woergl,4.5,ASK Salzburg,1.5,Kufstein/Woergl
+Kufstein/Woergl,4.5,Pradl,1.5,Kufstein/Woergl
+Kufstein/Woergl,3.5,Bregenz,2.5,Kufstein/Woergl
+Kufstein/Woergl,2.0,SPG Voels/HAK/HAS Innsbruck,4.0,SPG Voels/HAK/HAS Innsbruck
+Schwarzach,5.0,Zillertal,1.0,Schwarzach
+Schwarzach,3.0,SIR Bernhard 2,3.0,Schwarzach
+Schwarzach,5.5,ASK Salzburg,0.5,Schwarzach
 Schwarzach,5.5,Pradl,0.5,Schwarzach
-Schwarzach,2.5,Bregenz,3.5,Bregenz
-Schwarzach,3.0,SPG Voels/HAK/HAS Innsbruck,3.0,SPG Voels/HAK/HAS Innsbruck
-Zillertal,2.0,SIR Bernhard 2,4.0,SIR Bernhard 2
-Zillertal,4.0,ASK Salzburg,2.0,Zillertal
-Zillertal,5.5,Pradl,0.5,Zillertal
-Zillertal,2.5,Bregenz,3.5,Bregenz
-Zillertal,2.5,SPG Voels/HAK/HAS Innsbruck,3.5,SPG Voels/HAK/HAS Innsbruck
-SIR Bernhard 2,5.0,ASK Salzburg,1.0,SIR Bernhard 2
-SIR Bernhard 2,5.5,Pradl,0.5,SIR Bernhard 2
-SIR Bernhard 2,2.0,Bregenz,4.0,Bregenz
-SIR Bernhard 2,4.5,SPG Voels/HAK/HAS Innsbruck,1.5,SIR Bernhard 2
-ASK Salzburg,4.0,Pradl,2.0,ASK Salzburg
-ASK Salzburg,2.5,Bregenz,3.5,Bregenz
-ASK Salzburg,4.5,SPG Voels/HAK/HAS Innsbruck,1.5,ASK Salzburg
-Pradl,0.0,Bregenz,6.0,Bregenz
-Pradl,3.5,SPG Voels/HAK/HAS Innsbruck,2.5,Pradl
-Bregenz,4.0,SPG Voels/HAK/HAS Innsbruck,2.0,Bregenz
+Schwarzach,3.5,Bregenz,2.5,Schwarzach
+Schwarzach,5.0,SPG Voels/HAK/HAS Innsbruck,1.0,Schwarzach
+Zillertal,4.0,SIR Bernhard 2,2.0,Zillertal
+Zillertal,3.5,ASK Salzburg,2.5,Zillertal
+Zillertal,5.0,Pradl,1.0,Zillertal
+Zillertal,3.5,Bregenz,2.5,Zillertal
+Zillertal,3.0,SPG Voels/HAK/HAS Innsbruck,3.0,Zillertal
+SIR Bernhard 2,4.0,ASK Salzburg,2.0,SIR Bernhard 2
+SIR Bernhard 2,6.0,Pradl,0.0,SIR Bernhard 2
+SIR Bernhard 2,4.0,Bregenz,2.0,SIR Bernhard 2
+SIR Bernhard 2,4.0,SPG Voels/HAK/HAS Innsbruck,2.0,SIR Bernhard 2
+ASK Salzburg,5.0,Pradl,1.0,ASK Salzburg
+ASK Salzburg,4.0,Bregenz,2.0,ASK Salzburg
+ASK Salzburg,1.5,SPG Voels/HAK/HAS Innsbruck,4.5,SPG Voels/HAK/HAS Innsbruck
+Pradl,2.5,Bregenz,3.5,Bregenz
+Pradl,1.0,SPG Voels/HAK/HAS Innsbruck,5.0,SPG Voels/HAK/HAS Innsbruck
+Bregenz,3.0,SPG Voels/HAK/HAS Innsbruck,3.0,SPG Voels/HAK/HAS Innsbruck

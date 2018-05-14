@@ -40,7 +40,7 @@ public class Main {
             final int roundsPerSeason = 11;
             final int roundsToSimulate = 11;
             LineupSelector lineupSelector = new LineupSelector(LineupStrategy.DESCENDING_RATING_STRENGTH, gamesPerMatch);
-            ChessPredictionModel predictionModel = new ChessPredictionModel(false, false, false, true);
+            ChessPredictionModel predictionModel = new ChessPredictionModel(true, false, false, false, true);
 
             PgnAnalysis analysis = new PgnAnalysis(seasonToSimulate, historicalSeasons, roundsPerSeason, gamesPerMatch);
             List<Team> teamList = analysis.getTeams();

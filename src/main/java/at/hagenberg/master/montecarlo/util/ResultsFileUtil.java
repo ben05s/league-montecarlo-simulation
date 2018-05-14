@@ -16,12 +16,12 @@ public class ResultsFileUtil {
         try {
             fw = new FileWriter("result/evaluation/" + filename + ".csv");
             bw = new BufferedWriter(fw);
-            bw.write("division,ratingSystem,useHomeAdvantage,useStrengthTrend,usePlayerPerformances,useRatingRegularization,regularizeThreshold,regularizeFraction,winDrawFraction,statsFactor,strengthTrendFraction,advantageWhiteProbability,avgElo,pCorrect,RMSE,pCorrectWhite,pCorrectDraw,pCorrectBlack\n");
+            bw.write("division,useEloRatingSystem,useHomeAdvantage,useStrengthTrend,usePlayerPerformances,useRatingRegularization,regularizeThreshold,regularizeFraction,winDrawFraction,statsFactor,strengthTrendFraction,advantageWhiteProbability,avgElo,pCorrect,RMSE,pCorrectWhite,pCorrectDraw,pCorrectBlack\n");
             for (int i = 0; i < evaluations.size(); i++) {
                 Evaluation e = evaluations.get(i);
                 ChessPredictionModel pm = (ChessPredictionModel) e.predictionModel;
                 bw.write("\"" + e.division + "\"" +
-                        ",\"" + pm.ratingSystem + "\"" +
+                        "," + pm.useEloRating +
                         "," + pm.useHomeAdvantage +
                         "," + pm.useStrengthTrend +
                         "," + pm.usePlayerPerformances +

@@ -17,7 +17,7 @@ skinparam package {
 package "League Simulation" {
 [Input Parser] -> [Settings]
 [Settings] -> [Simulation]
-[Simulation] -> [Evaluator]
+[Simulation] -> [Evaluation]
 }
 
 skinparam component {
@@ -31,9 +31,9 @@ package "Parallel Monte Carlo" {
 [Cloud Datastore] #Skyblue
 [Task Queue] #Skyblue
 
-[Web Frontend] --> [REST API]
-[Web Frontend] -> [Cloud Storage]
-[REST API] -> [Task Queue]
+[Web Application] --> [Web API]
+[Web Application] -> [Cloud Storage]
+[Web API] -> [Task Queue]
 [Task Queue] --> [Monte Carlo Backend]
 [Monte Carlo Backend] -> [Cloud Datastore]
 [League Simulation] <. [Monte Carlo Backend] : use
