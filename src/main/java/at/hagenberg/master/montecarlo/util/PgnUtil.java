@@ -20,7 +20,7 @@ public class PgnUtil {
     }
 
     public static boolean isInvalidGame(Game game) {
-        return game.getWhite().isEmpty() || game.getWhiteElo().isEmpty() || game.getBlack().isEmpty() || game.getBlackElo().isEmpty() || isResult(game, "*");
+        return game.getWhite().isEmpty() || game.getWhiteElo().isEmpty() || game.getWhiteElo().equals("0") || game.getBlack().isEmpty() || game.getBlackElo().isEmpty() || game.getBlackElo().equals("0") || isResult(game, "*");
     }
 
     public static boolean isPlaying(Game game, Player player) {

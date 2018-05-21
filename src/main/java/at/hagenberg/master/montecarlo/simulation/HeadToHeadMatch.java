@@ -24,6 +24,9 @@ public class HeadToHeadMatch extends Match<Player> {
 
     @Override
     public MatchResult playMatch() {
+        if(opponentA.getElo() == 0 || opponentB.getElo() == 0) {
+            System.out.println();
+        }
         ResultPrediction p = predictionModel.calculatePrediction(opponentA, opponentB);
 
         int[] numsToGenerate = new int[] { 2, 1, 0};
@@ -31,7 +34,9 @@ public class HeadToHeadMatch extends Match<Player> {
 
         // ensure non negative zeros (https://stackoverflow.com/questions/6724031/how-can-a-primitive-float-value-be-0-0-what-does-that-mean)
         discreteProbabilities = DoubleStream.of(discreteProbabilities).map(d -> Math.abs(d)).toArray();
-
+        if(p.getExpectedWinPlayerOne() == 0 && p.getExpectedDraw() == 0 && p.getExpectedWinPlayerTwo() == 0) {
+            System.out.println();
+        }
         EnumeratedIntegerDistribution distribution = new EnumeratedIntegerDistribution(randomGenerator, numsToGenerate, discreteProbabilities);
         int[] samples = distribution.sample(NUMBER_OF_SAMPLES);
 

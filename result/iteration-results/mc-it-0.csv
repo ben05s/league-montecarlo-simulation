@@ -1,67 +1,67 @@
 TeamA,PointsTeamA,TeamB,PointsTeamB,Result
-Rochade Rum,4.0,Dornbirn,2.0,Rochade Rum
-Rochade Rum,2.0,Goetzis 2,4.0,Goetzis 2
-Rochade Rum,1.5,Hohenems II,4.5,Hohenems II
-Rochade Rum,4.0,Kufstein/Woergl,2.0,Rochade Rum
-Rochade Rum,0.5,Schwarzach,5.5,Schwarzach
-Rochade Rum,1.0,Zillertal,5.0,Zillertal
-Rochade Rum,3.0,SIR Bernhard 2,3.0,Rochade Rum
-Rochade Rum,2.5,ASK Salzburg,3.5,ASK Salzburg
-Rochade Rum,3.5,Pradl,2.5,Rochade Rum
-Rochade Rum,2.0,Bregenz,4.0,Bregenz
-Rochade Rum,0.0,SPG Voels/HAK/HAS Innsbruck,6.0,SPG Voels/HAK/HAS Innsbruck
-Dornbirn,3.5,Goetzis 2,2.5,Dornbirn
-Dornbirn,3.5,Hohenems II,2.5,Dornbirn
-Dornbirn,4.5,Kufstein/Woergl,1.5,Dornbirn
-Dornbirn,3.5,Schwarzach,2.5,Dornbirn
-Dornbirn,2.5,Zillertal,3.5,Zillertal
-Dornbirn,3.0,SIR Bernhard 2,3.0,Dornbirn
-Dornbirn,3.5,ASK Salzburg,2.5,Dornbirn
-Dornbirn,3.5,Pradl,2.5,Dornbirn
-Dornbirn,2.5,Bregenz,3.5,Bregenz
-Dornbirn,4.5,SPG Voels/HAK/HAS Innsbruck,1.5,Dornbirn
-Goetzis 2,2.0,Hohenems II,4.0,Hohenems II
-Goetzis 2,1.5,Kufstein/Woergl,4.5,Kufstein/Woergl
-Goetzis 2,0.5,Schwarzach,5.5,Schwarzach
-Goetzis 2,0.5,Zillertal,5.5,Zillertal
-Goetzis 2,2.0,SIR Bernhard 2,4.0,SIR Bernhard 2
-Goetzis 2,2.5,ASK Salzburg,3.5,ASK Salzburg
-Goetzis 2,3.5,Pradl,2.5,Goetzis 2
-Goetzis 2,1.5,Bregenz,4.5,Bregenz
-Goetzis 2,2.0,SPG Voels/HAK/HAS Innsbruck,4.0,SPG Voels/HAK/HAS Innsbruck
-Hohenems II,3.5,Kufstein/Woergl,2.5,Hohenems II
-Hohenems II,2.5,Schwarzach,3.5,Schwarzach
-Hohenems II,3.0,Zillertal,3.0,Zillertal
-Hohenems II,4.0,SIR Bernhard 2,2.0,Hohenems II
-Hohenems II,4.0,ASK Salzburg,2.0,Hohenems II
-Hohenems II,5.5,Pradl,0.5,Hohenems II
-Hohenems II,3.0,Bregenz,3.0,Bregenz
-Hohenems II,3.5,SPG Voels/HAK/HAS Innsbruck,2.5,Hohenems II
-Kufstein/Woergl,2.5,Schwarzach,3.5,Schwarzach
-Kufstein/Woergl,1.5,Zillertal,4.5,Zillertal
-Kufstein/Woergl,2.0,SIR Bernhard 2,4.0,SIR Bernhard 2
-Kufstein/Woergl,4.5,ASK Salzburg,1.5,Kufstein/Woergl
-Kufstein/Woergl,4.5,Pradl,1.5,Kufstein/Woergl
-Kufstein/Woergl,3.5,Bregenz,2.5,Kufstein/Woergl
-Kufstein/Woergl,2.0,SPG Voels/HAK/HAS Innsbruck,4.0,SPG Voels/HAK/HAS Innsbruck
-Schwarzach,5.0,Zillertal,1.0,Schwarzach
-Schwarzach,3.0,SIR Bernhard 2,3.0,Schwarzach
-Schwarzach,5.5,ASK Salzburg,0.5,Schwarzach
-Schwarzach,5.5,Pradl,0.5,Schwarzach
-Schwarzach,3.5,Bregenz,2.5,Schwarzach
-Schwarzach,5.0,SPG Voels/HAK/HAS Innsbruck,1.0,Schwarzach
-Zillertal,4.0,SIR Bernhard 2,2.0,Zillertal
-Zillertal,3.5,ASK Salzburg,2.5,Zillertal
-Zillertal,5.0,Pradl,1.0,Zillertal
-Zillertal,3.5,Bregenz,2.5,Zillertal
-Zillertal,3.0,SPG Voels/HAK/HAS Innsbruck,3.0,Zillertal
-SIR Bernhard 2,4.0,ASK Salzburg,2.0,SIR Bernhard 2
-SIR Bernhard 2,6.0,Pradl,0.0,SIR Bernhard 2
-SIR Bernhard 2,4.0,Bregenz,2.0,SIR Bernhard 2
-SIR Bernhard 2,4.0,SPG Voels/HAK/HAS Innsbruck,2.0,SIR Bernhard 2
-ASK Salzburg,5.0,Pradl,1.0,ASK Salzburg
-ASK Salzburg,4.0,Bregenz,2.0,ASK Salzburg
-ASK Salzburg,1.5,SPG Voels/HAK/HAS Innsbruck,4.5,SPG Voels/HAK/HAS Innsbruck
-Pradl,2.5,Bregenz,3.5,Bregenz
-Pradl,1.0,SPG Voels/HAK/HAS Innsbruck,5.0,SPG Voels/HAK/HAS Innsbruck
-Bregenz,3.0,SPG Voels/HAK/HAS Innsbruck,3.0,SPG Voels/HAK/HAS Innsbruck
+RbEJ Gleisdorf,3.5,Union Styria Graz,2.5,RbEJ Gleisdorf
+RbEJ Gleisdorf,3.0,Union Hartkirchen - Sektion Schach,3.0,Draw
+RbEJ Gleisdorf,3.0,Spg. Sauwald,3.0,Draw
+RbEJ Gleisdorf,4.0,Strassenbahn Graz,2.0,RbEJ Gleisdorf
+RbEJ Gleisdorf,3.5,ASK St. Valentin,2.5,RbEJ Gleisdorf
+RbEJ Gleisdorf,3.0,Union Ansfelden,3.0,Draw
+RbEJ Gleisdorf,1.5,SV Steyregg,4.5,SV Steyregg
+RbEJ Gleisdorf,2.5,Spg.Sparkasse Fuerstenfeld/Hartberg,3.5,Spg.Sparkasse Fuerstenfeld/Hartberg
+RbEJ Gleisdorf,2.0,SC MPOE Maria Saal II,4.0,SC MPOE Maria Saal II
+RbEJ Gleisdorf,4.0,SC Die Klagenfurter,2.0,RbEJ Gleisdorf
+RbEJ Gleisdorf,2.0,Schachfreunde Graz,4.0,Schachfreunde Graz
+Union Styria Graz,4.5,Union Hartkirchen - Sektion Schach,1.5,Union Styria Graz
+Union Styria Graz,4.0,Spg. Sauwald,2.0,Union Styria Graz
+Union Styria Graz,5.5,Strassenbahn Graz,0.5,Union Styria Graz
+Union Styria Graz,3.0,ASK St. Valentin,3.0,Draw
+Union Styria Graz,4.0,Union Ansfelden,2.0,Union Styria Graz
+Union Styria Graz,1.0,SV Steyregg,5.0,SV Steyregg
+Union Styria Graz,3.0,Spg.Sparkasse Fuerstenfeld/Hartberg,3.0,Draw
+Union Styria Graz,3.0,SC MPOE Maria Saal II,3.0,Draw
+Union Styria Graz,2.5,SC Die Klagenfurter,3.5,SC Die Klagenfurter
+Union Styria Graz,4.0,Schachfreunde Graz,2.0,Union Styria Graz
+Union Hartkirchen - Sektion Schach,2.0,Spg. Sauwald,4.0,Spg. Sauwald
+Union Hartkirchen - Sektion Schach,3.0,Strassenbahn Graz,3.0,Draw
+Union Hartkirchen - Sektion Schach,1.5,ASK St. Valentin,4.5,ASK St. Valentin
+Union Hartkirchen - Sektion Schach,1.0,Union Ansfelden,5.0,Union Ansfelden
+Union Hartkirchen - Sektion Schach,2.0,SV Steyregg,4.0,SV Steyregg
+Union Hartkirchen - Sektion Schach,2.0,Spg.Sparkasse Fuerstenfeld/Hartberg,4.0,Spg.Sparkasse Fuerstenfeld/Hartberg
+Union Hartkirchen - Sektion Schach,2.0,SC MPOE Maria Saal II,4.0,SC MPOE Maria Saal II
+Union Hartkirchen - Sektion Schach,2.5,SC Die Klagenfurter,3.5,SC Die Klagenfurter
+Union Hartkirchen - Sektion Schach,3.0,Schachfreunde Graz,3.0,Draw
+Spg. Sauwald,4.5,Strassenbahn Graz,1.5,Spg. Sauwald
+Spg. Sauwald,3.0,ASK St. Valentin,3.0,Draw
+Spg. Sauwald,4.0,Union Ansfelden,2.0,Spg. Sauwald
+Spg. Sauwald,3.5,SV Steyregg,2.5,Spg. Sauwald
+Spg. Sauwald,4.0,Spg.Sparkasse Fuerstenfeld/Hartberg,2.0,Spg. Sauwald
+Spg. Sauwald,3.0,SC MPOE Maria Saal II,3.0,Draw
+Spg. Sauwald,2.5,SC Die Klagenfurter,3.5,SC Die Klagenfurter
+Spg. Sauwald,2.5,Schachfreunde Graz,3.5,Schachfreunde Graz
+Strassenbahn Graz,2.0,ASK St. Valentin,4.0,ASK St. Valentin
+Strassenbahn Graz,2.0,Union Ansfelden,4.0,Union Ansfelden
+Strassenbahn Graz,0.5,SV Steyregg,5.5,SV Steyregg
+Strassenbahn Graz,0.0,Spg.Sparkasse Fuerstenfeld/Hartberg,6.0,Spg.Sparkasse Fuerstenfeld/Hartberg
+Strassenbahn Graz,1.0,SC MPOE Maria Saal II,5.0,SC MPOE Maria Saal II
+Strassenbahn Graz,3.5,SC Die Klagenfurter,2.5,Strassenbahn Graz
+Strassenbahn Graz,2.0,Schachfreunde Graz,4.0,Schachfreunde Graz
+ASK St. Valentin,1.5,Union Ansfelden,4.5,Union Ansfelden
+ASK St. Valentin,2.5,SV Steyregg,3.5,SV Steyregg
+ASK St. Valentin,2.0,Spg.Sparkasse Fuerstenfeld/Hartberg,4.0,Spg.Sparkasse Fuerstenfeld/Hartberg
+ASK St. Valentin,4.0,SC MPOE Maria Saal II,2.0,ASK St. Valentin
+ASK St. Valentin,4.0,SC Die Klagenfurter,2.0,ASK St. Valentin
+ASK St. Valentin,2.5,Schachfreunde Graz,3.5,Schachfreunde Graz
+Union Ansfelden,2.5,SV Steyregg,3.5,SV Steyregg
+Union Ansfelden,1.5,Spg.Sparkasse Fuerstenfeld/Hartberg,4.5,Spg.Sparkasse Fuerstenfeld/Hartberg
+Union Ansfelden,4.5,SC MPOE Maria Saal II,1.5,Union Ansfelden
+Union Ansfelden,4.0,SC Die Klagenfurter,2.0,Union Ansfelden
+Union Ansfelden,2.0,Schachfreunde Graz,4.0,Schachfreunde Graz
+SV Steyregg,2.5,Spg.Sparkasse Fuerstenfeld/Hartberg,3.5,Spg.Sparkasse Fuerstenfeld/Hartberg
+SV Steyregg,2.0,SC MPOE Maria Saal II,4.0,SC MPOE Maria Saal II
+SV Steyregg,3.0,SC Die Klagenfurter,3.0,Draw
+SV Steyregg,5.0,Schachfreunde Graz,1.0,SV Steyregg
+Spg.Sparkasse Fuerstenfeld/Hartberg,2.5,SC MPOE Maria Saal II,3.5,SC MPOE Maria Saal II
+Spg.Sparkasse Fuerstenfeld/Hartberg,3.5,SC Die Klagenfurter,2.5,Spg.Sparkasse Fuerstenfeld/Hartberg
+Spg.Sparkasse Fuerstenfeld/Hartberg,3.5,Schachfreunde Graz,2.5,Spg.Sparkasse Fuerstenfeld/Hartberg
+SC MPOE Maria Saal II,4.0,SC Die Klagenfurter,2.0,SC MPOE Maria Saal II
+SC MPOE Maria Saal II,4.5,Schachfreunde Graz,1.5,SC MPOE Maria Saal II
+SC Die Klagenfurter,2.5,Schachfreunde Graz,3.5,Schachfreunde Graz

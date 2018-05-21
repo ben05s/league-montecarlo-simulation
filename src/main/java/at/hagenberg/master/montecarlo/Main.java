@@ -13,16 +13,18 @@ import at.hagenberg.master.montecarlo.util.ResultsFileUtil;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
 
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class Main {
 
     public static void main(String[] args) {
-        String division = "west";
         // Note: All historical seasons must be complete (all games for all 11 rounds must be present)
         // as the statistical analysis of player performance and probable lineups assumes 11 rounds have been played
-        String seasonToSimulate = "games/" + division + "/1516autcht" + division + ".pgn";
-        List<String> historicalSeasons = Arrays.asList(("games/" + division + "/0607autcht" + division + ".pgn," +
+        //String seasonToSimulate = "games/" + division + "/1516autcht" + division + ".pgn";
+        /*List<String> historicalSeasons = Arrays.asList(("games/" + division + "/0607autcht" + division + ".pgn," +
                 "games/" + division + "/0708autcht" + division + ".pgn," +
                 "games/" + division + "/0809autcht" + division + ".pgn," +
                 "games/" + division + "/0910autcht" + division + ".pgn," +
@@ -31,10 +33,14 @@ public class Main {
                 "games/" + division + "/1213autcht" + division + ".pgn," +
                 "games/" + division + "/1314autcht" + division + ".pgn," +
                 "games/" + division + "/1415autcht" + division + ".pgn")
-                .split(","));
+                .split(",")); */
         SeasonResult result = new SeasonResult();
         try {
-            // TODO MAJOR verify one season without simulation if results are processed correctly
+            String division = "mitte";
+            String file = "1415autcht" + division + ".pgn";
+            String seasonToSimulate = new String(Files.readAllBytes(Paths.get("games/" + division + "/" + file)));
+            String historicalSeasons = new String(Files.readAllBytes(Paths.get("games/" + division + "/historicData" + file)));
+
             RandomGenerator randomGenerator = new Well19937c();
             final int gamesPerMatch = 6;
             final int roundsPerSeason = 11;

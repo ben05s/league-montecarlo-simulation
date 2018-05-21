@@ -34,13 +34,26 @@ public class ChessPredictionModel implements PredictionModel {
         this(false, false, false, false, false);
     }
 
+    public ChessPredictionModel(ChessPredictionModel pm) {
+        this.useEloRating = pm.useEloRating;
+        this.useHomeAdvantage = pm.useHomeAdvantage;
+        this.useStrengthTrend = pm.useStrengthTrend;
+        this.usePlayerPerformances = pm.usePlayerPerformances;
+        this.useRatingRegularization = pm.useRatingRegularization;
+        this.regularizeThreshold = pm.regularizeThreshold;
+        this.regularizeFraction = pm.regularizeFraction;
+        this.winDrawFraction = pm.winDrawFraction;
+        this.statsFactor = pm.statsFactor;
+        this.strengthTrendFraction = pm.strengthTrendFraction;
+    }
+
     public ChessPredictionModel(boolean useEloRating, boolean useAdvWhite, boolean useStrengthTrend, boolean useStats, boolean useRegularization) {
         super();
         this.useEloRating = useEloRating;
-        this.useHomeAdvantage = useHomeAdvantage;
+        this.useHomeAdvantage = useAdvWhite;
         this.useStrengthTrend = useStrengthTrend;
-        this.usePlayerPerformances = usePlayerPerformances;
-        this.useRatingRegularization = useRatingRegularization;
+        this.usePlayerPerformances = useStats;
+        this.useRatingRegularization = useRegularization;
     }
 
     @Override
@@ -75,7 +88,7 @@ public class ChessPredictionModel implements PredictionModel {
     }
 
     private double calculateExpectedWinWhite(Player white, Player black) {
-        if(!useEloRating) return 1.0 / 3.0;
+        if(!useEloRating) return 1.0 / 2.0;
 
         int whiteElo = white.getElo();
         int blackElo = black.getElo();
@@ -166,13 +179,13 @@ public class ChessPredictionModel implements PredictionModel {
     }
 
     private double calculateExpectedWinBlack(double expectedWinWhite) {
-        if(!useEloRating) return 1.0 / 3.0;
+        if(!useEloRating) return 1.0 / 2.0;
 
         return 1.0 - expectedWinWhite;
     }
 
     public void setStatistics(PgnAnalysis analysis) {
-        advWhiteProbability = analysis.calculateWhiteAdvantage();
+        if(advWhiteProbability == 0.0) advWhiteProbability = analysis.calculateWhiteAdvantage();
         avgElo = EloRatingSystemUtil.calculateAverageElo(analysis.getTeams());
         pWhiteWin = analysis.calculateOverallProbability(PgnUtil.WHITE_WINS);
         pDraw = analysis.calculateOverallProbability(PgnUtil.DRAW);

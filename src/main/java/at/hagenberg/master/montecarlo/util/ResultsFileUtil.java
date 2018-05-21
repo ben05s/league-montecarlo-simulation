@@ -16,29 +16,10 @@ public class ResultsFileUtil {
         try {
             fw = new FileWriter("result/evaluation/" + filename + ".csv");
             bw = new BufferedWriter(fw);
-            bw.write("division,useEloRatingSystem,useHomeAdvantage,useStrengthTrend,usePlayerPerformances,useRatingRegularization,regularizeThreshold,regularizeFraction,winDrawFraction,statsFactor,strengthTrendFraction,advantageWhiteProbability,avgElo,pCorrect,RMSE,pCorrectWhite,pCorrectDraw,pCorrectBlack\n");
+            bw.write("useEloRatingSystem;useHomeAdvantage;useStrengthTrend;usePlayerPerformances;useRatingRegularization;regularizeThreshold;regularizeFraction;winDrawFraction;statsFactor;strengthTrendFraction;advWhite;avgElo;pCorrect;RMSE;pCorrectWhite;pCorrectDraw;pCorrectBlack;games\n");
             for (int i = 0; i < evaluations.size(); i++) {
                 Evaluation e = evaluations.get(i);
-                ChessPredictionModel pm = (ChessPredictionModel) e.predictionModel;
-                bw.write("\"" + e.division + "\"" +
-                        "," + pm.useEloRating +
-                        "," + pm.useHomeAdvantage +
-                        "," + pm.useStrengthTrend +
-                        "," + pm.usePlayerPerformances +
-                        "," + pm.useRatingRegularization +
-                        "," + pm.regularizeThreshold +
-                        "," + pm.regularizeFraction +
-                        "," + pm.winDrawFraction +
-                        "," + pm.statsFactor +
-                        "," + pm.strengthTrendFraction +
-                        "," + String.format("%.4f",pm.advWhiteProbability).replace(",", ".") +
-                        "," + String.format("%.4f",pm.avgElo).replace(",", ".") +
-                        "," + String.format("%.4f",e.pCorrect).replace(",", ".") +
-                        "," + String.format("%.4f",e.rootMeanSquareError).replace(",", ".") +
-                        "," + String.format("%.4f",e.pCorrectWhite).replace(",", ".") +
-                        "," + String.format("%.4f",e.pCorrectDraw).replace(",", ".") +
-                        "," + String.format("%.4f",e.pCorrectBlack).replace(",", ".") + "\n"
-                );
+                bw.write(e.print());
             }
         } catch (IOException e) {
             e.printStackTrace();

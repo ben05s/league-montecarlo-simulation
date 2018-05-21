@@ -74,6 +74,8 @@ public class MatchResult {
     private void determineWinner() {
         if(this.scoreA != this.scoreB) {
             this.winner = this.scoreA > this.scoreB ? opponentA : opponentB;
+        } else {
+            this.winner = null;
         }
     }
 

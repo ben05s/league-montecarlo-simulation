@@ -36,20 +36,12 @@ public class PgnAnalysis {
     public PgnAnalysis(String fileContentSeasonToSimulate, String fileContentHistoricalSeasons, final int roundsPerSeason, final int gamesPerMatch) throws PgnParserException {
         this.roundsPerSeason = roundsPerSeason;
         this.gamesPerMatch = gamesPerMatch;
+
         Objects.requireNonNull(fileContentSeasonToSimulate);
-
-        PGNParser parser = new PGNParser(Level.ALL);
-
-        Games games = parser.parseFile(new StringReader(fileContentSeasonToSimulate));
-        if(games == null || games.getGame().isEmpty())
-            throw new PgnParserException("no games found in pgn file for season to simulate");
-        this.seasonToSimulateGames = games.getGame();
+        this.seasonToSimulateGames = getGames(fileContentSeasonToSimulate);
 
         if(fileContentHistoricalSeasons != null && !fileContentHistoricalSeasons.isEmpty()) {
-            Games tmpGames = parser.parseFile(new StringReader(fileContentHistoricalSeasons));
-            // remove incomplete games (game without result)
-            tmpGames.getGame().removeIf(game -> PgnUtil.isInvalidGame(game));
-            this.historicalGames.addAll(tmpGames.getGame());
+            this.historicalGames.addAll(getGames(fileContentHistoricalSeasons));
         }
 
         this.historicalGames.forEach(game -> {
@@ -59,33 +51,17 @@ public class PgnAnalysis {
             this.historicalGamesPerSeason.put(game.getEvent(), gamesOfSeason);
         });
 
-        processPgnFromSeasonToSimulate(games.getGame());
+        processPgnFromSeasonToSimulate(this.seasonToSimulateGames);
     }
 
-    public PgnAnalysis(String fileSeasonToSimulate, List<String> fileHistoricalSeasons, final int roundsPerSeason, final int gamesPerMatch) throws PgnParserException {
-        this.roundsPerSeason = roundsPerSeason;
-        this.gamesPerMatch = gamesPerMatch;
-        Objects.requireNonNull(fileSeasonToSimulate);
-        Objects.requireNonNull(fileHistoricalSeasons);
-
+    private List<Game> getGames(String fileContent) throws PgnParserException {
         PGNParser parser = new PGNParser(Level.ALL);
-
-        // TODO MINOR: count rounds per season and games per match from seasonToSimulate and set variables in MonteCarloSettings
-        Games games = parser.parseFile(fileSeasonToSimulate);
+        Games games = parser.parseFile(new StringReader(fileContent));
         if(games == null || games.getGame().isEmpty())
             throw new PgnParserException("no games found in pgn file for season to simulate");
-        this.seasonToSimulateGames = games.getGame();
-
-        fileHistoricalSeasons.forEach(season -> {
-            Games tmpGames = parser.parseFile(season);
-            // remove incomplete games (game without result)
-            tmpGames.getGame().removeIf(game -> PgnUtil.isInvalidGame(game));
-            this.historicalGames.addAll(tmpGames.getGame());
-            this.historicalGamesPerSeason.put(season, tmpGames.getGame());
-        });
-
-        processPgnFromSeasonToSimulate(games.getGame());
-
+        // remove incomplete games (game without result)
+        games.getGame().removeIf(game -> PgnUtil.isInvalidGame(game));
+        return games.getGame();
     }
 
     public void fillGamesFromSeasonToSimulate(RandomGenerator randomGenerator, PredictionModel predictionModel) throws PgnParserException {

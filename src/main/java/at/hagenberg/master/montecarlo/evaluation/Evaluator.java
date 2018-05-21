@@ -11,17 +11,18 @@ import at.hagenberg.master.montecarlo.simulation.settings.LeagueSettings;
 import org.apache.commons.math3.random.RandomGenerator;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Evaluator {
 
-    private String division;
     private RandomGenerator randomGenerator;
     private LeagueSettings settings;
     private List<HeadToHeadMatch> headToHeadMatches;
 
-    public Evaluator(String division, RandomGenerator randomGenerator, LeagueSettings settings, List<HeadToHeadMatch> headToHeadMatches) {
-        this.division = division;
+    public Evaluator(RandomGenerator randomGenerator, LeagueSettings settings, List<HeadToHeadMatch> headToHeadMatches) {
         this.randomGenerator = randomGenerator;
         this.settings = settings;
         this.headToHeadMatches = headToHeadMatches;
@@ -78,18 +79,28 @@ public class Evaluator {
             //System.out.println(gameResult.getPlayerOne().getElo() + " vs " + gameResult.getPlayerTwo().getElo() + ": prediction " + predictedResult + " result " + actualResult);
         }
 
-        Evaluation evaluator = new Evaluation(settings.getPredictionModel(), result.getHeadToHeadMatches(), division);
-        evaluator.pCorrect = (double) correctPredictions / (correctPredictions + wrongPredictions);
-        evaluator.pCorrectWhite = (double) correctWhite / white;
-        evaluator.pCorrectDraw = (double) correctDraw / draws;
-        evaluator.pCorrectBlack = (double) correctBlack / black;
+        Evaluation evaluation = new Evaluation((ChessPredictionModel) settings.getPredictionModel(), result.getHeadToHeadMatches());
+        evaluation.pCorrect = (double) correctPredictions / (correctPredictions + wrongPredictions);
+        evaluation.pCorrectWhite = (double) correctWhite / white;
+        evaluation.pCorrectDraw = (double) correctDraw / draws;
+        evaluation.pCorrectBlack = (double) correctBlack / black;
 
         double[] errors = predictionError.stream().mapToDouble(d -> d).toArray();
-        evaluator.setRootMeanSquare(errors);
-        return evaluator;
+        evaluation.setRootMeanSquare(errors);
+        return evaluation;
     }
 
-    private Evaluation avgEvaluation(List<Evaluation> evaluations) {
+    public static Evaluation avgEvaluation(List<Evaluation> evaluations) {
+        if(evaluations.isEmpty()) return null;
+
+        List<HeadToHeadMatch> games = new ArrayList<>();
+        for (int i = 0; i < evaluations.size(); i++) {
+            games.addAll(evaluations.get(i).games);
+        }
+
+        double pAdvWhite = evaluations.stream().mapToDouble(evaluator -> evaluator.pm.advWhiteProbability).sum() / evaluations.size();
+        double avgElo = evaluations.stream().mapToDouble(evaluator -> evaluator.pm.avgElo).sum() / evaluations.size();
+
         double pCorrect = evaluations.stream().mapToDouble(evaluator -> evaluator.pCorrect).sum() / evaluations.size();
         double pCorrectWhite = evaluations.stream().mapToDouble(evaluator -> evaluator.pCorrectWhite).sum() / evaluations.size();
         double pCorrectDraw = evaluations.stream().mapToDouble(evaluator -> evaluator.pCorrectDraw).sum() / evaluations.size();
@@ -98,9 +109,9 @@ public class Evaluator {
 
         //System.out.println("pCorrect: " + pCorrect + " RMSE: " + rootMeanSquareError + " pCorrectWhite: " + pCorrectWhite + " pCorrectDraw: " + pCorrectDraw + " pCorrectBlack: " + pCorrectBlack);
 
-        if(evaluations.isEmpty()) return null;
-
-        Evaluation e = new Evaluation(evaluations.get(0).predictionModel, evaluations.get(0).games, division);
+        Evaluation e = new Evaluation(evaluations.get(0).pm, games);
+        e.pAdvWhite = pAdvWhite;
+        e.avgElo = avgElo;
         e.pCorrect = pCorrect;
         e.pCorrectWhite = pCorrectWhite;
         e.pCorrectDraw = pCorrectDraw;
@@ -109,31 +120,47 @@ public class Evaluator {
         return e;
     }
 
-    public static List<ChessPredictionModel> permutatePredictionParameters(ChessPredictionModel predictionModel) {
+    public static List<ChessPredictionModel> permutatePredictionParameters() {
         List<ChessPredictionModel> predictionModels = new ArrayList<>();
 
         ChessPredictionModel pm01 = new ChessPredictionModel(false, false, false, false, false);
         ChessPredictionModel pm02 = new ChessPredictionModel(false, true, false, false, false);
         ChessPredictionModel pm03 = new ChessPredictionModel(false, false, true, false, false);
         ChessPredictionModel pm04 = new ChessPredictionModel(false, false, false, true, false);
+        ChessPredictionModel pm04_1 = new ChessPredictionModel(false, false, false, true, false);
+        pm04_1.statsFactor = 2;
+        ChessPredictionModel pm04_2 = new ChessPredictionModel(false, false, false, true, false);
+        pm04_2.statsFactor = 3;
+        ChessPredictionModel pm04_3 = new ChessPredictionModel(false, false, false, true, false);
+        pm04_3.statsFactor = 4;
+        ChessPredictionModel pm04_4 = new ChessPredictionModel(false, false, false, true, false);
+        pm04_4.statsFactor = 5;
+        ChessPredictionModel pm04_5 = new ChessPredictionModel(false, false, false, true, false);
+        pm04_5.statsFactor = 8;
+        ChessPredictionModel pm04_6 = new ChessPredictionModel(false, false, false, true, false);
+        pm04_6.statsFactor = 10;
+
         ChessPredictionModel pm05 = new ChessPredictionModel(false, false, false, false, true);
-
-
         ChessPredictionModel pm06 = new ChessPredictionModel(false, true, true, false, false);
         ChessPredictionModel pm07 = new ChessPredictionModel(false, true, false, true, false);
+        ChessPredictionModel pm07_1 = new ChessPredictionModel(false, true, false, true, false);
+        pm07_1.statsFactor = 8;
+
         ChessPredictionModel pm08 = new ChessPredictionModel(false, true, false, false, true);
         ChessPredictionModel pm09 = new ChessPredictionModel(false, false, true, true, false);
         ChessPredictionModel pm010 = new ChessPredictionModel(false, false, true, false, true);
         ChessPredictionModel pm011 = new ChessPredictionModel(false, false, false, true, true);
+        ChessPredictionModel pm011_1 = new ChessPredictionModel(false, false, false, true, true);
+        pm011_1.statsFactor = 8;
 
         ChessPredictionModel pm012 = new ChessPredictionModel(false, true, true, true, false);
         ChessPredictionModel pm013 = new ChessPredictionModel(false, true, true, false, true);
         ChessPredictionModel pm014 = new ChessPredictionModel(false, true, false, true, true);
+        ChessPredictionModel pm014_1 = new ChessPredictionModel(false, true, false, true, true);
+        pm014_1.statsFactor = 8;
+
         ChessPredictionModel pm015 = new ChessPredictionModel(false, false, true, true, true);
-
         ChessPredictionModel pm016 = new ChessPredictionModel(false, true, true, true, true);
-
-
 
         ChessPredictionModel pm1 = new ChessPredictionModel(true, false, false, false, false);
         // different draw fractions
@@ -162,6 +189,10 @@ public class Evaluator {
         pm4_1.statsFactor = 2;
         ChessPredictionModel pm4_2 = new ChessPredictionModel(true, false, false, true, false);
         pm4_2.statsFactor = 3;
+        ChessPredictionModel pm4_3 = new ChessPredictionModel(true, false, false, true, false);
+        pm4_3.statsFactor = 4;
+        ChessPredictionModel pm4_4 = new ChessPredictionModel(true, false, false, true, false);
+        pm4_4.statsFactor = 5;
 
         ChessPredictionModel pm5 = new ChessPredictionModel(true, false, false, false, true);
         // different regularization influences
@@ -176,30 +207,101 @@ public class Evaluator {
 
         ChessPredictionModel pm6 = new ChessPredictionModel(true, true, true, false, false);
         ChessPredictionModel pm7 = new ChessPredictionModel(true, true, false, true, false);
+        ChessPredictionModel pm7_1 = new ChessPredictionModel(true, true, false, true, false);
+        pm7_1.statsFactor = 2;
+        ChessPredictionModel pm7_2 = new ChessPredictionModel(true, true, false, true, false);
+        pm7_2.statsFactor = 3;
+        ChessPredictionModel pm7_3 = new ChessPredictionModel(true, true, false, true, false);
+        pm7_3.statsFactor = 4;
+        ChessPredictionModel pm7_4 = new ChessPredictionModel(true, true, false, true, false);
+        pm7_4.statsFactor = 5;
+
         ChessPredictionModel pm8 = new ChessPredictionModel(true, true, false, false, true);
         ChessPredictionModel pm9 = new ChessPredictionModel(true, false, true, true, false);
+        ChessPredictionModel pm9_1 = new ChessPredictionModel(true, false, true, true, false);
+        pm9_1.statsFactor = 2;
+        ChessPredictionModel pm9_2 = new ChessPredictionModel(true, false, true, true, false);
+        pm9_2.statsFactor = 3;
+        ChessPredictionModel pm9_3 = new ChessPredictionModel(true, false, true, true, false);
+        pm9_3.statsFactor = 4;
+        ChessPredictionModel pm9_4 = new ChessPredictionModel(true, false, true, true, false);
+        pm9_4.statsFactor = 5;
+
         ChessPredictionModel pm10 = new ChessPredictionModel(true, false, true, false, true);
         ChessPredictionModel pm11 = new ChessPredictionModel(true, false, false, true, true);
+        ChessPredictionModel pm11_1 = new ChessPredictionModel(true, false, false, true, true);
+        pm11_1.statsFactor = 2;
+        ChessPredictionModel pm11_2 = new ChessPredictionModel(true, false, false, true, true);
+        pm11_2.statsFactor = 3;
+        ChessPredictionModel pm11_3 = new ChessPredictionModel(true, false, false, true, true);
+        pm11_3.statsFactor = 4;
+        ChessPredictionModel pm11_4 = new ChessPredictionModel(true, false, false, true, true);
+        pm11_4.statsFactor = 5;
+
         ChessPredictionModel pm12 = new ChessPredictionModel(true, true, true, true, false);
+        ChessPredictionModel pm12_1 = new ChessPredictionModel(true, true, true, true, false);
+        pm12_1.statsFactor = 2;
+        ChessPredictionModel pm12_2 = new ChessPredictionModel(true, true, true, true, false);
+        pm12_2.statsFactor = 3;
+        ChessPredictionModel pm12_3 = new ChessPredictionModel(true, true, true, true, false);
+        pm12_3.statsFactor = 4;
+        ChessPredictionModel pm12_4 = new ChessPredictionModel(true, true, true, true, false);
+        pm12_4.statsFactor = 5;
+
         ChessPredictionModel pm13 = new ChessPredictionModel(true, true, false, true, true);
+        ChessPredictionModel pm13_1 = new ChessPredictionModel(true, true, false, true, true);
+        pm13_1.statsFactor = 2;
+        ChessPredictionModel pm13_2 = new ChessPredictionModel(true, true, false, true, true);
+        pm13_2.statsFactor = 3;
+        ChessPredictionModel pm13_3 = new ChessPredictionModel(true, true, false, true, true);
+        pm13_3.statsFactor = 4;
+        ChessPredictionModel pm13_4 = new ChessPredictionModel(true, true, false, true, true);
+        pm13_4.statsFactor = 5;
+
         ChessPredictionModel pm14 = new ChessPredictionModel(true, true, true, false, true);
         ChessPredictionModel pm15 = new ChessPredictionModel(true, false, true, true, true);
+        ChessPredictionModel pm15_1 = new ChessPredictionModel(true, false, true, true, true);
+        pm15_1.statsFactor = 2;
+        ChessPredictionModel pm15_2 = new ChessPredictionModel(true, false, true, true, true);
+        pm15_2.statsFactor = 3;
+        ChessPredictionModel pm15_3 = new ChessPredictionModel(true, false, true, true, true);
+        pm15_3.statsFactor = 4;
+        ChessPredictionModel pm15_4 = new ChessPredictionModel(true, false, true, true, true);
+        pm15_4.statsFactor = 5;
+
         ChessPredictionModel pm16 = new ChessPredictionModel(true, true, true, true, true);
+        ChessPredictionModel pm16_1 = new ChessPredictionModel(true, true, true, true, true);
+        pm16_1.statsFactor = 2;
+        ChessPredictionModel pm16_2 = new ChessPredictionModel(true, true, true, true, true);
+        pm16_2.statsFactor = 3;
+        ChessPredictionModel pm16_3 = new ChessPredictionModel(true, true, true, true, true);
+        pm16_3.statsFactor = 4;
+        ChessPredictionModel pm16_4 = new ChessPredictionModel(true, true, true, true, true);
+        pm16_4.statsFactor = 5;
 
         predictionModels.add(pm01);
         predictionModels.add(pm02);
         predictionModels.add(pm03);
         predictionModels.add(pm04);
+        predictionModels.add(pm04_1);
+        predictionModels.add(pm04_2);
+        predictionModels.add(pm04_3);
+        predictionModels.add(pm04_4);
+        predictionModels.add(pm04_5);
+        predictionModels.add(pm04_6);
         predictionModels.add(pm05);
         predictionModels.add(pm06);
         predictionModels.add(pm07);
+        predictionModels.add(pm07_1);
         predictionModels.add(pm08);
         predictionModels.add(pm09);
         predictionModels.add(pm010);
         predictionModels.add(pm011);
+        predictionModels.add(pm011_1);
         predictionModels.add(pm012);
         predictionModels.add(pm013);
         predictionModels.add(pm014);
+        predictionModels.add(pm014_1);
         predictionModels.add(pm015);
         predictionModels.add(pm016);
         predictionModels.add(pm1);
@@ -214,6 +316,8 @@ public class Evaluator {
         predictionModels.add(pm4);
         predictionModels.add(pm4_1);
         predictionModels.add(pm4_2);
+        predictionModels.add(pm4_3);
+        predictionModels.add(pm4_4);
         predictionModels.add(pm5);
         predictionModels.add(pm5_1);
         predictionModels.add(pm5_2);
@@ -221,26 +325,40 @@ public class Evaluator {
         predictionModels.add(pm5_4);
         predictionModels.add(pm6);
         predictionModels.add(pm7);
+        predictionModels.add(pm7_1);
+        predictionModels.add(pm7_2);
+        predictionModels.add(pm7_3);
+        predictionModels.add(pm7_4);
         predictionModels.add(pm8);
         predictionModels.add(pm9);
         predictionModels.add(pm10);
         predictionModels.add(pm11);
+        predictionModels.add(pm11_1);
+        predictionModels.add(pm11_2);
+        predictionModels.add(pm11_3);
+        predictionModels.add(pm11_4);
         predictionModels.add(pm12);
+        predictionModels.add(pm12_1);
+        predictionModels.add(pm12_2);
+        predictionModels.add(pm12_3);
+        predictionModels.add(pm12_4);
         predictionModels.add(pm13);
+        predictionModels.add(pm13_1);
+        predictionModels.add(pm13_2);
+        predictionModels.add(pm13_3);
+        predictionModels.add(pm13_4);
         predictionModels.add(pm14);
         predictionModels.add(pm15);
+        predictionModels.add(pm15_1);
+        predictionModels.add(pm15_2);
+        predictionModels.add(pm15_3);
+        predictionModels.add(pm15_4);
         predictionModels.add(pm16);
-
-        predictionModels.forEach(pm -> copy(predictionModel, pm));
+        predictionModels.add(pm16_1);
+        predictionModels.add(pm16_2);
+        predictionModels.add(pm16_3);
+        predictionModels.add(pm16_4);
 
         return predictionModels;
-    }
-
-    public static void copy(ChessPredictionModel o, ChessPredictionModel c) {
-        if(c.advWhiteProbability == 0.0) c.advWhiteProbability = o.advWhiteProbability;
-        c.avgElo = o.avgElo;
-        c.pWhiteWin = o.pWhiteWin;
-        c.pDraw = o.pDraw;
-        c.pBlackWin = o.pBlackWin;
     }
 }

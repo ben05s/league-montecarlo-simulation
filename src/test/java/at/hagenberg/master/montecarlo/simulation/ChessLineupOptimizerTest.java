@@ -11,6 +11,9 @@ import org.apache.commons.math3.random.Well19937c;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,16 +29,18 @@ public class ChessLineupOptimizerTest {
 
     @Before
     public void setUp() throws PgnParserException {
-        String seasonToSimulate = "games/west/1516autchtwest.pgn";
-        List<String> historicalSeasons = Arrays.asList(("games/west/0607autchtwest.pgn," +
-                "games/west/0708autchtwest.pgn," +
-                "games/west/0809autchtwest.pgn," +
-                "games/west/0910autchtwest.pgn," +
-                "games/west/1011autchtwest.pgn," +
-                "games/west/1112autchtwest.pgn," +
-                "games/west/1213autchtwest.pgn," +
-                "games/west/1314autchtwest.pgn," +
-                "games/west/1415autchtwest.pgn").split(","));
+        String division = "west";
+        String file = "1516autchtwest.pgn";
+
+        String seasonToSimulate = null;
+        String historicalSeasons = null;
+        try {
+            seasonToSimulate = new String(Files.readAllBytes(Paths.get("games/" + division + "/" + file)));
+            historicalSeasons = new String(Files.readAllBytes(Paths.get("games/" + division + "/historicData" + file)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         final int roundsPerSeason = 11;
         analysis = new PgnAnalysis(seasonToSimulate, historicalSeasons, roundsPerSeason, gamesPerMatch);
         this.teamList = analysis.getTeams();
