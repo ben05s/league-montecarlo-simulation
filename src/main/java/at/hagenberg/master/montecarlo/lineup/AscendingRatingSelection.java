@@ -9,9 +9,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class DescendingRatingSelection extends AbstractLineupSelector {
+public class AscendingRatingSelection extends AbstractLineupSelector {
 
-    public DescendingRatingSelection(RandomGenerator randomGenerator, final int gamesPerMatch) {
+    public AscendingRatingSelection(RandomGenerator randomGenerator, final int gamesPerMatch) {
         super(randomGenerator, gamesPerMatch, false);
     }
 
@@ -20,10 +20,11 @@ public class DescendingRatingSelection extends AbstractLineupSelector {
         Map<Player, Double> newLineupP = new HashMap<>(lineupProbabilities);
         newLineupP.replaceAll((k,v) -> 0.0); // clear lineup probabilities from historical games
 
-        Iterator<Map.Entry<Player, Double>> sortedDescIt = newLineupP.entrySet().stream().sorted(Map.Entry.comparingByKey(Comparator.comparing(Player::getElo, Comparator.reverseOrder()))).iterator();
-        Map.Entry<Player, Double> entryDesc = getEntryAtPosition(slot, sortedDescIt);
-        if(entryDesc != null)
-            newLineupP.replace(entryDesc.getKey(), entryDesc.getValue() + 1.0);
+        Iterator<Map.Entry<Player, Double>> sortedDesc = newLineupP.entrySet().stream().sorted(Map.Entry.comparingByKey(Comparator.comparing(Player::getElo, Comparator.reverseOrder()))).iterator();
+        Map.Entry<Player, Double> entryAsc = getEntryAtPosition(this.gamesPerMatch - slot - 1, sortedDesc);
+        if(entryAsc != null)
+            newLineupP.replace(entryAsc.getKey(), entryAsc.getValue() + 1.0);
+
         return newLineupP;
     }
 

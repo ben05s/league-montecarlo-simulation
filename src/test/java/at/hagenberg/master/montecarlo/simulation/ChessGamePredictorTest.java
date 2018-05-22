@@ -3,6 +3,7 @@ package at.hagenberg.master.montecarlo.simulation;
 import at.hagenberg.master.montecarlo.entities.Team;
 import at.hagenberg.master.montecarlo.evaluation.Evaluator;
 import at.hagenberg.master.montecarlo.lineup.LineupSelector;
+import at.hagenberg.master.montecarlo.lineup.RandomSelection;
 import at.hagenberg.master.montecarlo.parser.PgnAnalysis;
 import at.hagenberg.master.montecarlo.entities.Evaluation;
 import at.hagenberg.master.montecarlo.exceptions.PgnParserException;
@@ -75,12 +76,6 @@ public class ChessGamePredictorTest {
             Evaluation eval8 = evaluate(pm,"ost", "1314autchtost.pgn");
             Evaluation eval9 = evaluate(pm,"ost", "1415autchtost.pgn");
             Evaluation eval10 = evaluate(pm,"ost", "1516autchtost.pgn");
-            /* validation data */
-            /*Evaluation eval11 = evaluate(pm,"mitte", "1011autchtmitte.pgn");
-            Evaluation eval12 = evaluate(pm,"mitte", "1112autchtmitte.pgn");
-            Evaluation eval13 = evaluate(pm,"mitte", "1314autchtmitte.pgn");
-            Evaluation eval14 = evaluate(pm,"mitte", "1415autchtmitte.pgn");
-            Evaluation eval15 = evaluate(pm,"mitte", "1516autchtmitte.pgn");*/
             if(eval1 != null) evaluations.add(eval1);
             if(eval2 != null) evaluations.add(eval2);
             if(eval3 != null) evaluations.add(eval3);
@@ -91,15 +86,23 @@ public class ChessGamePredictorTest {
             if(eval8 != null) evaluations.add(eval8);
             if(eval9 != null) evaluations.add(eval9);
             if(eval10 != null) evaluations.add(eval10);
-            /*if(eval11 != null) evaluations.add(eval11);
+
+            /* validation data */
+            Evaluation eval11 = evaluate(pm,"mitte", "1011autchtmitte.pgn");
+            Evaluation eval12 = evaluate(pm,"mitte", "1112autchtmitte.pgn");
+            Evaluation eval13 = evaluate(pm,"mitte", "1314autchtmitte.pgn");
+            Evaluation eval14 = evaluate(pm,"mitte", "1415autchtmitte.pgn");
+            Evaluation eval15 = evaluate(pm,"mitte", "1516autchtmitte.pgn");
+            if(eval11 != null) evaluations.add(eval11);
             if(eval12 != null) evaluations.add(eval12);
             if(eval13 != null) evaluations.add(eval13);
             if(eval14 != null) evaluations.add(eval14);
-            if(eval15 != null) evaluations.add(eval15);*/
+            if(eval15 != null) evaluations.add(eval15);
+
             predictionModelEvaluations.add(Evaluator.avgEvaluation(evaluations));
         });
 
-        ResultsFileUtil.writeEvalutations("evaluations-prediction-model", predictionModelEvaluations);
+        ResultsFileUtil.writeEvalutations("evaluations-prediction-model-validation", predictionModelEvaluations);
     }
 
     private Evaluation evaluate(final ChessPredictionModel pm, String division, String file) {
@@ -133,7 +136,7 @@ public class ChessGamePredictorTest {
             teamList = EloRatingSystemUtil.regularizePlayerRatingsForTeams(teamList, cpm.getAvgElo(), cpm.regularizeThreshold, cpm.regularizeFraction);
         }
 
-        LeagueSettings<Team> settings = new LeagueSettings(cpm, teamList, roundsPerSeason, new LineupSelector(gamesPerMatch), roundsToSimulate, analysis.getRoundGameResults());
+        LeagueSettings<Team> settings = new LeagueSettings(cpm, teamList, roundsPerSeason, new RandomSelection(randomGenerator, gamesPerMatch, true), roundsToSimulate, analysis.getRoundGameResults());
 
         //System.out.println(pm.toString());
         Evaluator evaluator = new Evaluator(randomGenerator, settings, gameResults);

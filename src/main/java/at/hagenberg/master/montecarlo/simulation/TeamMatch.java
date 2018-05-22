@@ -11,23 +11,20 @@ import java.util.Objects;
 
 public class TeamMatch extends Match<Team> {
 
-    private LineupSelector lineupSelector;
+    private final int gamesPerMatch;
     private List<HeadToHeadMatch> headToHeadMatches = new ArrayList<>();
 
-    public TeamMatch(RandomGenerator randomGenerator, PredictionModel predictionModel, LineupSelector lineupSelector, Team teamA, Team teamB) {
+    public TeamMatch(RandomGenerator randomGenerator, PredictionModel predictionModel, Team teamA, Team teamB, final int gamesPerMatch) {
         super(randomGenerator, predictionModel, teamA, teamB);
-
-        Objects.requireNonNull(lineupSelector);
-
-        this.lineupSelector = lineupSelector;
+        this.gamesPerMatch = gamesPerMatch;
     }
 
     @Override
     public MatchResult playMatch() {
         if(this.headToHeadMatches.isEmpty()) {
-            for (int i = 0; i < this.lineupSelector.getGamesPerMatch(); i++) {
-                Player white = lineupSelector.pickPlayerFromTeam(randomGenerator, i, this.getOpponentA(), this.getOpponentB(), true);
-                Player black = lineupSelector.pickPlayerFromTeam(randomGenerator, i, this.getOpponentB(), this.getOpponentA(), false);
+            for (int i = 0; i < this.gamesPerMatch; i++) {
+                Player white = this.getOpponentA().getPlayerList().get(i);
+                Player black = this.getOpponentB().getPlayerList().get(i);
                 this.headToHeadMatches.add(new HeadToHeadMatch(randomGenerator, this.getPredictionModel(), white, black));
             }
         }

@@ -29,8 +29,8 @@ public class ChessLineupOptimizerTest {
 
     @Before
     public void setUp() throws PgnParserException {
-        String division = "west";
-        String file = "1516autchtwest.pgn";
+        String division = "mitte";
+        String file = "1516autchtmitte.pgn";
 
         String seasonToSimulate = null;
         String historicalSeasons = null;
@@ -89,7 +89,6 @@ public class ChessLineupOptimizerTest {
         strongOpponentPlayer.setpLineUp(Arrays.asList(1.0, 0.0, 0.0, 0.0, 0.0, 0.0));
         opponentTeam.addPlayer(strongOpponentPlayer);
         opponentTeam.setLineup(analysis.transposeLineupProbabilities(opponentTeam.getPlayerList(), gamesPerMatch));
-
 
         Team teamToOptimizeLineup = this.teamList.get(0);
         // my weak player

@@ -48,7 +48,7 @@ public class Evaluator {
         int correctDraw = 0;
         List<Double> predictionError = new ArrayList<>();
 
-        TeamMatch match = new TeamMatch(randomGenerator, settings.getPredictionModel(), settings.getLineupSelector(), new Team("A"), new Team("B"));
+        TeamMatch match = new TeamMatch(randomGenerator, settings.getPredictionModel(), new Team("A"), new Team("B"), settings.getLineupSelector().getGamesPerMatch());
         match.setHeadToHeadMatches(headToHeadMatches);
         MatchResult result = match.playMatch();
 

@@ -3,7 +3,9 @@ package at.hagenberg.master.montecarlo;
 import at.hagenberg.master.montecarlo.entities.*;
 import at.hagenberg.master.montecarlo.entities.enums.LineupStrategy;
 import at.hagenberg.master.montecarlo.exceptions.PgnParserException;
+import at.hagenberg.master.montecarlo.lineup.AbstractLineupSelector;
 import at.hagenberg.master.montecarlo.lineup.LineupSelector;
+import at.hagenberg.master.montecarlo.lineup.RandomSelection;
 import at.hagenberg.master.montecarlo.parser.PgnAnalysis;
 import at.hagenberg.master.montecarlo.simulation.*;
 import at.hagenberg.master.montecarlo.prediction.ChessPredictionModel;
@@ -21,23 +23,10 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) {
-        // Note: All historical seasons must be complete (all games for all 11 rounds must be present)
-        // as the statistical analysis of player performance and probable lineups assumes 11 rounds have been played
-        //String seasonToSimulate = "games/" + division + "/1516autcht" + division + ".pgn";
-        /*List<String> historicalSeasons = Arrays.asList(("games/" + division + "/0607autcht" + division + ".pgn," +
-                "games/" + division + "/0708autcht" + division + ".pgn," +
-                "games/" + division + "/0809autcht" + division + ".pgn," +
-                "games/" + division + "/0910autcht" + division + ".pgn," +
-                "games/" + division + "/1011autcht" + division + ".pgn," +
-                "games/" + division + "/1112autcht" + division + ".pgn," +
-                "games/" + division + "/1213autcht" + division + ".pgn," +
-                "games/" + division + "/1314autcht" + division + ".pgn," +
-                "games/" + division + "/1415autcht" + division + ".pgn")
-                .split(",")); */
         SeasonResult result = new SeasonResult();
         try {
             String division = "mitte";
-            String file = "1415autcht" + division + ".pgn";
+            String file = "1516autcht" + division + ".pgn";
             String seasonToSimulate = new String(Files.readAllBytes(Paths.get("games/" + division + "/" + file)));
             String historicalSeasons = new String(Files.readAllBytes(Paths.get("games/" + division + "/historicData" + file)));
 
@@ -45,7 +34,6 @@ public class Main {
             final int gamesPerMatch = 6;
             final int roundsPerSeason = 11;
             final int roundsToSimulate = 11;
-            LineupSelector lineupSelector = new LineupSelector(LineupStrategy.DESCENDING_RATING_STRENGTH, gamesPerMatch);
             ChessPredictionModel predictionModel = new ChessPredictionModel(true, false, false, false, true);
 
             PgnAnalysis analysis = new PgnAnalysis(seasonToSimulate, historicalSeasons, roundsPerSeason, gamesPerMatch);
@@ -58,7 +46,7 @@ public class Main {
 
             ResultsFileUtil.writePlayerStats("player-stats", teamList);
 
-            LeagueSettings<Team> settings = new LeagueSettings(predictionModel, teamList, roundsPerSeason, lineupSelector, roundsToSimulate, analysis.getRoundGameResults());
+            LeagueSettings<Team> settings = new LeagueSettings(predictionModel, teamList, roundsPerSeason, new RandomSelection(randomGenerator, gamesPerMatch, true), roundsToSimulate, analysis.getRoundGameResults());
             System.out.println(settings.toString());
 
             ChessLeagueSimulation simulation = new ChessLeagueSimulation(randomGenerator, settings);
@@ -71,6 +59,7 @@ public class Main {
             ResultsFileUtil.writeGameResultToFile("mc-it-0", result.getMatchResults());
             ResultsFileUtil.writeMatchResultToFile("mc-it-0", result.getMatchResults());
             ResultsFileUtil.writeSeasonResultToFile(result, 0);
+
         } catch (PgnParserException e) {
             System.out.println(e.getMessage());
             return;

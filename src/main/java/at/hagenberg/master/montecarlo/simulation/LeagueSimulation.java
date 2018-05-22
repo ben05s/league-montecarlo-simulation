@@ -18,10 +18,10 @@ public abstract class LeagueSimulation<T extends Match> {
 
         this.randomGenerator = randomGenerator;
         this.settings = settings;
-        this.matchList = initializeMatchList(settings);
+        this.matchList = initializeSimulation(settings);
     }
 
-    protected abstract List<T> initializeMatchList(LeagueSettings settings);
+    protected abstract List<T> initializeSimulation(LeagueSettings settings);
 
     public abstract SimulationResult runSimulation();
 }

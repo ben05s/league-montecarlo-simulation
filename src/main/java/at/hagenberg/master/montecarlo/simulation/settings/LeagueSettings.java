@@ -1,6 +1,7 @@
 package at.hagenberg.master.montecarlo.simulation.settings;
 
 import at.hagenberg.master.montecarlo.entities.Opponent;
+import at.hagenberg.master.montecarlo.lineup.AbstractLineupSelector;
 import at.hagenberg.master.montecarlo.lineup.LineupSelector;
 import at.hagenberg.master.montecarlo.prediction.PredictionModel;
 import at.hagenberg.master.montecarlo.simulation.*;
@@ -16,7 +17,7 @@ public class LeagueSettings<T extends Opponent> {
     private List<T> opponentList;
     private Map<Integer, List<HeadToHeadMatch>> roundGameResults = new HashMap<>();
 
-    private LineupSelector lineupSelector;
+    private AbstractLineupSelector lineupSelector;
 
     private int roundsPerSeason;
     private int roundsToSimulate;
@@ -34,7 +35,7 @@ public class LeagueSettings<T extends Opponent> {
         this.roundsToSimulate = 0;
     }
 
-    public LeagueSettings(PredictionModel predictionModel, List<T> opponentList, final int roundsPerSeason, LineupSelector lineupSelector) {
+    public LeagueSettings(PredictionModel predictionModel, List<T> opponentList, final int roundsPerSeason, AbstractLineupSelector lineupSelector) {
         this(predictionModel, opponentList, roundsPerSeason);
 
         Objects.requireNonNull(lineupSelector);
@@ -45,7 +46,7 @@ public class LeagueSettings<T extends Opponent> {
         this.lineupSelector = lineupSelector;
     }
 
-    public LeagueSettings(PredictionModel predictionModel, List<T> opponentList, final int roundsPerSeason, LineupSelector lineupSelector, final int roundsToSimulate, Map<Integer, List<HeadToHeadMatch>> roundGameResults) {
+    public LeagueSettings(PredictionModel predictionModel, List<T> opponentList, final int roundsPerSeason, AbstractLineupSelector lineupSelector, final int roundsToSimulate, Map<Integer, List<HeadToHeadMatch>> roundGameResults) {
         this(predictionModel, opponentList, roundsPerSeason, lineupSelector);
 
         Objects.requireNonNull(roundGameResults);
@@ -79,7 +80,7 @@ public class LeagueSettings<T extends Opponent> {
         return roundsPerSeason - roundsToSimulate;
     }
 
-    public LineupSelector getLineupSelector() {
+    public AbstractLineupSelector getLineupSelector() {
         return this.lineupSelector;
     }
 }
