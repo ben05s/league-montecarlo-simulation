@@ -1,7 +1,6 @@
 package at.hagenberg.master.montecarlo.util;
 
 import at.hagenberg.master.montecarlo.entities.*;
-import at.hagenberg.master.montecarlo.prediction.ChessPredictionModel;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

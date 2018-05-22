@@ -54,12 +54,19 @@ public class TeamSimulationResult implements Comparable<TeamSimulationResult> {
 
     @Override
     public int compareTo(TeamSimulationResult o) {
-        if (this.totalPromotions > o.totalPromotions)
+        if (this.totalPromotions > o.totalPromotions) {
             return -1;
-        else if (this.totalPromotions == o.totalPromotions)
-            return 0;
-        else
+        } else if (this.totalPromotions == o.totalPromotions) {
+            if (this.totalRelegations < o.totalRelegations) {
+                return -1;
+            } else if (this.totalRelegations == o.totalRelegations) {
+                return 0; // ex-equo
+            } else {
+                return 1;
+            }
+        } else {
             return 1;
+        }
     }
 
     public void aggregate(TeamSimulationResult res) {
