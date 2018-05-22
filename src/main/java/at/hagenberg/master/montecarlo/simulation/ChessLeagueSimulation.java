@@ -17,8 +17,15 @@ public class ChessLeagueSimulation extends LeagueSimulation<TeamMatch> {
 
     private List<Team> teamList;
 
+    private List<String> actualTeamResult = new ArrayList<>();
+
     public ChessLeagueSimulation(RandomGenerator randomGenerator, LeagueSettings<Team> settings) {
+        this(randomGenerator, settings, null);
+    }
+
+    public ChessLeagueSimulation(RandomGenerator randomGenerator, LeagueSettings<Team> settings, List<String> actualTeamResult) {
         super(randomGenerator, settings);
+        this.actualTeamResult = actualTeamResult;
     }
 
     protected List<TeamMatch> initializeSimulation(LeagueSettings settings) {
@@ -72,6 +79,16 @@ public class ChessLeagueSimulation extends LeagueSimulation<TeamMatch> {
             }
             seasonResult.addMatchResult(result);
         }
+
+        if(this.actualTeamResult != null) {
+            List<String> teamTable = new ArrayList<>(seasonResult.getTeamSeasonScoreMap().keySet());
+            int promotionPredictionIdx = teamTable.indexOf(this.actualTeamResult.get(0));
+            int relegationPredictionIdx = teamTable.indexOf(this.actualTeamResult.get(this.actualTeamResult.size() - 1));
+
+            seasonResult.setPromotionError((promotionPredictionIdx - 0.0) * (promotionPredictionIdx - 0.0));
+            seasonResult.setRelegationError((relegationPredictionIdx - (this.actualTeamResult.size() - 1.0)) * (relegationPredictionIdx - (this.actualTeamResult.size() - 1.0)));
+        }
+
         seasonResult.setSimulationDurationMs(System.currentTimeMillis() - startTime);
         return seasonResult;
     }

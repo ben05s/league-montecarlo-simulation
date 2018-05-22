@@ -7,6 +7,8 @@ public class SeasonResult extends SimulationResult {
 
     private Map<String, SeasonScore> teamSeasonScoreMap = new HashMap<>();
     private List<MatchResult> matchResults = new ArrayList<>();
+    private double promotionError = 0.0;
+    private double relegationError = 0.0;
 
     public SeasonResult() {
         super();
@@ -49,6 +51,22 @@ public class SeasonResult extends SimulationResult {
 
     public Map<String, SeasonScore> getTeamSeasonScoreMap() {
         return sortByValue(this.teamSeasonScoreMap);
+    }
+
+    public double getPromotionError() {
+        return promotionError;
+    }
+
+    public void setPromotionError(double promotionError) {
+        this.promotionError = promotionError;
+    }
+
+    public double getRelegationError() {
+        return relegationError;
+    }
+
+    public void setRelegationError(double relegationError) {
+        this.relegationError = relegationError;
     }
 
     public List<MatchResult> getMatchResults() {

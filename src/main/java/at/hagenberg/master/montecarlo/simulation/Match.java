@@ -52,7 +52,7 @@ public abstract class Match<T extends Opponent> {
 
     public double getError() throws Exception {
         if(matchResult != null && matchPrediction != null) {
-            return matchResult.getAbsoluteScore() - matchPrediction.getAbsoluteScore();
+            return Math.pow(matchResult.getAbsoluteScore() - matchPrediction.getAbsoluteScore(), 2);
         }
         throw new Exception("No Prediction for this game yet");
     }

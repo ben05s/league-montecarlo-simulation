@@ -22,11 +22,8 @@ public class Evaluation {
         this.games = games;
     }
 
-    public void setRootMeanSquare(double... nums) {
-        double sum = 0.0;
-        for (double num : nums)
-            sum += num * num;
-        this.rootMeanSquareError = Math.sqrt(sum / nums.length);
+    public void setRootMeanSquareError(double rmse) {
+        this.rootMeanSquareError = rmse;
     }
 
     public String print() {

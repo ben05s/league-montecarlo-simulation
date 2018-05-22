@@ -76,6 +76,10 @@ public class LeagueSettings<T extends Opponent> {
         return roundsToSimulate;
     }
 
+    public void setRoundsToSimulate(final int roundsToSimulate) {
+        this.roundsToSimulate = roundsToSimulate;
+    }
+
     public int getPlayedRounds() {
         return roundsPerSeason - roundsToSimulate;
     }

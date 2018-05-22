@@ -49,11 +49,25 @@ public class Main {
             LeagueSettings<Team> settings = new LeagueSettings(predictionModel, teamList, roundsPerSeason, new RandomSelection(randomGenerator, gamesPerMatch, true), roundsToSimulate, analysis.getRoundGameResults());
             System.out.println(settings.toString());
 
-            ChessLeagueSimulation simulation = new ChessLeagueSimulation(randomGenerator, settings);
+
+            // create actual season result - to measure the error
+            List<String> actualTeamResult = new ArrayList<>();
+            settings.setRoundsToSimulate(0);
+            ChessLeagueSimulation pseudo = new ChessLeagueSimulation(randomGenerator, settings);
+            SeasonResult actualResult = pseudo.runSimulation();
+            actualTeamResult.addAll(actualResult.getTeamSeasonScoreMap().keySet());
+
+            settings.setRoundsToSimulate(roundsToSimulate);
+            ChessLeagueSimulation simulation = new ChessLeagueSimulation(randomGenerator, settings, actualTeamResult);
             result = simulation.runSimulation(); // run the simulation
 
             System.out.println("\nResult:");
             result.getTeamSeasonScoreMap().forEach((k, v) -> System.out.println(k + " " + v.toString()));
+            double rmsePromotion = Math.sqrt(result.getPromotionError());
+            double rmseRelegation = Math.sqrt(result.getRelegationError());
+
+            System.out.println("\nRootMeanSquareError Promotion: " + rmsePromotion);
+            System.out.println("\nRootMeanSquareError Relegation: " + rmseRelegation);
             System.out.println("\nSimulation duration: " + result.getSimulationDurationMs() + "ms");
 
             ResultsFileUtil.writeGameResultToFile("mc-it-0", result.getMatchResults());

@@ -85,8 +85,8 @@ public class Evaluator {
         evaluation.pCorrectDraw = (double) correctDraw / draws;
         evaluation.pCorrectBlack = (double) correctBlack / black;
 
-        double[] errors = predictionError.stream().mapToDouble(d -> d).toArray();
-        evaluation.setRootMeanSquare(errors);
+        double sum = predictionError.stream().mapToDouble(d -> d).sum();
+        evaluation.setRootMeanSquareError(Math.sqrt(sum / predictionError.size()));
         return evaluation;
     }
 
