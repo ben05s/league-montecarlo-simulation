@@ -60,6 +60,69 @@ public class Main {
             ResultsFileUtil.writeMatchResultToFile("mc-it-0", result.getMatchResults());
             ResultsFileUtil.writeSeasonResultToFile(result, 0);
 
+            List<TeamSimulationResult> tsrs = new ArrayList<>();
+            TeamSimulationResult tsr = new TeamSimulationResult();
+            tsr.setTeamName("Team1");
+            tsr.setRatioPromotion(55.5);
+            tsr.setRatioRelegation(0.0);
+            tsrs.add(tsr);
+            tsr = new TeamSimulationResult();
+            tsr.setTeamName("Team2");
+            tsr.setRatioPromotion(25.5);
+            tsr.setRatioRelegation(0.0);
+            tsrs.add(tsr);
+            tsr = new TeamSimulationResult();
+            tsr.setTeamName("Team3");
+            tsr.setRatioPromotion(5.5);
+            tsr.setRatioRelegation(10.0);
+            tsrs.add(tsr);
+            tsr = new TeamSimulationResult();
+            tsr.setTeamName("Team4");
+            tsr.setRatioPromotion(0.0);
+            tsr.setRatioRelegation(20.0);
+            tsrs.add(tsr);
+            tsr = new TeamSimulationResult();
+            tsr.setTeamName("Team5");
+            tsr.setRatioPromotion(0.0);
+            tsr.setRatioRelegation(10.0);
+            tsrs.add(tsr);
+            tsr = new TeamSimulationResult();
+            tsr.setTeamName("Team6");
+            tsr.setRatioPromotion(0.0);
+            tsr.setRatioRelegation(30.0);
+            tsrs.add(tsr);
+            tsr = new TeamSimulationResult();
+            tsr.setTeamName("Team7");
+            tsr.setRatioPromotion(0.0);
+            tsr.setRatioRelegation(50.0);
+            tsrs.add(tsr);
+            tsr = new TeamSimulationResult();
+            tsr.setTeamName("Team8");
+            tsr.setRatioPromotion(0.0);
+            tsr.setRatioRelegation(0.0);
+            tsrs.add(tsr);
+            tsr = new TeamSimulationResult();
+            tsr.setTeamName("Team9");
+            tsr.setRatioPromotion(0.0);
+            tsr.setRatioRelegation(0.0);
+            tsrs.add(tsr);
+            tsr = new TeamSimulationResult();
+            tsr.setTeamName("Team10");
+            tsr.setRatioPromotion(0.0);
+            tsr.setRatioRelegation(0.0);
+            tsrs.add(tsr);
+            tsr = new TeamSimulationResult();
+            tsr.setTeamName("Team11");
+            tsr.setRatioPromotion(0.0);
+            tsr.setRatioRelegation(0.0);
+            tsrs.add(tsr);
+            tsr = new TeamSimulationResult();
+            tsr.setTeamName("Team12");
+            tsr.setRatioPromotion(0.0);
+            tsr.setRatioRelegation(0.0);
+            tsrs.add(tsr);
+            ResultsFileUtil.writeSimulationResults("simulation-results", tsrs);
+
         } catch (PgnParserException e) {
             System.out.println(e.getMessage());
             return;
@@ -71,18 +134,3 @@ public class Main {
         return;
     }
 }
-
-/*
-Test stuff
-            Path path1 = Paths.get(seasonToSimulate);
-            String content1 = String.join("\n", Files.readAllLines(path1));
-
-            Path path2 = Paths.get("games/" + division + "/1415autcht" + division + ".pgn");
-            String content2 = String.join("\n", Files.readAllLines(path2));
-            Path path3 = Paths.get("games/" + division + "/1314autcht" + division + ".pgn");
-            content2 += String.join("\n", Files.readAllLines(path3));
-
-            PgnAnalysis analysis1 = new PgnAnalysis(content1, content2);
-
-            ResultsFileUtil.writePlayerStats("player-stats1", analysis1.getTeams());
- */

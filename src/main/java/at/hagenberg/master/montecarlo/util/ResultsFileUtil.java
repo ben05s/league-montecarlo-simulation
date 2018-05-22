@@ -7,8 +7,33 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ResultsFileUtil {
+
+    public static void writeSimulationResults(String filename, List<TeamSimulationResult> simulationResults) {
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+        try {
+            fw = new FileWriter("result/simulation-results/" + filename + ".csv");
+            bw = new BufferedWriter(fw);
+            StringBuilder sb = new StringBuilder();
+            String str = simulationResults.stream().map(teamSimulationResult -> teamSimulationResult.getTeamName()).collect(Collectors.joining(";"));
+            bw.write(str + ";iterations\n");
+            bw.write(simulationResults.stream().map(teamSimulationResult -> teamSimulationResult.getRatioPromotion()+"").collect(Collectors.joining(";")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (bw != null)
+                    bw.close();
+                if (fw != null)
+                    fw.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
 
     public static void writeEvalutations(String filename, List<Evaluation> evaluations) {
         FileWriter fw = null;
@@ -111,7 +136,7 @@ public class ResultsFileUtil {
         FileWriter fw = null;
 
         try {
-            fw = new FileWriter("result/iteration-results/" + filename + ".csv");
+            fw = new FileWriter("result/iteration-match-results/" + filename + ".csv");
             bw = new BufferedWriter(fw);
             bw.write("TeamA,PointsTeamA,TeamB,PointsTeamB,Result\n");
             for (int x = 0; x < matchList.size(); x++) {
@@ -138,8 +163,8 @@ public class ResultsFileUtil {
             FileWriter fw = null;
 
             try {
-                String file = filename + result.getOpponentA().getName() + "-" +result.getOpponentB().getName() + ".csv";
-                fw = new FileWriter("result/match-results/" + file.replaceAll("[^a-zA-Z0-9.-]", "-"));
+                String file = filename + "-" + result.getOpponentA().getName() + "-" +result.getOpponentB().getName() + ".csv";
+                fw = new FileWriter("result/iteration-game-results/" + file.replaceAll("[^a-zA-Z0-9.-]", "-"));
                 bw = new BufferedWriter(fw);
                 bw.write("PlayerWhite,EloWhite,PlayerBlack,EloBlack,Winner\n");
                 for (int x = 0; x < result.getHeadToHeadMatches().size(); x++) {

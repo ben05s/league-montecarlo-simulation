@@ -10,6 +10,19 @@ public class TeamSimulationResult implements Comparable<TeamSimulationResult> {
     int totalPromotions = 0;
     int totalRelegations = 0;
     double ratioPromotion = 0.0;
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
+    }
+
+    public void setRatioPromotion(double ratioPromotion) {
+        this.ratioPromotion = ratioPromotion;
+    }
+
+    public void setRatioRelegation(double ratioRelegation) {
+        this.ratioRelegation = ratioRelegation;
+    }
+
     double ratioRelegation = 0.0;
     double highestSeasonPoints = 0.0;
     double lowestSeasonPoints = 0.0;
