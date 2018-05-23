@@ -49,7 +49,7 @@ package "Simulation" {
 
     class LeagueSettings<T extends Opponent> {
         PredictionModel predictionModel
-        LineupSelector lineupSelector
+        AbstractLineupSelector lineupSelector
         List<T> opponentList
         int roundsPerSeason
         int roundsToSimulate
@@ -71,7 +71,6 @@ package "Simulation" {
     }
 
     class TeamMatch {
-        -LineupSelector lineupSelector
         -List<HeadToHeadMatch> headToHeadMatches
     }
 
@@ -114,14 +113,14 @@ package "Simulation" {
 
 package "Lineup" {
     abstract AbstractLineupSelector {
+        #boolean useOfficialLeagueRules
         #int gamesPerMatch
         #String optimizeLineupTeamName
         #List<Player> alreadySelectedPlayers
         +Player pickPlayerFromTeam()
         #{abstract} Map<Player, Double> calculateLineupProbabilities()
     }
-    AbstractLineupSelector <|-- AvoidStrongOpponentsSelection
-    ColorPerformanceSelection -|> AbstractLineupSelector
+    AscendingRatingSelection -|> AbstractLineupSelector
     DescendingRatingSelection --|> AbstractLineupSelector
     AbstractLineupSelector <|- RandomSelection
 }

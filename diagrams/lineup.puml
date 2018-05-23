@@ -17,8 +17,7 @@ package "Lineup" {
         #{abstract} Map<Player, Double> calculateLineupProbabilities()
     }
 
-    AbstractLineupSelector <|-- AvoidStrongOpponentsSelection
-    ColorPerformanceSelection -|> AbstractLineupSelector
+    AscendingRatingSelection -|> AbstractLineupSelector
     DescendingRatingSelection --|> AbstractLineupSelector
     AbstractLineupSelector <|- RandomSelection
 }

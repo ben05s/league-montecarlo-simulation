@@ -15,8 +15,6 @@ import java.util.Objects;
 
 public class ChessLeagueSimulation extends LeagueSimulation<TeamMatch> {
 
-    private List<Team> teamList;
-
     private List<String> actualTeamResult = new ArrayList<>();
 
     public ChessLeagueSimulation(RandomGenerator randomGenerator, LeagueSettings<Team> settings) {
@@ -30,7 +28,7 @@ public class ChessLeagueSimulation extends LeagueSimulation<TeamMatch> {
 
     protected List<TeamMatch> initializeSimulation(LeagueSettings settings) {
         // generate rigid lineup for each team
-        this.teamList = settings.getOpponentList();
+        List<Team> teamList = settings.getOpponentList();
         teamList.forEach(team -> team.setPlayerList(settings.getLineupSelector().pickLineupFromTeam(team)));
 
         List<TeamMatch> matchList = new ArrayList<>();
