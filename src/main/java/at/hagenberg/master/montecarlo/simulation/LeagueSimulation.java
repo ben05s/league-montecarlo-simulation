@@ -1,7 +1,6 @@
 package at.hagenberg.master.montecarlo.simulation;
 
 import at.hagenberg.master.montecarlo.entities.*;
-import at.hagenberg.master.montecarlo.simulation.settings.LeagueSettings;
 import org.apache.commons.math3.random.RandomGenerator;
 
 import java.util.*;

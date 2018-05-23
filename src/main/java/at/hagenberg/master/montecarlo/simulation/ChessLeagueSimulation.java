@@ -3,15 +3,11 @@ package at.hagenberg.master.montecarlo.simulation;
 import at.hagenberg.master.montecarlo.entities.MatchResult;
 import at.hagenberg.master.montecarlo.entities.SeasonResult;
 import at.hagenberg.master.montecarlo.entities.Team;
-import at.hagenberg.master.montecarlo.lineup.AbstractLineupSelector;
-import at.hagenberg.master.montecarlo.lineup.RandomSelection;
-import at.hagenberg.master.montecarlo.simulation.settings.LeagueSettings;
 import org.apache.commons.math3.random.RandomGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class ChessLeagueSimulation extends LeagueSimulation<TeamMatch> {
 
@@ -29,7 +25,13 @@ public class ChessLeagueSimulation extends LeagueSimulation<TeamMatch> {
     protected List<TeamMatch> initializeSimulation(LeagueSettings settings) {
         // generate rigid lineup for each team
         List<Team> teamList = settings.getOpponentList();
-        teamList.forEach(team -> team.setPlayerList(settings.getLineupSelector().pickLineupFromTeam(team)));
+        teamList.forEach(team -> {
+            if(settings.getOptimizedLineup() != null && team.getName().equals(settings.getOptimizedLineup().getTeamName())) {
+                team.setPlayerList(settings.getOptimizedLineup().getLineupSelector().pickLineupFromTeam(team));
+            } else {
+                team.setPlayerList(settings.getLineupSelector().pickLineupFromTeam(team));
+            }
+        });
 
         List<TeamMatch> matchList = new ArrayList<>();
 

@@ -7,14 +7,11 @@ import at.hagenberg.master.montecarlo.entities.Team;
 import at.hagenberg.master.montecarlo.prediction.ChessPredictionModel;
 import at.hagenberg.master.montecarlo.simulation.HeadToHeadMatch;
 import at.hagenberg.master.montecarlo.simulation.TeamMatch;
-import at.hagenberg.master.montecarlo.simulation.settings.LeagueSettings;
+import at.hagenberg.master.montecarlo.simulation.LeagueSettings;
 import org.apache.commons.math3.random.RandomGenerator;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Evaluator {
 

@@ -4,18 +4,18 @@ import at.hagenberg.master.montecarlo.entities.*;
 import at.hagenberg.master.montecarlo.entities.enums.LineupStrategy;
 import at.hagenberg.master.montecarlo.exceptions.PgnParserException;
 import at.hagenberg.master.montecarlo.lineup.AbstractLineupSelector;
-import at.hagenberg.master.montecarlo.lineup.LineupSelector;
+import at.hagenberg.master.montecarlo.lineup.AscendingRatingSelection;
+import at.hagenberg.master.montecarlo.lineup.OptimizedLineup;
 import at.hagenberg.master.montecarlo.lineup.RandomSelection;
 import at.hagenberg.master.montecarlo.parser.PgnAnalysis;
 import at.hagenberg.master.montecarlo.simulation.*;
 import at.hagenberg.master.montecarlo.prediction.ChessPredictionModel;
-import at.hagenberg.master.montecarlo.simulation.settings.LeagueSettings;
+import at.hagenberg.master.montecarlo.simulation.LeagueSettings;
 import at.hagenberg.master.montecarlo.util.EloRatingSystemUtil;
 import at.hagenberg.master.montecarlo.util.ResultsFileUtil;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
 
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -46,7 +46,10 @@ public class Main {
 
             ResultsFileUtil.writePlayerStats("player-stats", teamList);
 
-            LeagueSettings<Team> settings = new LeagueSettings(predictionModel, teamList, roundsPerSeason, new RandomSelection(randomGenerator, gamesPerMatch, true), roundsToSimulate, analysis.getRoundGameResults());
+            AbstractLineupSelector lineupSelector = new RandomSelection(randomGenerator, gamesPerMatch, true);
+            OptimizedLineup optimizedLineup = new OptimizedLineup("ESV Admira Villach", LineupStrategy.getLineupSelector(2, randomGenerator, gamesPerMatch));
+            System.out.println("Optimized Ascending Lineup Selection for Team: " + optimizedLineup.getTeamName());
+            LeagueSettings<Team> settings = new LeagueSettings(predictionModel, teamList, roundsPerSeason, lineupSelector, optimizedLineup, roundsToSimulate, analysis.getRoundGameResults());
             System.out.println(settings.toString());
 
 

@@ -1,8 +1,9 @@
-package at.hagenberg.master.montecarlo.simulation.settings;
+package at.hagenberg.master.montecarlo.simulation;
 
 import at.hagenberg.master.montecarlo.entities.Opponent;
 import at.hagenberg.master.montecarlo.lineup.AbstractLineupSelector;
 import at.hagenberg.master.montecarlo.lineup.LineupSelector;
+import at.hagenberg.master.montecarlo.lineup.OptimizedLineup;
 import at.hagenberg.master.montecarlo.prediction.PredictionModel;
 import at.hagenberg.master.montecarlo.simulation.*;
 
@@ -18,6 +19,7 @@ public class LeagueSettings<T extends Opponent> {
     private Map<Integer, List<HeadToHeadMatch>> roundGameResults = new HashMap<>();
 
     private AbstractLineupSelector lineupSelector;
+    private OptimizedLineup optimizedLineup;
 
     private int roundsPerSeason;
     private int roundsToSimulate;
@@ -35,7 +37,7 @@ public class LeagueSettings<T extends Opponent> {
         this.roundsToSimulate = 0;
     }
 
-    public LeagueSettings(PredictionModel predictionModel, List<T> opponentList, final int roundsPerSeason, AbstractLineupSelector lineupSelector) {
+    public LeagueSettings(PredictionModel predictionModel, List<T> opponentList, final int roundsPerSeason, AbstractLineupSelector lineupSelector, OptimizedLineup optimizedLineup) {
         this(predictionModel, opponentList, roundsPerSeason);
 
         Objects.requireNonNull(lineupSelector);
@@ -44,10 +46,11 @@ public class LeagueSettings<T extends Opponent> {
             throw new IllegalArgumentException("Games per Match must be a number higher than 0");
 
         this.lineupSelector = lineupSelector;
+        this.optimizedLineup = optimizedLineup;
     }
 
-    public LeagueSettings(PredictionModel predictionModel, List<T> opponentList, final int roundsPerSeason, AbstractLineupSelector lineupSelector, final int roundsToSimulate, Map<Integer, List<HeadToHeadMatch>> roundGameResults) {
-        this(predictionModel, opponentList, roundsPerSeason, lineupSelector);
+    public LeagueSettings(PredictionModel predictionModel, List<T> opponentList, final int roundsPerSeason, AbstractLineupSelector lineupSelector, OptimizedLineup optimizedLineup, final int roundsToSimulate, Map<Integer, List<HeadToHeadMatch>> roundGameResults) {
+        this(predictionModel, opponentList, roundsPerSeason, lineupSelector, optimizedLineup);
 
         Objects.requireNonNull(roundGameResults);
 
@@ -86,5 +89,9 @@ public class LeagueSettings<T extends Opponent> {
 
     public AbstractLineupSelector getLineupSelector() {
         return this.lineupSelector;
+    }
+
+    public OptimizedLineup getOptimizedLineup() {
+        return optimizedLineup;
     }
 }
