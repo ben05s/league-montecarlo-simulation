@@ -28,14 +28,15 @@ public class Evaluation {
 
     public String print() {
         return pm.useEloRating +
+            ";" + pm.useRatingRegularization +
             ";" + pm.useHomeAdvantage +
             ";" + pm.useStrengthTrend +
             ";" + pm.usePlayerPerformances +
-            ";" + pm.useRatingRegularization +
             ";" + pm.regularizeThreshold +
             ";" + pm.regularizeFraction +
-            ";" + pm.winDrawFraction +
+            ";" + pm.drawInfluence +
             ";" + pm.statsFactor +
+            ";" + pm.winDrawFraction +
             ";" + pm.strengthTrendFraction +
             ";" + String.format("%.4f",this.pAdvWhite).replace(",", ",") +
             ";" + String.format("%.4f",this.avgElo).replace(",", ",") +

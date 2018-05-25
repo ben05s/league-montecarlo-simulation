@@ -168,6 +168,17 @@ public class Evaluator {
         ChessPredictionModel pm1_3 = new ChessPredictionModel(true, false, false, false, false);
         pm1_3.winDrawFraction = 1000;
 
+        ChessPredictionModel pm1_0_0 = new ChessPredictionModel(true, false, false, false, false);
+        pm1_0_0.drawInfluence = 580;
+        ChessPredictionModel pm1_0_1 = new ChessPredictionModel(true, false, false, false, false);
+        pm1_0_1.drawInfluence = 600;
+        ChessPredictionModel pm1_0_2 = new ChessPredictionModel(true, false, false, false, false);
+        pm1_0_2.drawInfluence = 620;
+        ChessPredictionModel pm1_0_3 = new ChessPredictionModel(true, false, false, false, false);
+        pm1_0_3.drawInfluence = 660;
+        ChessPredictionModel pm1_0_4 = new ChessPredictionModel(true, false, false, false, false);
+        pm1_0_4.drawInfluence = 680;
+
         ChessPredictionModel pm2 = new ChessPredictionModel(true, true, false, false, false);
         // different advantages for white
         ChessPredictionModel pm2_1 = new ChessPredictionModel(true, true, false, false, false);
@@ -186,6 +197,23 @@ public class Evaluator {
         pm4_1.statsFactor = 2;
         ChessPredictionModel pm4_2 = new ChessPredictionModel(true, false, false, true, false);
         pm4_2.statsFactor = 3;
+
+        ChessPredictionModel pm4_2_0 = new ChessPredictionModel(true, false, false, true, false);
+        pm4_2_0.statsFactor = 3;
+        pm4_2_0.drawInfluence = 580;
+        ChessPredictionModel pm4_2_1 = new ChessPredictionModel(true, false, false, true, false);
+        pm4_2_1.statsFactor = 3;
+        pm4_2_1.drawInfluence = 600;
+        ChessPredictionModel pm4_2_2 = new ChessPredictionModel(true, false, false, true, false);
+        pm4_2_2.statsFactor = 3;
+        pm4_2_2.drawInfluence = 620;
+        ChessPredictionModel pm4_2_3 = new ChessPredictionModel(true, false, false, true, false);
+        pm4_2_3.statsFactor = 3;
+        pm4_2_3.drawInfluence = 660;
+        ChessPredictionModel pm4_2_4 = new ChessPredictionModel(true, false, false, true, false);
+        pm4_2_4.statsFactor = 3;
+        pm4_2_4.drawInfluence = 680;
+
         ChessPredictionModel pm4_3 = new ChessPredictionModel(true, false, false, true, false);
         pm4_3.statsFactor = 4;
         ChessPredictionModel pm4_4 = new ChessPredictionModel(true, false, false, true, false);
@@ -206,6 +234,22 @@ public class Evaluator {
         ChessPredictionModel pm7 = new ChessPredictionModel(true, true, false, true, false);
         ChessPredictionModel pm7_1 = new ChessPredictionModel(true, true, false, true, false);
         pm7_1.statsFactor = 2;
+        ChessPredictionModel pm7_1_0 = new ChessPredictionModel(true, true, false, true, false);
+        pm7_1_0.statsFactor = 2;
+        pm7_1_0.drawInfluence = 580;
+        ChessPredictionModel pm7_1_1 = new ChessPredictionModel(true, true, false, true, false);
+        pm7_1_1.statsFactor = 2;
+        pm7_1_1.drawInfluence = 600;
+        ChessPredictionModel pm7_1_2 = new ChessPredictionModel(true, true, false, true, false);
+        pm7_1_2.statsFactor = 2;
+        pm7_1_2.drawInfluence = 620;
+        ChessPredictionModel pm7_1_3 = new ChessPredictionModel(true, true, false, true, false);
+        pm7_1_3.statsFactor = 2;
+        pm7_1_3.drawInfluence = 660;
+        ChessPredictionModel pm7_1_4 = new ChessPredictionModel(true, true, false, true, false);
+        pm7_1_4.statsFactor = 2;
+        pm7_1_4.drawInfluence = 680;
+
         ChessPredictionModel pm7_2 = new ChessPredictionModel(true, true, false, true, false);
         pm7_2.statsFactor = 3;
         ChessPredictionModel pm7_3 = new ChessPredictionModel(true, true, false, true, false);
@@ -302,6 +346,11 @@ public class Evaluator {
         predictionModels.add(pm015);
         predictionModels.add(pm016);
         predictionModels.add(pm1);
+        predictionModels.add(pm1_0_0);
+        predictionModels.add(pm1_0_1);
+        predictionModels.add(pm1_0_2);
+        predictionModels.add(pm1_0_3);
+        predictionModels.add(pm1_0_4);
         predictionModels.add(pm1_1);
         predictionModels.add(pm1_2);
         predictionModels.add(pm1_3);
@@ -313,6 +362,11 @@ public class Evaluator {
         predictionModels.add(pm4);
         predictionModels.add(pm4_1);
         predictionModels.add(pm4_2);
+        predictionModels.add(pm4_2_0);
+        predictionModels.add(pm4_2_1);
+        predictionModels.add(pm4_2_2);
+        predictionModels.add(pm4_2_3);
+        predictionModels.add(pm4_2_4);
         predictionModels.add(pm4_3);
         predictionModels.add(pm4_4);
         predictionModels.add(pm5);
@@ -323,6 +377,11 @@ public class Evaluator {
         predictionModels.add(pm6);
         predictionModels.add(pm7);
         predictionModels.add(pm7_1);
+        predictionModels.add(pm7_1_0);
+        predictionModels.add(pm7_1_1);
+        predictionModels.add(pm7_1_2);
+        predictionModels.add(pm7_1_3);
+        predictionModels.add(pm7_1_4);
         predictionModels.add(pm7_2);
         predictionModels.add(pm7_3);
         predictionModels.add(pm7_4);

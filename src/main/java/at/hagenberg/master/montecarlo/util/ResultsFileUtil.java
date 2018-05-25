@@ -40,7 +40,7 @@ public class ResultsFileUtil {
         try {
             fw = new FileWriter("result/evaluation/" + filename + ".csv");
             bw = new BufferedWriter(fw);
-            bw.write("useEloRatingSystem;useHomeAdvantage;useStrengthTrend;usePlayerPerformances;useRatingRegularization;regularizeThreshold;regularizeFraction;winDrawFraction;statsFactor;strengthTrendFraction;advWhite;avgElo;pCorrect;RMSE;pCorrectWhite;pCorrectDraw;pCorrectBlack;games\n");
+            bw.write("eloRating;regularization;advWhite;strengthTrend;colorPerformance;regularizeThreshold;regularizeFraction;drawInfluence;statsFactor;winDrawFraction;strengthTrendFraction;pAdvWhite;avgElo;pCorrect;RMSE;pCorrectWhite;pCorrectDraw;pCorrectBlack;games\n");
             for (int i = 0; i < evaluations.size(); i++) {
                 Evaluation e = evaluations.get(i);
                 bw.write(e.print());

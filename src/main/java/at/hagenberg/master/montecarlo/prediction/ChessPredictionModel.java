@@ -20,6 +20,7 @@ public class ChessPredictionModel implements PredictionModel {
     public int regularizeFraction = 2; // reduce the amount of rating points adjusted from regularizing
     public int winDrawFraction = 2; // reduce win and lose probabilities based on draw probability
     public int statsFactor = 1; // stats influence the game probabilities more
+    public int drawInfluence = 640;
     public int strengthTrendFraction = 2500; // could also be 1000 then influence is higher
     public double advWhiteProbability = 0.0; // calculated based on all games in pgn files, could also be taken from literature 0.54
 
@@ -44,6 +45,7 @@ public class ChessPredictionModel implements PredictionModel {
         this.regularizeFraction = pm.regularizeFraction;
         this.winDrawFraction = pm.winDrawFraction;
         this.statsFactor = pm.statsFactor;
+        this.drawInfluence = pm.drawInfluence;
         this.strengthTrendFraction = pm.strengthTrendFraction;
     }
 
@@ -121,7 +123,7 @@ public class ChessPredictionModel implements PredictionModel {
         double expectedDraw = 1/3;
         double avgElo = (whiteElo + blackElo) / 2.0;
         expectedDraw = - Math.abs(whiteElo - blackElo) / 32.49 + Math.exp((avgElo - 2254.7) / 208.49) + 23.87;
-        expectedDraw = Math.exp((avgElo)/640) - ((Math.abs(whiteElo - blackElo)*55) / (3000-avgElo)) + 15.0;
+        expectedDraw = Math.exp((avgElo)/this.drawInfluence) - ((Math.abs(whiteElo - blackElo)*55) / (3000-avgElo)) + 15.0;
         expectedDraw /= 100;
         if(expectedDraw < 0) expectedDraw = 0.0;
         return expectedDraw;
