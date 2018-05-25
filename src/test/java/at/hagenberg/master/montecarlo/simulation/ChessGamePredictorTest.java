@@ -57,7 +57,29 @@ public class ChessGamePredictorTest {
     }
 
     @Test
-    public void testChessPredictionModel() {
+    public void testChessPredictionModel1stBundesliga() {
+        List<Evaluation> predictionModelEvaluations = new ArrayList<>();
+        Evaluator.permutatePredictionParameters().forEach(pm -> {
+            List<Evaluation> evaluations = new ArrayList<>();
+            Evaluation eval1 = evaluate(pm,"first", "1011autchtfirst.pgn");
+            Evaluation eval2 = evaluate(pm,"first", "1112autchtfirst.pgn");
+            Evaluation eval3 = evaluate(pm,"first", "1314autchtfirst.pgn");
+            Evaluation eval4 = evaluate(pm,"first", "1415autchtfirst.pgn");
+            Evaluation eval5 = evaluate(pm,"first", "1516autchtfirst.pgn");
+            if(eval1 != null) evaluations.add(eval1);
+            if(eval2 != null) evaluations.add(eval2);
+            if(eval3 != null) evaluations.add(eval3);
+            if(eval4 != null) evaluations.add(eval4);
+            if(eval5 != null) evaluations.add(eval5);
+
+            predictionModelEvaluations.add(Evaluator.avgEvaluation(evaluations));
+        });
+
+        ResultsFileUtil.writeEvalutations("evaluations-prediction-model-1st", predictionModelEvaluations);
+    }
+
+    @Test
+    public void testChessPredictionModel2ndBundesliga() {
         List<Evaluation> predictionModelEvaluations = new ArrayList<>();
         Evaluator.permutatePredictionParameters().forEach(pm -> {
             List<Evaluation> evaluations = new ArrayList<>();
