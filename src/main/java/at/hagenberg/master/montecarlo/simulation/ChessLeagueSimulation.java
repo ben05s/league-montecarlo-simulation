@@ -82,8 +82,8 @@ public class ChessLeagueSimulation extends LeagueSimulation<TeamMatch> {
 
         if(this.actualTeamResult != null) {
             List<String> teamTable = new ArrayList<>(seasonResult.getTeamSeasonScoreMap().keySet());
-            int promotionPredictionIdx = teamTable.indexOf(this.actualTeamResult.get(0));
-            int relegationPredictionIdx = teamTable.indexOf(this.actualTeamResult.get(this.actualTeamResult.size() - 1));
+            int promotionPredictionIdx = actualTeamResult.indexOf(teamTable.get(0));
+            int relegationPredictionIdx = actualTeamResult.indexOf(teamTable.get(this.actualTeamResult.size() - 1));
 
             seasonResult.setPromotionError((promotionPredictionIdx - 0.0) * (promotionPredictionIdx - 0.0));
             seasonResult.setRelegationError((relegationPredictionIdx - (this.actualTeamResult.size() - 1.0)) * (relegationPredictionIdx - (this.actualTeamResult.size() - 1.0)));

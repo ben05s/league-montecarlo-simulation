@@ -25,7 +25,7 @@ public class Main {
     public static void main(String[] args) {
         SeasonResult result = new SeasonResult();
         try {
-            String division = "mitte";
+            String division = "west";
             String file = "1516autcht" + division + ".pgn";
             String seasonToSimulate = new String(Files.readAllBytes(Paths.get("games/" + division + "/" + file)));
             String historicalSeasons = new String(Files.readAllBytes(Paths.get("games/" + division + "/historicData" + file)));
