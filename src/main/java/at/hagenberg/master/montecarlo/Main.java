@@ -26,7 +26,7 @@ public class Main {
         SeasonResult result = new SeasonResult();
         try {
             String division = "west";
-            String file = "1516autcht" + division + ".pgn";
+            String file = "1011autcht" + division + ".pgn";
             String seasonToSimulate = new String(Files.readAllBytes(Paths.get("games/" + division + "/" + file)));
             String historicalSeasons = new String(Files.readAllBytes(Paths.get("games/" + division + "/historicData" + file)));
 
@@ -59,7 +59,8 @@ public class Main {
             ChessLeagueSimulation pseudo = new ChessLeagueSimulation(randomGenerator, settings);
             SeasonResult actualResult = pseudo.runSimulation();
             actualTeamResult.addAll(actualResult.getTeamSeasonScoreMap().keySet());
-
+            System.out.println("Actual Promoted Team: " + actualTeamResult.get(0));
+            System.out.println("Actual Relegated Team: " + actualTeamResult.get(actualTeamResult.size()-1));
             settings.setRoundsToSimulate(roundsToSimulate);
             ChessLeagueSimulation simulation = new ChessLeagueSimulation(randomGenerator, settings, actualTeamResult);
             result = simulation.runSimulation(); // run the simulation
