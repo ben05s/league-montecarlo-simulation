@@ -5,16 +5,15 @@ import at.hagenberg.master.montecarlo.entities.Team;
 import org.apache.commons.math3.distribution.EnumeratedIntegerDistribution;
 import org.apache.commons.math3.random.RandomGenerator;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public abstract class AbstractLineupSelector {
 
     private RandomGenerator randomGenerator;
     private final boolean useOfficialLineupRules;
+    private final boolean descending;
     private List<Player> selectedPlayers = new ArrayList<>();
 
     protected final int gamesPerMatch;
@@ -23,6 +22,14 @@ public abstract class AbstractLineupSelector {
         this.randomGenerator = randomGenerator;
         this.gamesPerMatch = gamesPerMatch;
         this.useOfficialLineupRules = useOfficialLineupRules;
+        this.descending = false;
+    }
+
+    public AbstractLineupSelector(RandomGenerator randomGenerator, final int gamesPerMatch, boolean useOfficialLineupRules, final boolean descending) {
+        this.randomGenerator = randomGenerator;
+        this.gamesPerMatch = gamesPerMatch;
+        this.useOfficialLineupRules = useOfficialLineupRules;
+        this.descending = descending;
     }
 
     public List<Player> pickLineupFromTeam(Team team) {
@@ -44,6 +51,13 @@ public abstract class AbstractLineupSelector {
             }
         } while(!isValidLineup());
 
+        if(this.useOfficialLineupRules) return this.selectedPlayers;
+
+        if(descending) {
+            this.selectedPlayers = this.selectedPlayers.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+        } else {
+            this.selectedPlayers = this.selectedPlayers.stream().sorted().collect(Collectors.toList());
+        }
         return this.selectedPlayers;
     }
 

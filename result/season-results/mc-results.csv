@@ -1,13 +1,13 @@
 MC-Iteration,Team,PointsScored,PointsConceded,Promotion,Relegation
-0,Rochade Rum,5,28.0,38.0,true,false
-0,Dornbirn,12,34.0,32.0,false,false
-0,Hypo Kufstein,10,33.5,32.5,false,false
-0,Sparkasse Jenbach 2,14,37.5,28.5,false,false
-0,ATSV Ranshofen,13,36.0,30.0,false,false
-0,Hohenems II,15,37.5,28.5,false,false
-0,Goetzis,8,30.5,35.5,false,false
-0,Schwarzach,13,32.5,33.5,false,false
-0,Bregenz,16,39.5,26.5,false,false
-0,SC Absam,13,34.0,32.0,false,false
-0,Schwaz,5,24.0,42.0,false,false
-0,Mozart 1910,8,29.0,37.0,false,true
+0,RbEJ Gleisdorf,15,39.5,26.5,true,false
+0,ESV Austria Graz,5,26.5,39.5,false,false
+0,Strassenbahn Graz,10,31.5,34.5,false,false
+0,UNION Styria Graz Kleine Zeitung,4,23.5,42.5,false,false
+0,SK MPOE Maria Saal,8,29.5,36.5,false,false
+0,ASK St. Valentin,19,44.0,22.0,false,false
+0,Union Ansfelden,13,36.0,30.0,false,false
+0,SV Steyregg,13,33.5,32.5,false,false
+0,SPG Sauwald 1,9,28.5,37.5,false,false
+0,ZH-Technologies-Wolfsberg,17,43.0,23.0,false,false
+0,SC Die Klagenfurter,12,33.5,32.5,false,false
+0,SV Raika Rapid Feffernitz,7,27.0,39.0,false,true

@@ -9,8 +9,8 @@ import java.util.Map;
 
 public class RandomSelection extends AbstractLineupSelector {
 
-    public RandomSelection(RandomGenerator randomGenerator, final int gamesPerMatch, final boolean useOfficialLineupRules) {
-        super(randomGenerator, gamesPerMatch, useOfficialLineupRules);
+    public RandomSelection(RandomGenerator randomGenerator, final int gamesPerMatch, final boolean useOfficialLineupRules, final boolean descending) {
+        super(randomGenerator, gamesPerMatch, useOfficialLineupRules, descending);
     }
 
     @Override

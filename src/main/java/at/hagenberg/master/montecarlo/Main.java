@@ -25,7 +25,7 @@ public class Main {
     public static void main(String[] args) {
         SeasonResult result = new SeasonResult();
         try {
-            String division = "west";
+            String division = "mitte";
             String file = "1011autcht" + division + ".pgn";
             String seasonToSimulate = new String(Files.readAllBytes(Paths.get("games/" + division + "/" + file)));
             String historicalSeasons = new String(Files.readAllBytes(Paths.get("games/" + division + "/historicData" + file)));
@@ -46,8 +46,8 @@ public class Main {
 
             ResultsFileUtil.writePlayerStats("player-stats", teamList);
 
-            AbstractLineupSelector lineupSelector = new RandomSelection(randomGenerator, gamesPerMatch, true);
-            OptimizedLineup optimizedLineup = new OptimizedLineup("ESV Admira Villach", LineupStrategy.getLineupSelector(2, randomGenerator, gamesPerMatch));
+            AbstractLineupSelector lineupSelector = new RandomSelection(randomGenerator, gamesPerMatch, true, true);
+            OptimizedLineup optimizedLineup = new OptimizedLineup("ESV Austria Graz", LineupStrategy.getLineupSelector(1, randomGenerator, gamesPerMatch));
             System.out.println("Optimized Ascending Lineup Selection for Team: " + optimizedLineup.getTeamName());
             LeagueSettings<Team> settings = new LeagueSettings(predictionModel, teamList, roundsPerSeason, lineupSelector, optimizedLineup, roundsToSimulate, analysis.getRoundGameResults());
             System.out.println(settings.toString());

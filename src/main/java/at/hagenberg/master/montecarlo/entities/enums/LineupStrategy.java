@@ -23,11 +23,11 @@ public enum LineupStrategy {
 
     public static AbstractLineupSelector getLineupSelector(int id, RandomGenerator randomGenerator, final int gamesPerMatch) throws Exception {
         if(id == 1) {
-            return new DescendingRatingSelection(randomGenerator, gamesPerMatch);
+            return new RandomSelection(randomGenerator, gamesPerMatch, false, true);
         } else if(id == 2) {
-            return new AscendingRatingSelection(randomGenerator, gamesPerMatch);
+            return new RandomSelection(randomGenerator, gamesPerMatch, false, false);
         } else if(id == 3) {
-            return new RandomSelection(randomGenerator, gamesPerMatch, false);
+            return new RandomSelection(randomGenerator, gamesPerMatch, false, true);
         }
         throw new Exception("Unknown Lineup Strategy with ID=" + id);
     }

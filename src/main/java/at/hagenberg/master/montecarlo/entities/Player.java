@@ -2,7 +2,7 @@ package at.hagenberg.master.montecarlo.entities;
 
 import java.util.*;
 
-public class Player extends Opponent {
+public class Player extends Opponent implements Comparable<Player> {
 
     private String teamName;
 
@@ -171,6 +171,11 @@ public class Player extends Opponent {
 
     public void setpBlackDraw(double pBlackDraw) {
         this.pBlackDraw = pBlackDraw;
+    }
+
+    @Override
+    public int compareTo(Player ob) {
+        return Integer.compare(elo, ob.getElo());
     }
 
     @Override
